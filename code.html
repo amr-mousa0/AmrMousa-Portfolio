@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Amr Mousa - Portfolio</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+<style data-purpose="custom-fonts">
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&family=Great+Vibes&display=swap');
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+    .font-signature {
+      font-family: 'Great Vibes', cursive;
+    }
+  </style>
+<style data-purpose="custom-shapes">
+    .wavy-mask {
+      border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+      animation: morph 8s ease-in-out infinite;
+    }
+    @keyframes morph {
+      0%, 100% {
+        border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+      }
+      34% {
+        border-radius: 70% 30% 50% 50% / 30% 30% 70% 70%;
+      }
+      67% {
+        border-radius: 100% 60% 60% 100% / 100% 100% 60% 60%;
+      }
+    }
+    .bg-pattern {
+      background-image: radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px);
+      background-size: 30px 30px;
+    }
+  </style>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,600&amp;display=swap" rel="stylesheet"/></head>
+<body class="h-screen w-screen overflow-hidden text-gray-200">
+<!-- BEGIN: Main Layout -->
+<main class="relative h-full w-full flex">
+<!-- Left Background (Gradient + Pattern) -->
+<div class="w-[40%] h-full bg-gradient-to-br from-[#1a4a5e] via-[#3d2b56] to-[#7b2c5e] relative overflow-hidden">
+<div class="absolute inset-0 bg-pattern opacity-30"></div>
+</div>
+<!-- Right Background (Dark) -->
+<div class="w-[60%] h-full bg-[#1a1a1a]"></div>
+<!-- Header / Navigation -->
+<!-- BEGIN: Header -->
+<header class="absolute top-0 left-0 w-full p-8 flex justify-between items-center z-20 pointer-events-none">
+<div class="flex items-center gap-4 pointer-events-auto">
+<button class="w-10 h-10 rounded-full bg-[#1e586d] flex items-center justify-center text-white hover:bg-[#2a7a96] transition-colors">
+<i class="fas fa-bars"></i>
+</button>
+<h1 class="font-signature text-3xl text-white tracking-wider">Amr Mousa</h1>
+</div>
+<div class="flex items-center gap-3 pointer-events-auto">
+<button class="w-10 h-10 rounded-full bg-[#2a2a2a] flex items-center justify-center text-gray-400 hover:text-white transition-colors">
+<i class="fas fa-moon"></i>
+</button>
+<button class="w-10 h-10 rounded-full bg-[#2a2a2a] flex items-center justify-center text-gray-400 hover:text-white transition-colors">
+<i class="fas fa-volume-up"></i>
+</button>
+</div>
+</header>
+<!-- END: Header -->
+<!-- Social Icons (Bottom Left) -->
+<!-- BEGIN: Socials -->
+<div class="absolute bottom-8 left-8 flex gap-4 z-20">
+<a class="text-white hover:text-gray-300 text-xl transition-colors" href="#"><i class="fab fa-linkedin-in"></i></a>
+<a class="text-white hover:text-gray-300 text-xl transition-colors" href="#"><i class="fab fa-facebook-f"></i></a>
+<a class="text-white hover:text-gray-300 text-xl transition-colors" href="#"><i class="fab fa-github"></i></a>
+<a class="text-white hover:text-gray-300 text-xl transition-colors" href="#"><i class="fab fa-instagram"></i></a>
+<a class="text-white hover:text-gray-300 text-xl transition-colors" href="#"><i class="fas fa-at"></i></a>
+</div>
+<!-- END: Socials -->
+<!-- Main Content Container (Centered over the split) -->
+<!-- BEGIN: Hero Content -->
+<div class="absolute inset-0 flex z-10 pointer-events-none">
+<!-- Left Section to anchor the image -->
+<div class="w-[40%] h-full relative">
+<!-- Idea Text -->
+<div class="absolute top-[25%] right-[100px] max-w-[400px] z-20 pointer-events-auto border-l-2 border-white/30 pl-6">
+<p class="font-['Playfair_Display'] text-3xl text-white/90 italic leading-relaxed tracking-wide drop-shadow-sm">Data reveals the direction. Marketing reveals the behavior. Growth happens when both connect</p>
+</div>
+<!-- Profile Image (Centered on the split) -->
+<div class="absolute top-1/2 right-0 transform translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] pointer-events-auto">
+<!-- Wavy mask shape -->
+<div class="w-full h-full overflow-hidden wavy-mask shadow-2xl border-4 border-white/10 relative z-10 bg-gray-800">
+<img alt="Amr Mousa" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/ADBb0uiJmzIMh76o2jAgUwYmto_E_5rKhzvADDGbV-VDpgjETyN_OcZyUpItb3Qv88b56UdnJY-QQy4UMbNsxQkaLfwG91yoVYi1aeSTx6WSZglW5GUbTRunb3rZY1Eq8MBMM25AmxhA08Enb6fPjRKlheDcJlmPCgMNXyFS1tGGjG4AepryX6PDU8mtgPqgndQ4-jZC3S_GtLa7aVbjATSJ5gm18OlvNdaYrA-6UdyNpdNKb-sKKqU3ZY_aeL44fY6hlmry_w6rU4LTzg"/>
+</div>
+<!-- Decorative glow -->
+<div class="absolute inset-0 bg-gradient-to-r from-blue-500/20 to-purple-500/20 wavy-mask blur-xl -z-10"></div>
+</div>
+</div>
+<!-- Right Section for Text -->
+<div class="w-[60%] h-full flex items-center pl-[240px] pr-12 pointer-events-auto shrink-0">
+<!-- Text Content -->
+<div class="max-w-2xl">
+<!-- Available Badge -->
+<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#2a2a2a] border border-[#333] mb-6 shadow-[0_0_15px_rgba(34,197,94,0.15)]">
+<span class="w-2.5 h-2.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.8)]"></span>
+<span class="text-sm font-medium text-gray-300">Available for Work</span>
+</div>
+<h2 class="text-gray-400 font-medium tracking-widest text-sm mb-2 uppercase">Data Analyst | Marketing &amp; Growth Enthusiast</h2>
+<h1 class="text-6xl font-bold text-white tracking-tight mb-2">Amr Mousa</h1><p class="text-gray-400 text-sm font-medium tracking-wide mb-6">SQL • Power BI • Python • Excel • Data Analysis • Marketing Analytics • Media Buying • Content Strategy</p>
+<p class="text-gray-400 text-lg leading-relaxed mb-10 max-w-lg"><pre class="overflow-visible! px-0!" data-end="619" data-start="208"><div class="relative w-full mt-4 mb-1"><div class=""><div class="relative"><div class="h-full min-h-0 min-w-0"><div class="h-full min-h-0 min-w-0"><div class="border border-token-border-light border-radius-3xl corner-superellipse/1.1 rounded-3xl"><div class="h-full w-full border-radius-3xl bg-token-bg-elevated-secondary corner-superellipse/1.1 overflow-clip rounded-3xl lxnfua_clipPathFallback"><div class="relative"><div class="pe-11 pt-3"><div class="relative z-0 flex max-w-full"><div class="q9tKkq_viewer cm-editor z-10 light:cm-light dark:cm-light flex h-full w-full flex-col items-stretch ͼs ͼ16" dir="ltr" id="code-block-viewer"><div class="cm-scroller"><pre class="cm-content q9tKkq_readonly m-0"><code> Passionate about using data to uncover insights<br/> and better understand consumer behavior,<br/> with a growing interest in marketing analytics<br/> and performance-driven strategies.</code></pre></div></div></div></div></div></div></div></div></div><div class=""><div class=""></div></div></div></div></div></pre>
+<p data-end="633" data-start="621"></p></p>
+<div class="flex gap-4">
+<a class="px-8 py-3 rounded-full bg-gradient-to-r from-[#146e8c] to-[#3f3b6c] text-white font-semibold hover:opacity-90 transition-opacity flex items-center justify-center min-w-[160px]" href="#">
+              Download CV
+            </a>
+<a class="px-8 py-3 rounded-full bg-transparent border border-gray-600 text-white font-semibold hover:bg-gray-800 transition-colors flex items-center justify-center min-w-[140px]" href="#">
+              Contact
+            </a>
+</div>
+</div>
+</div>
+</div>
+<!-- END: Hero Content -->
+<!-- Learn More Indicator -->
+<!-- BEGIN: Learn More -->
+<div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20 flex flex-col items-center cursor-pointer group">
+<span class="text-sm text-gray-400 mb-2 group-hover:text-white transition-colors">Learn More</span>
+<i class="fas fa-arrow-down text-gray-400 group-hover:text-white transition-colors animate-bounce"></i>
+</div>
+<!-- END: Learn More -->
+</main>
+<!-- END: Main Layout -->
+</body></html>
