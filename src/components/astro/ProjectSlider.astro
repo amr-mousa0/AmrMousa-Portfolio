@@ -52,16 +52,17 @@ function resolveAsset(url: string) {
                     alt={`${project.title} — screenshot ${idx + 1}`}
                     class={`slide-img${idx === 0 ? ' active' : ''}`}
                     loading={idx === 0 ? 'eager' : 'lazy'}
-                    width={360}
-                    height={180}
+                    width={600}
+                    height={327}
+                    aria-hidden={idx === 0 ? 'false' : 'true'}
                   />
                 ))
               ) : (
                 <Image
                   src={imgAsset}
                   alt={project.title}
-                  width={360}
-                  height={180}
+                  width={600}
+                  height={327}
                   class="slide-img active"
                   loading="lazy"
                 />
@@ -127,12 +128,39 @@ function resolveAsset(url: string) {
     });
   }
 
+  // ── Cleanup functions to prevent memory leaks ──────────────────
+  function cleanupSlideshows() {
+    document.querySelectorAll('.project-card-image[data-slideshow="true"]').forEach(container => {
+      const interval = (container as any).__interval;
+      if (interval) {
+        clearInterval(interval);
+        (container as any).__interval = null;
+      }
+      
+      const listeners = (container as any).__listeners;
+      if (listeners) {
+        const { onMouseEnter, onMouseLeave, onFocus, onBlur, card } = listeners;
+        card.removeEventListener('mouseenter', onMouseEnter);
+        card.removeEventListener('mouseleave', onMouseLeave);
+        card.removeEventListener('focusin', onFocus);
+        card.removeEventListener('focusout', onBlur);
+        (container as any).__listeners = null;
+      }
+
+      if ((window as any).slideshowObserver) {
+        (window as any).slideshowObserver.unobserve(container);
+      }
+    });
+  }
+
   // ── Per-card image slideshow (Optimized with IntersectionObserver) ──
   function initSlideshows() {
+    cleanupSlideshows();
+
     if (!(window as any).slideshowObserver) {
       (window as any).slideshowObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          const container = entry.target;
+          const container = entry.target as HTMLElement;
           const imgs = Array.from(container.querySelectorAll('.slide-img'));
           const dots = Array.from(container.querySelectorAll('.dot'));
           if (imgs.length < 2) return;
@@ -141,15 +169,50 @@ function resolveAsset(url: string) {
           if (old) clearInterval(old);
 
           if (entry.isIntersecting) {
-            let idx = 0;
+            let idx = imgs.findIndex(img => img.classList.contains('active'));
+            if (idx === -1) idx = 0;
+            let intervalId: any = null;
+            let isPaused = false;
+
             const advance = () => {
+              if (isPaused) return;
+
               imgs[idx].classList.remove('active');
+              imgs[idx].setAttribute('aria-hidden', 'true');
               dots[idx]?.classList.remove('active');
+              
               idx = (idx + 1) % imgs.length;
+              
               imgs[idx].classList.add('active');
+              imgs[idx].setAttribute('aria-hidden', 'false');
               dots[idx]?.classList.add('active');
             };
-            (container as any).__interval = setInterval(advance, 3000);
+
+            const startInterval = () => {
+              if (intervalId) clearInterval(intervalId);
+              intervalId = setInterval(advance, 3000);
+              (container as any).__interval = intervalId;
+            };
+
+            const pause = () => { isPaused = true; };
+            const resume = () => { isPaused = false; };
+
+            startInterval();
+
+            const card = container.closest('.project-card');
+            if (card) {
+              const onMouseEnter = () => pause();
+              const onMouseLeave = () => resume();
+              const onFocus = () => pause();
+              const onBlur = () => resume();
+
+              card.addEventListener('mouseenter', onMouseEnter);
+              card.addEventListener('mouseleave', onMouseLeave);
+              card.addEventListener('focusin', onFocus);
+              card.addEventListener('focusout', onBlur);
+
+              (container as any).__listeners = { onMouseEnter, onMouseLeave, onFocus, onBlur, card };
+            }
           }
         });
       }, { threshold: 0.1 });
@@ -169,6 +232,7 @@ function resolveAsset(url: string) {
   // Run immediately and on each Astro view-transition page load
   boot();
   document.addEventListener('astro:page-load', boot);
+  document.addEventListener('astro:before-swap', cleanupSlideshows);
 </script>
 
 <style>
@@ -177,6 +241,20 @@ function resolveAsset(url: string) {
     position: relative;
     width: 100%;
     margin: 50px 0 60px;
+    
+    /* Default Dark Mode Shadows */
+    --shadow-card: 0 10px 30px rgba(0, 0, 0, 0.4);
+    --shadow-card-hover: 0 25px 50px rgba(0, 0, 0, 0.6);
+    --shadow-btn: 0 10px 25px rgba(0, 0, 0, 0.4);
+    --shadow-btn-hover: 0 12px 30px rgba(var(--accent-a-rgb), 0.5);
+  }
+
+  :global(body.light) .project-slider-wrapper {
+    /* Adaptive Light Mode Shadows */
+    --shadow-card: 0 10px 30px rgba(7, 16, 38, 0.06);
+    --shadow-card-hover: 0 25px 50px rgba(7, 16, 38, 0.12);
+    --shadow-btn: 0 10px 25px rgba(7, 16, 38, 0.08);
+    --shadow-btn-hover: 0 12px 30px rgba(var(--accent-a-rgb), 0.3);
   }
 
   .project-slider {
@@ -230,7 +308,7 @@ function resolveAsset(url: string) {
     justify-content: center;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    box-shadow: var(--shadow-btn);
     font-size: 15px;
   }
 
@@ -239,7 +317,7 @@ function resolveAsset(url: string) {
     color: #fff;
     transform: scale(1.1);
     border-color: var(--accent-a);
-    box-shadow: 0 12px 30px rgba(var(--accent-a-rgb), 0.5);
+    box-shadow: var(--shadow-btn-hover);
   }
 
   .slider-btn:focus-visible {
@@ -265,12 +343,12 @@ function resolveAsset(url: string) {
     overflow: hidden;
     text-decoration: none !important;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    box-shadow: var(--shadow-card);
   }
 
   .project-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    box-shadow: var(--shadow-card-hover);
     border-color: rgba(var(--accent-a-rgb), 0.4);
   }
 
@@ -503,13 +581,7 @@ function resolveAsset(url: string) {
   @media (max-width: 768px) {
     .project-slider {
       gap: 16px;
-      padding-right: 24px;
-      padding-left: 8px;
-    }
-
-    html[dir="rtl"] .project-slider {
-      padding-right: 8px;
-      padding-left: 24px;
+      padding: 10px 24px 36px;
     }
 
     .project-card-image {
