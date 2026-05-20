@@ -3,7 +3,7 @@
  * Handles language switching, dictionary lookup, theme toggle, drawer, modals, audio, and scroll animations.
  */
 
-window.trackClick = window.trackClick || function(eventName, eventData = {}) {
+window.trackClick = window.trackClick || function (eventName, eventData = {}) {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
         event: eventName,
@@ -20,7 +20,7 @@ function updateContent() {
         const key = el.getAttribute('data-i18n');
         if (translations[currentLang] && translations[currentLang][key]) {
             const translation = translations[currentLang][key];
-            
+
             // Handle HTML content if it's the hero description or similar
             if (translation.includes('<')) {
                 el.innerHTML = translation;
@@ -51,12 +51,12 @@ function toggleLanguage() {
 
     const luxuryLoader = document.getElementById('luxury-loader');
     const html = document.documentElement;
-    
+
     // 1. Show Loader and spirited messages
     if (luxuryLoader) {
         const loaderTitle = luxuryLoader.querySelector('.loader-job-title');
         if (loaderTitle) {
-            const messages = currentLang === 'en' 
+            const messages = currentLang === 'en'
                 ? ["بنظبط زوايا التصميم...", "بنجهز الأكواد بالحب...", "بنرتب البيانات بكل شياكة..."]
                 : ["Aligning architectural precision...", "Curating data elegance...", "Manifesting luxury experience..."];
             loaderTitle.textContent = messages[Math.floor(Math.random() * messages.length)];
@@ -102,10 +102,10 @@ function applyTheme(name) {
     const themeBtn = document.getElementById('themeBtn');
     if (name === 'light') {
         document.body.classList.add('light');
-        if (themeBtn) themeBtn.textContent = '🌞';
+        if (themeBtn) themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
     } else {
         document.body.classList.remove('light');
-        if (themeBtn) themeBtn.textContent = '🌙';
+        if (themeBtn) themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
     }
     localStorage.setItem('amr_theme', name);
     document.querySelectorAll('.blob').forEach(b => b.style.opacity = document.body.classList.contains('light') ? 0.08 : 0.12);
@@ -115,7 +115,7 @@ function setMuted(v) {
     isMuted = !!v;
     localStorage.setItem('amr_muted', isMuted ? '1' : '0');
     const muteBtn = document.getElementById('muteBtn');
-    if (muteBtn) muteBtn.textContent = isMuted ? '🔇' : '🔊';
+    if (muteBtn) muteBtn.innerHTML = isMuted ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
     const introAudio = document.getElementById('introAudio');
     const clickAudio = document.getElementById('clickAudio');
     if (introAudio) introAudio.muted = isMuted;
@@ -162,12 +162,12 @@ function setDrawer(open) {
 function goToSection(sel) {
     const luxuryLoader = document.getElementById('luxury-loader');
     const target = document.querySelector(sel);
-    
+
     // Check if we are on the homepage (accounting for base path)
-    const isHomePage = window.location.pathname === (window.BASE_URL || '/') || 
-                       window.location.pathname === (window.BASE_URL || '/').replace(/\/$/, '') || 
-                       window.location.pathname === '/';
-    
+    const isHomePage = window.location.pathname === (window.BASE_URL || '/') ||
+        window.location.pathname === (window.BASE_URL || '/').replace(/\/$/, '') ||
+        window.location.pathname === '/';
+
     if (!isHomePage) {
         if (window.location.pathname.includes('/methodology') && sel === '#who') {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -189,7 +189,7 @@ function goToSection(sel) {
             return;
         }
     }
-    
+
     function updateFocus() {
         if (target) {
             target.setAttribute('tabindex', '-1');
@@ -263,7 +263,7 @@ function initApp() {
 
     const menuBtn = document.getElementById('menuBtn');
     if (menuBtn) menuBtn.onclick = () => { setDrawer(!drawerOpen); playClick(); };
-    
+
     const closeBtn = document.getElementById('closeBtn');
     if (closeBtn) closeBtn.onclick = () => { setDrawer(false); playClick(); };
 
@@ -360,11 +360,11 @@ function initApp() {
                     scrollTopBtn.classList.remove('visible');
                 }
             }
-            
+
             // Skip section scrollspy highlights on subpages
-            const isHomePage = window.location.pathname === (window.BASE_URL || '/') || 
-                               window.location.pathname === (window.BASE_URL || '/').replace(/\/$/, '') || 
-                               window.location.pathname === '/';
+            const isHomePage = window.location.pathname === (window.BASE_URL || '/') ||
+                window.location.pathname === (window.BASE_URL || '/').replace(/\/$/, '') ||
+                window.location.pathname === '/';
             if (!isHomePage) return;
 
             if (sectionOffsets.length === 0) cacheOffsets();

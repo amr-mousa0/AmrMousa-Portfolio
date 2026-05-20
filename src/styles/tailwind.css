@@ -13,15 +13,15 @@
   --color-surface-card-hover: var(--surface-card-hover);
   --color-border-card: var(--border-card);
   --color-border-card-hover: var(--border-card-hover);
-  
+
   --color-badge-bg: var(--badge-bg);
   --color-badge-border: var(--badge-border);
-  
+
   --color-divider-line: var(--divider-color);
-  
+
   --color-input-bg: var(--input-bg);
   --color-input-border: var(--input-border);
-  
+
   --color-social-bg: var(--social-bg);
   --color-social-border: var(--social-border);
 
@@ -132,15 +132,15 @@
     --color-surface-card-hover: var(--surface-card-hover);
     --color-border-card: var(--border-card);
     --color-border-card-hover: var(--border-card-hover);
-    
+
     --color-badge-bg: var(--badge-bg);
     --color-badge-border: var(--badge-border);
-    
+
     --color-divider-line: var(--divider-color);
-    
+
     --color-input-bg: var(--input-bg);
     --color-input-border: var(--input-border);
-    
+
     --color-social-bg: var(--social-bg);
     --color-social-border: var(--social-border);
   }
@@ -281,9 +281,10 @@
   }
 
   body.light .luxury-header {
-    background: rgba(255, 255, 255, 0.7);
-    border-color: rgba(0, 0, 0, 0.08);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    background: rgba(243, 244, 247, 0.85);
+    backdrop-filter: blur(20px);
+    border-color: rgba(0, 0, 0, 0.06);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
   }
 
   .header-left {
@@ -443,6 +444,10 @@
       top: 12px;
       padding: 0 8px 0 16px;
     }
+
+    #menuBtn {
+      display: inline-flex !important;
+    }
   }
 
   .sr-only {
@@ -548,6 +553,57 @@
   .drawer.expanded .label {
     opacity: 1;
     animation: fadeInRight .3s forwards;
+  }
+
+  /* --- Light Theme Mobile Drawer Menu Overrides --- */
+  body.light .drawer {
+    box-shadow: 0 30px 80px rgba(7, 16, 38, 0.12);
+  }
+
+  body.light .drawer.expanded {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid rgba(7, 16, 38, 0.08);
+    box-shadow: 0 40px 100px rgba(7, 16, 38, 0.15);
+  }
+
+  body.light .menu-item {
+    border: 1px solid rgba(7, 16, 38, 0.06);
+  }
+
+  body.light .menu-item:hover {
+    background: rgba(var(--accent-a-rgb), 0.06);
+    border-color: rgba(var(--accent-a-rgb), 0.15);
+    box-shadow: 0 8px 20px rgba(7, 16, 38, 0.05);
+  }
+
+  body.light .menu-item .icon-box {
+    color: var(--accent-a);
+    background: rgba(var(--accent-a-rgb), 0.08);
+    box-shadow: inset 0 0 0 1px rgba(var(--accent-a-rgb), 0.15);
+  }
+
+  body.light .menu-item:hover .icon-box {
+    color: #ffffff;
+    background: var(--accent-a);
+    box-shadow: none;
+  }
+
+  body.light .menu-item .label {
+    color: var(--text);
+  }
+
+  body.light .menu-item:hover .label {
+    color: var(--accent-a);
+  }
+
+  body.light .close-btn {
+    background: rgba(7, 16, 38, 0.05);
+    color: var(--text);
+  }
+
+  body.light .close-btn:hover {
+    background: rgba(var(--accent-a-rgb), 0.15);
+    color: var(--accent-a);
   }
 
   @keyframes fadeInRight {
@@ -832,6 +888,10 @@
   .testimonial-content.active .testimonial-quote::before {
     opacity: 0.4;
     transform: scale(1.1) rotate(-5deg);
+  }
+
+  body.light .testimonial-content.active .testimonial-quote::before {
+    opacity: 0.12;
   }
 
   .testimonial-author {
@@ -2453,7 +2513,7 @@
 
   body.light .input-group input::placeholder,
   body.light .input-group textarea::placeholder {
-    color: #64748b;
+    color: #57657a;
   }
 
   .input-group input:hover,
@@ -3098,6 +3158,7 @@
   }
 
   #menuBtn {
+    display: none;
     background: var(--accent-a);
     color: white;
     transition: all .3s var(--ease);

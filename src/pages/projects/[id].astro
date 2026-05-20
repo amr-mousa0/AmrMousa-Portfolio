@@ -279,6 +279,9 @@ const imgAsset = matchedAsset ? matchedAsset.default : fallbackImg;
     display: flex;
     flex-direction: column;
     gap: 28px;
+    overflow-x: hidden;
+    width: 100%;
+    box-sizing: border-box;
   }
 
   /* Nav actions */
@@ -397,10 +400,13 @@ const imgAsset = matchedAsset ? matchedAsset.default : fallbackImg;
     display: flex;
     flex-direction: column;
     gap: 16px;
+    min-width: 0;
   }
 
   .project-details-media-col {
     grid-area: media;
+    min-width: 0;
+    overflow: hidden;
   }
 
   /* Cards */
@@ -510,6 +516,7 @@ const imgAsset = matchedAsset ? matchedAsset.default : fallbackImg;
     cursor: pointer;
     transition: all 0.25s ease;
     white-space: nowrap;
+    flex-shrink: 0;
   }
 
   .media-tab:hover {
@@ -553,6 +560,7 @@ const imgAsset = matchedAsset ? matchedAsset.default : fallbackImg;
     display: flex;
     align-items: center;
     justify-content: center;
+    max-width: 100%;
   }
 
   .gallery-preview-img {
@@ -740,6 +748,142 @@ const imgAsset = matchedAsset ? matchedAsset.default : fallbackImg;
     border-radius: 999px;
   }
 
+  /* ── Mobile tab stacking (≤767px) ──────────────── */
+  @media (max-width: 767px) {
+    .media-tabs {
+      gap: 6px;
+      flex-direction: column;
+      overflow-x: visible;
+    }
+
+    .media-tab {
+      padding: 10px 14px;
+      font-size: 12px;
+      gap: 6px;
+      white-space: normal;
+      text-align: center;
+      justify-content: center;
+      width: 100%;
+      flex-shrink: 1;
+    }
+  }
+
+  /* ── Small Mobile fixes (≤480px) ──────────────── */
+  @media (max-width: 480px) {
+    .project-details-page-container {
+      padding: 100px 12px 40px;
+      gap: 20px;
+    }
+
+    .project-details-nav {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 8px;
+    }
+
+    .back-link-btn, .github-link-btn {
+      justify-content: center;
+      padding: 10px 14px;
+      font-size: 13px;
+    }
+
+    .project-details-title {
+      font-size: clamp(22px, 6vw, 32px);
+    }
+
+    .project-details-grid {
+      gap: 16px;
+    }
+
+    .details-card {
+      padding: 16px;
+      gap: 10px;
+    }
+
+    .card-icon-header h2 {
+      font-size: 14px;
+    }
+
+    .details-card-text {
+      font-size: 13px;
+    }
+
+    .media-container {
+      padding: 10px;
+      gap: 10px;
+    }
+
+    .media-tabs {
+      gap: 6px;
+      flex-direction: column;
+      overflow-x: visible;
+    }
+
+    .media-tab {
+      padding: 10px 14px;
+      font-size: 12px;
+      gap: 6px;
+      white-space: normal;
+      text-align: center;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .media-tab i {
+      font-size: 14px;
+    }
+
+    .gallery-preview-img {
+      max-height: 280px;
+    }
+
+    .thumbnail-btn {
+      width: 56px;
+      height: 40px;
+    }
+
+    .gallery-cta-box {
+      padding: 12px;
+      flex-direction: column;
+      align-items: stretch;
+      text-align: center;
+    }
+
+    .gallery-cta-box p {
+      font-size: 12px;
+    }
+
+    .switch-dashboard-btn {
+      padding: 8px 14px;
+      font-size: 12px;
+      justify-content: center;
+    }
+
+    .dashboard-iframe-wrapper {
+      padding-bottom: 100%;
+    }
+
+    .cta-luxury-banner {
+      padding: 24px 14px;
+      gap: 14px;
+    }
+
+    .cta-luxury-banner .cta-btn {
+      padding: 12px 22px;
+      font-size: 13px;
+    }
+
+    .tech-tag {
+      font-size: 11px;
+      padding: 4px 10px;
+    }
+
+    .project-header-badge {
+      font-size: 10px;
+      padding: 4px 10px;
+    }
+  }
+
   /* ── Tablet / Desktop overrides ──────────────── */
   @media (min-width: 768px) {
     .project-details-page-container {
@@ -813,5 +957,69 @@ const imgAsset = matchedAsset ? matchedAsset.default : fallbackImg;
 
   html[dir="rtl"] .project-details-header {
     align-items: flex-start;
+  }
+
+  /* --- Light Mode Refinements --- */
+  :global(body.light) .back-link-btn, 
+  :global(body.light) .github-link-btn {
+    color: #374151;
+    background: rgba(255, 255, 255, 0.7);
+    border-color: rgba(7, 16, 38, 0.1);
+  }
+
+  :global(body.light) .back-link-btn:hover, 
+  :global(body.light) .github-link-btn:hover {
+    color: var(--accent-a);
+    background: rgba(255, 255, 255, 0.95);
+    border-color: rgba(var(--accent-a-rgb), 0.3);
+  }
+
+  :global(body.light) .details-card {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(7, 16, 38, 0.05);
+    box-shadow: 0 10px 30px rgba(7, 16, 38, 0.03);
+  }
+
+  :global(body.light) .details-card:hover {
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 15px 35px rgba(7, 16, 38, 0.06);
+    border-color: rgba(var(--accent-a-rgb), 0.2);
+  }
+
+  :global(body.light) .highlight-card {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.9) 0%, rgba(var(--accent-b-rgb), 0.04) 100%);
+    border-color: rgba(var(--accent-b-rgb), 0.2);
+    box-shadow: 0 10px 30px rgba(var(--accent-b-rgb), 0.03);
+  }
+
+  :global(body.light) .highlight-card:hover {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(var(--accent-b-rgb), 0.06) 100%);
+    border-color: rgba(var(--accent-b-rgb), 0.35);
+    box-shadow: 0 15px 35px rgba(var(--accent-b-rgb), 0.05);
+  }
+
+  :global(body.light) .media-container {
+    background: rgba(255, 255, 255, 0.85);
+    border-color: rgba(7, 16, 38, 0.05);
+    box-shadow: 0 10px 30px rgba(7, 16, 38, 0.03);
+  }
+
+  :global(body.light) .dashboard-notice {
+    background: rgba(180, 83, 9, 0.08);
+    border-color: rgba(180, 83, 9, 0.2);
+    color: #b45309;
+  }
+
+  :global(body.light) .dashboard-notice p {
+    color: #4b5563;
+  }
+
+  :global(body.light) .dashboard-notice p b {
+    color: #b45309;
+  }
+
+  :global(body.light) .cta-luxury-banner {
+    box-shadow: 0 20px 50px rgba(7, 16, 38, 0.06);
+    border-color: rgba(var(--accent-a-rgb), 0.12);
   }
 </style>
