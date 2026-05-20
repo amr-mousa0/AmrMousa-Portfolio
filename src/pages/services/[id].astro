@@ -1,0 +1,571 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import servicesData from '../../data/services.json';
+
+// Generate static paths for SSG
+export async function getStaticPaths() {
+  return servicesData.map((service) => ({
+    params: { id: service.id },
+    props: { service },
+  }));
+}
+
+interface Props {
+  service: typeof servicesData[0];
+}
+
+const { service } = Astro.props;
+---
+
+<Layout title={`${service.title} — Amr Mousa Portfolio`}>
+  <div class="service-proposal-page-container font-poppins">
+    
+    <!-- Top Nav / Back button -->
+    <div class="service-proposal-nav anim-child">
+      <a href={`${import.meta.env.BASE_URL}#services`} class="back-link-btn">
+        <i class="fa-solid fa-arrow-left font-normal"></i>
+        <span data-i18n="proposal_back_btn">Back to Services</span>
+      </a>
+    </div>
+
+    <!-- ── Single Unified Executive Proposal Sheet (Using div to prevent global tag conflicts) ── -->
+    <div class="service-proposal-sheet anim-child">
+      
+      <!-- 1. Executive Header Banner -->
+      <header class="sheet-header-banner">
+        <div class="sheet-header-badge">
+          <span class="badge-dot"></span>
+          <span data-i18n="proposal_subtitle">Executive Professional Proposal</span>
+        </div>
+        <h1 class="sheet-proposal-title" data-i18n={`service_${service.id}_title`}>{service.title}</h1>
+        
+        <div class="sheet-tech-stack font-poppins">
+          {service.tags.map((tag) => (
+            <span class="sheet-tech-tag">{tag}</span>
+          ))}
+        </div>
+      </header>
+
+      <!-- 2. Executive Summary Section -->
+      <div class="sheet-section sheet-summary-section">
+        <div class="sheet-section-header">
+          <i class="fa-solid fa-ranking-star text-accent-a"></i>
+          <h2 data-i18n="proposal_intro_label">Executive Summary</h2>
+        </div>
+        <p class="sheet-summary-text" data-i18n={`service_${service.id}_prop_summary`}>
+          {service.copy}
+        </p>
+      </div>
+
+      <!-- 3. Scope of Work & Business ROI Grid -->
+      <div class="sheet-section sheet-grid-section font-poppins">
+        
+        <!-- Column 1: Scope of Work (What I Will Do) -->
+        <div class="sheet-grid-column border-r border-neutral-200 dark:border-white/5 pr-0 md:pr-8">
+          <div class="sheet-section-header mb-6">
+            <i class="fa-solid fa-list-check text-accent-a"></i>
+            <h2 data-i18n="proposal_do_label">What I Will Do (Scope of Work)</h2>
+          </div>
+          
+          <div class="sheet-timeline-steps font-poppins">
+            <div class="sheet-timeline-step">
+              <div class="sheet-step-num font-poppins">01</div>
+              <div class="sheet-step-content font-poppins">
+                <h3 data-i18n={`service_${service.id}_gig_0`}>{service.gigs[0]}</h3>
+                <p data-i18n={`service_${service.id}_prop_do_1`}>Comprehensive assessment, strategy creation, and requirements mapping.</p>
+              </div>
+            </div>
+            <div class="sheet-timeline-step">
+              <div class="sheet-step-num font-poppins">02</div>
+              <div class="sheet-step-content font-poppins">
+                <h3 data-i18n={`service_${service.id}_gig_1`}>{service.gigs[1]}</h3>
+                <p data-i18n={`service_${service.id}_prop_do_2`}>Hands-on coding, building visual models, or establishing target campaigns.</p>
+              </div>
+            </div>
+            <div class="sheet-timeline-step">
+              <div class="sheet-step-num font-poppins">03</div>
+              <div class="sheet-step-content font-poppins">
+                <h3 data-i18n={`service_${service.id}_gig_2`}>{service.gigs[2]}</h3>
+                <p data-i18n={`service_${service.id}_prop_do_3`}>Rigorous system calibration, A/B testing, and tracking integration.</p>
+              </div>
+            </div>
+            <div class="sheet-timeline-step">
+              <div class="sheet-step-num font-poppins">04</div>
+              <div class="sheet-step-content font-poppins">
+                <h3 data-i18n={`service_${service.id}_gig_3`}>{service.gigs[3]}</h3>
+                <p data-i18n={`service_${service.id}_prop_do_4`}>Strategic post-launch support, scaling execution, and pipeline tuning.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Column 2: Business ROI (What You Will Get) -->
+        <div class="sheet-grid-column pl-0 md:pl-8 mt-8 md:mt-0">
+          <div class="sheet-section-header mb-6 font-poppins">
+            <i class="fa-solid fa-circle-check text-accent-b font-normal"></i>
+            <h2 data-i18n="proposal_get_label">What You Will Get (Business ROI)</h2>
+          </div>
+
+          <div class="sheet-outcomes-list font-poppins">
+            <div class="sheet-outcome-item">
+              <div class="sheet-outcome-icon font-poppins font-normal">
+                <i class="fa-solid fa-check font-normal"></i>
+              </div>
+              <div class="sheet-outcome-content font-poppins font-normal">
+                <p data-i18n={`service_${service.id}_prop_get_1`}>High-value deliverable directly improving conversions.</p>
+              </div>
+            </div>
+            <div class="sheet-outcome-item font-poppins font-normal">
+              <div class="sheet-outcome-icon font-poppins font-normal">
+                <i class="fa-solid fa-check font-normal"></i>
+              </div>
+              <div class="sheet-outcome-content font-poppins font-normal">
+                <p data-i18n={`service_${service.id}_prop_get_2`}>Tailor-made solution with 100% ownership.</p>
+              </div>
+            </div>
+            <div class="sheet-outcome-item font-poppins font-normal">
+              <div class="sheet-outcome-icon font-poppins font-normal">
+                <i class="fa-solid fa-check font-normal"></i>
+              </div>
+              <div class="sheet-outcome-content font-poppins font-normal">
+                <p data-i18n={`service_${service.id}_prop_get_3`}>Substantial reduction in manual hours and overhead.</p>
+              </div>
+            </div>
+            <div class="sheet-outcome-item font-poppins font-normal">
+              <div class="sheet-outcome-icon font-poppins font-normal">
+                <i class="fa-solid fa-check font-normal"></i>
+              </div>
+              <div class="sheet-outcome-content font-poppins font-normal">
+                <p data-i18n={`service_${service.id}_prop_get_4`}>Written strategic breakdown and future scaling roadmap.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 4. Bottom Action Bar (Pre-filled WhatsApp CTA) -->
+      <footer class="sheet-action-bar font-poppins">
+        <div class="action-bar-text font-poppins">
+          <h2 data-i18n="proposal_cta_btn">Accept Proposal & Start Project</h2>
+          <p data-i18n="proposal_cta_text">
+            Ready to transform your business data and marketing efficiency? Click below to accept this proposal and start collaborating directly on WhatsApp.
+          </p>
+        </div>
+        
+        <div class="action-bar-btn font-poppins font-normal">
+          <a 
+            id="whatsapp-proposal-btn" 
+            href={`https://wa.me/201017749925?text=Hello%20Amr,%20I%20have%20reviewed%20your%20proposal%20for%20${encodeURIComponent(service.title)}%20and%20would%20love%20to%20get%20started!`} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            class="sheet-whatsapp-btn font-poppins"
+          >
+            <i class="fa-brands fa-whatsapp font-poppins font-normal"></i>
+            <span data-i18n="proposal_cta_btn">Accept Proposal & Start Project</span>
+          </a>
+        </div>
+      </footer>
+
+    </div>
+
+  </div>
+</Layout>
+
+<script is:inline>
+  // Dynamically update the WhatsApp link pre-filled text based on the active language setting
+  function updateWhatsAppLink() {
+    const currentLang = localStorage.getItem('amr_lang') || 'en';
+    const whatsappBtn = document.getElementById('whatsapp-proposal-btn');
+    if (!whatsappBtn) return;
+    
+    // Get localized message
+    let rawTitle = document.querySelector('.sheet-proposal-title')?.textContent || 'Service';
+    let text = "";
+    
+    if (currentLang === 'ar') {
+      text = `أهلاً عمرو، لقد راجعت العرض الفني والمالي لـ (${rawTitle}) وأود الموافقة عليه للبدء في العمل معك!`;
+    } else {
+      text = `Hello Amr, I have reviewed your proposal for "${rawTitle}" and would love to accept it and start collaborating!`;
+    }
+    
+    whatsappBtn.href = `https://wa.me/201017749925?text=${encodeURIComponent(text)}`;
+  }
+
+  // Hook into transition cycles and language toggles
+  document.addEventListener('astro:page-load', updateWhatsAppLink);
+  window.addEventListener('languageChanged', updateWhatsAppLink);
+  
+  // Observe HTML lang attribute changes for instant bilingual switching
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'lang') {
+        updateWhatsAppLink();
+      }
+    });
+  });
+  observer.observe(document.documentElement, { attributes: true });
+  
+  // Run once immediately
+  setTimeout(updateWhatsAppLink, 100);
+</script>
+
+<style>
+  /* --- Dedicated Page Container Styles --- */
+  .service-proposal-page-container {
+    max-width: 1060px;
+    margin: 0 auto;
+    padding: 130px 20px 80px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  /* Nav actions */
+  .service-proposal-nav {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+  }
+
+  .back-link-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: rgba(var(--surface-rgb), 0.5);
+    border: 1px solid var(--border-card);
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    min-height: 44px;
+  }
+
+  .back-link-btn:hover {
+    color: var(--text);
+    border-color: rgba(var(--accent-a-rgb), 0.3);
+    background: rgba(var(--surface-rgb), 0.8);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(var(--accent-a-rgb), 0.1);
+  }
+
+  html[dir="rtl"] .back-link-btn i { transform: rotate(180deg); }
+
+  /* ── Single Unified Executive Proposal Sheet ────────────────── */
+  .service-proposal-sheet {
+    background: rgba(var(--surface-rgb), 0.55);
+    backdrop-filter: blur(28px);
+    -webkit-backdrop-filter: blur(28px);
+    border: 1px solid var(--border-card);
+    border-radius: calc(var(--radius) * 2.5);
+    overflow: visible;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* 1. Header Banner */
+  .sheet-header-banner {
+    padding: 36px 40px 28px;
+    border-bottom: 1px solid var(--border-card);
+    background: linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(var(--accent-a-rgb), 0.05) 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+    border-top-left-radius: calc(var(--radius) * 2.5);
+    border-top-right-radius: calc(var(--radius) * 2.5);
+  }
+
+  html[dir="rtl"] .sheet-header-banner { align-items: flex-start; }
+
+  .sheet-header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    background: rgba(var(--accent-a-rgb), 0.1);
+    border: 1px solid rgba(var(--accent-a-rgb), 0.25);
+    border-radius: 999px;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--accent-a);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent-a);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-a);
+  }
+
+  .sheet-proposal-title {
+    font-size: 34px;
+    font-weight: 800;
+    line-height: 1.25;
+    color: var(--text);
+    margin: 0;
+    letter-spacing: -0.5px;
+  }
+
+  .sheet-tech-stack {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  .sheet-tech-tag {
+    background: var(--badge-bg);
+    border: 1px solid var(--badge-border);
+    padding: 4px 12px;
+    border-radius: 8px;
+    font-size: 12.5px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  /* 2. Executive Summary Section */
+  .sheet-section {
+    padding: 32px 40px;
+    border-bottom: 1px solid var(--border-card);
+  }
+
+  .sheet-summary-section {
+    background: rgba(var(--surface-rgb), 0.1);
+  }
+
+  .sheet-section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .sheet-section-header i {
+    font-size: 20px;
+  }
+
+  .sheet-section-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--text);
+  }
+
+  .sheet-summary-text {
+    font-size: 15.5px;
+    line-height: 1.65;
+    color: var(--muted);
+    font-weight: 400;
+    margin: 0;
+  }
+
+  /* 3. Scope & ROI Grid Section */
+  .sheet-grid-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 36px 40px;
+  }
+
+  /* Scope steps styling (What I Will Do) */
+  .sheet-timeline-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .sheet-timeline-step {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .sheet-step-num {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    background: rgba(var(--accent-a-rgb), 0.1);
+    border: 1px solid rgba(var(--accent-a-rgb), 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14.5px;
+    font-weight: 700;
+    color: var(--accent-a);
+    flex-shrink: 0;
+  }
+
+  .sheet-step-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .sheet-step-content h3 {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 0;
+  }
+
+  .sheet-step-content p {
+    font-size: 13.5px;
+    line-height: 1.55;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* ROI Outcome Items (What You Will Get) */
+  .sheet-outcomes-list {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .sheet-outcome-item {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+  }
+
+  .sheet-outcome-icon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: rgba(var(--accent-b-rgb), 0.1);
+    border: 1px solid rgba(var(--accent-b-rgb), 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--accent-b);
+    font-size: 11px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .sheet-outcome-content p {
+    font-size: 14.5px;
+    line-height: 1.55;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  /* 4. Bottom Action Bar (WhatsApp CTA) */
+  .sheet-action-bar {
+    padding: 32px 40px;
+    background: linear-gradient(135deg, rgba(37, 211, 102, 0.08) 0%, rgba(var(--surface-rgb), 0.4) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    border-bottom-left-radius: calc(var(--radius) * 2.5);
+    border-bottom-right-radius: calc(var(--radius) * 2.5);
+  }
+
+  .action-bar-text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-width: 550px;
+  }
+
+  .action-bar-text h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+  }
+
+  .action-bar-text p {
+    font-size: 14px;
+    line-height: 1.55;
+    color: var(--muted);
+    margin: 0;
+  }
+
+  .sheet-whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background: #25d366;
+    color: #0b0f19;
+    font-size: 15px;
+    font-weight: 700;
+    padding: 16px 30px;
+    border-radius: 14px;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.3);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .sheet-whatsapp-btn:hover {
+    background: #20ba56;
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 12px 30px rgba(37, 211, 102, 0.45);
+  }
+
+  /* --- Responsive Mobile Overrides --- */
+  @media (max-width: 768px) {
+    .service-proposal-page-container {
+      padding: 110px 16px 60px 16px;
+      gap: 16px;
+    }
+
+    .service-proposal-sheet {
+      border-radius: calc(var(--radius) * 2);
+    }
+
+    .sheet-header-banner {
+      padding: 24px 20px 20px;
+      border-top-left-radius: calc(var(--radius) * 2);
+      border-top-right-radius: calc(var(--radius) * 2);
+    }
+
+    .sheet-proposal-title { font-size: 26px; }
+
+    .sheet-section {
+      padding: 24px 20px;
+    }
+
+    .sheet-grid-section {
+      grid-template-columns: 1fr;
+      padding: 24px 20px;
+      gap: 28px;
+    }
+
+    .sheet-grid-column {
+      border-right: none;
+      padding-right: 0;
+      padding-left: 0;
+    }
+
+    html[dir="rtl"] .sheet-grid-column {
+      border-left: none;
+      padding-left: 0;
+    }
+
+    .sheet-action-bar {
+      flex-direction: column;
+      text-align: center;
+      padding: 28px 20px;
+      gap: 20px;
+      border-bottom-left-radius: calc(var(--radius) * 2);
+      border-bottom-right-radius: calc(var(--radius) * 2);
+    }
+
+    .action-bar-text { max-width: 100%; }
+
+    .sheet-whatsapp-btn {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,74 @@
+---
+import { Image } from 'astro:assets';
+import testimonialsData from '../../data/testimonials.json';
+import fallbackAvatar from '../../assets/Amr-Mousa.JPG';
+
+const allAvatars = import.meta.glob('../../assets/images/avatar-*.{png,jpg,jpeg,svg,webp}', { eager: true });
+
+function resolveAvatar(avatarPath: string) {
+  const cleanPath = avatarPath.startsWith('images/') ? `../../assets/${avatarPath}` : `../../assets/images/${avatarPath}`;
+  const matched = allAvatars[cleanPath] as any;
+  return matched ? matched.default : fallbackAvatar;
+}
+---
+
+<section id="testimonials" aria-labelledby="testimonials-title" class="py-16 px-4 my-12 overflow-hidden">
+  <div class="max-w-6xl mx-auto">
+    
+    <div class="mb-12 text-center md:text-left">
+      <h2 id="testimonials-title" class="text-3xl md:text-4xl font-bold text-text-main mb-4 font-poppins tracking-tight" data-i18n="testimonials_title">Trusted Insights</h2>
+      <p class="text-base md:text-lg text-muted max-w-2xl font-poppins" data-i18n="testimonials_subtitle">Direct feedback from decision-makers, marketing directors, and business owners on driving efficiency and measurable growth.</p>
+    </div>
+
+    <!-- Mobile Carousel (Scroll Snap) / Desktop Grid -->
+    <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:grid md:grid-cols-3 md:gap-8 md:overflow-x-visible scrollbar-none">
+      {testimonialsData.map((testimonial) => (
+        <article class="bg-surface/40 backdrop-blur-md border border-white/10 rounded-2xl p-8 shadow-luxury flex flex-col justify-between min-w-[85vw] md:min-w-0 snap-start transition-all duration-300 hover:border-accent-a/40 hover:shadow-luxury-hover group">
+          
+          <div>
+            <div class="text-accent-a/40 font-playfair text-6xl leading-none mb-2 select-none group-hover:text-accent-a/60 transition-colors duration-300">
+              “
+            </div>
+
+            <blockquote class="text-base md:text-lg text-text-main font-playfair italic mb-8 leading-relaxed" data-i18n={testimonial.quoteKey}>
+              {testimonial.quote}
+            </blockquote>
+          </div>
+
+          <div class="flex items-center gap-4 pt-6 border-t border-white/5">
+            <Image 
+              src={resolveAvatar(testimonial.avatar)} 
+              alt={testimonial.name} 
+              class="w-14 h-14 rounded-full object-cover border-2 border-accent-a/30 group-hover:border-accent-a transition-colors duration-300 shadow-md flex-shrink-0" 
+              loading="lazy"
+              width={56}
+              height={56}
+            />
+            <div>
+              <h4 class="text-base font-bold text-text-main font-poppins mb-0.5" data-i18n={testimonial.nameKey}>
+                {testimonial.name}
+              </h4>
+              <p class="text-xs md:text-sm text-muted font-poppins" data-i18n={testimonial.titleKey}>
+                {testimonial.title}
+              </p>
+            </div>
+          </div>
+
+        </article>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<style>
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .scrollbar-none::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .scrollbar-none {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
+</style>

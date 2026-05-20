@@ -1,0 +1,580 @@
+---
+import { Image } from 'astro:assets';
+import fallbackImg from '../../assets/projects/coffee.jpg';
+
+interface Props {
+  projects: any[];
+}
+
+const { projects } = Astro.props;
+
+// Dynamically discover all images in the projects directory at build-time
+const allImages = import.meta.glob('../../assets/projects/*.{png,jpg,jpeg,svg,webp}', { eager: true });
+const allProjectImages = import.meta.glob('../../assets/images/**/*.{png,jpg,jpeg,svg,webp,PNG,JPG,JPEG,SVG,WEBP}', { eager: true });
+
+function resolveAsset(url: string) {
+  if (!url) return fallbackImg;
+  const decoded = decodeURIComponent(url);
+  const relativePath = decoded.replace('/images/', '../../assets/images/');
+  const matched = allProjectImages[relativePath] as any;
+  return matched ? matched.default : fallbackImg;
+}
+---
+
+<div class="project-slider-wrapper">
+  <div class="slider-controls">
+    <button class="slider-btn prev-btn" aria-label="Previous project">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+    <button class="slider-btn next-btn" aria-label="Next project">
+      <i class="fa-solid fa-chevron-right"></i>
+    </button>
+  </div>
+
+  <div class="project-slider">
+    {projects.map((project) => {
+      const imgKey = project.imagePath || '';
+      const matchedAsset = allImages[imgKey] as any;
+      const imgAsset = matchedAsset ? matchedAsset.default : fallbackImg;
+      const cleanId = project.id.split('-')[0];
+      const hasImages = project.images && project.images.length > 0;
+
+      return (
+        <article class="project-card-wrapper">
+          <a href={`${import.meta.env.BASE_URL}projects/${project.id}`} onclick={`trackClick('project_click', { project_id: '${project.id}' })`} class="project-card" aria-label={`View ${project.title} case study`}>
+            
+            {/* ── Image area: multi-image slideshow ── */}
+            <div class="project-card-image" data-slideshow={hasImages ? "true" : "false"}>
+              {hasImages ? (
+                project.images.map((imgUrl: string, idx: number) => (
+                  <Image
+                    src={resolveAsset(imgUrl)}
+                    alt={`${project.title} — screenshot ${idx + 1}`}
+                    class={`slide-img${idx === 0 ? ' active' : ''}`}
+                    loading={idx === 0 ? 'eager' : 'lazy'}
+                    width={360}
+                    height={180}
+                  />
+                ))
+              ) : (
+                <Image
+                  src={imgAsset}
+                  alt={project.title}
+                  width={360}
+                  height={180}
+                  class="slide-img active"
+                  loading="lazy"
+                />
+              )}
+              <div class="img-gradient"></div>
+              <span class="card-icon">
+                <i class={project.icon}></i>
+              </span>
+              {hasImages && project.images.length > 1 && (
+                <div class="slide-dots">
+                  {project.images.map((_: string, idx: number) => (
+                    <span class={`dot${idx === 0 ? ' active' : ''}`}></span>
+                  ))}
+                </div>
+              )}
+            </div>
+
+            {/* ── Text content ── */}
+            <div class="project-card-content">
+              <span class="project-badge" data-i18n={`project_${cleanId}_category`}>{project.category}</span>
+              <h3 class="project-title" data-i18n={`project_${cleanId}_title`}>{project.title}</h3>
+              <p class="project-hook" data-i18n={`project_${cleanId}_desc`}>{project.description}</p>
+
+              <div class="card-footer">
+                <div class="project-tags">
+                  {project.tech.slice(0, 3).map((t: string) => (
+                    <span class="tag">{t}</span>
+                  ))}
+                </div>
+                <span class="view-cta">
+                  <span data-i18n="service_explore">View Case Study</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </span>
+              </div>
+            </div>
+
+          </a>
+        </article>
+      );
+    })}
+  </div>
+</div>
+
+<script>
+  // ── Horizontal card slider ──────────────────────────────────────
+  function initSlider() {
+    document.querySelectorAll('.project-slider-wrapper').forEach(wrapper => {
+      const slider = wrapper.querySelector('.project-slider') as HTMLElement;
+      const prev   = wrapper.querySelector('.prev-btn');
+      const next   = wrapper.querySelector('.next-btn');
+      if (!slider || !prev || !next) return;
+
+      const scroll = (dir: number) => {
+        const card = slider.querySelector('.project-card-wrapper') as HTMLElement;
+        const gap  = parseInt(getComputedStyle(slider).gap) || 20;
+        const step = card ? card.offsetWidth + gap : 320;
+        const rtl  = document.documentElement.dir === 'rtl';
+        slider.scrollBy({ left: (rtl ? -dir : dir) * step, behavior: 'smooth' });
+      };
+
+      prev.addEventListener('click', () => scroll(-1));
+      next.addEventListener('click', () => scroll(1));
+    });
+  }
+
+  // ── Per-card image slideshow (Optimized with IntersectionObserver) ──
+  function initSlideshows() {
+    if (!(window as any).slideshowObserver) {
+      (window as any).slideshowObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          const container = entry.target;
+          const imgs = Array.from(container.querySelectorAll('.slide-img'));
+          const dots = Array.from(container.querySelectorAll('.dot'));
+          if (imgs.length < 2) return;
+
+          const old = (container as any).__interval;
+          if (old) clearInterval(old);
+
+          if (entry.isIntersecting) {
+            let idx = 0;
+            const advance = () => {
+              imgs[idx].classList.remove('active');
+              dots[idx]?.classList.remove('active');
+              idx = (idx + 1) % imgs.length;
+              imgs[idx].classList.add('active');
+              dots[idx]?.classList.add('active');
+            };
+            (container as any).__interval = setInterval(advance, 3000);
+          }
+        });
+      }, { threshold: 0.1 });
+    }
+
+    document.querySelectorAll('.project-card-image[data-slideshow="true"]').forEach(container => {
+      (window as any).slideshowObserver.observe(container);
+    });
+  }
+
+  // ── Bootstrap ──────────────────────────────────────────────────
+  function boot() {
+    initSlider();
+    initSlideshows();
+  }
+
+  // Run immediately and on each Astro view-transition page load
+  boot();
+  document.addEventListener('astro:page-load', boot);
+</script>
+
+<style>
+  /* ── Wrapper & horizontal scroll container ─────────────────── */
+  .project-slider-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 50px 0 60px;
+  }
+
+  .project-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 24px;
+    padding: 10px 10px 36px;
+    margin-bottom: -36px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .project-slider::-webkit-scrollbar { display: none; }
+
+  /* ── Card Dimensions — Wide & Cinematic (Fluid Responsive) ── */
+  .project-card-wrapper {
+    width: 85vw;
+    max-width: 440px;
+    min-width: 280px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    display: flex;
+  }
+
+  .project-card-wrapper > * { width: 100%; }
+
+  /* ── Arrow navigation controls ─────────────────────────────── */
+  .slider-controls {
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    right: -20px;
+    transform: translateY(-60%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .slider-btn {
+    pointer-events: auto;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--border-subtle);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    font-size: 15px;
+  }
+
+  .slider-btn:hover {
+    background: var(--accent-a);
+    color: #fff;
+    transform: scale(1.1);
+    border-color: var(--accent-a);
+    box-shadow: 0 12px 30px rgba(var(--accent-a-rgb), 0.5);
+  }
+
+  .slider-btn:focus-visible {
+    outline: 2px solid var(--accent-a);
+    outline-offset: 4px;
+    background: var(--accent-a);
+    color: #fff;
+  }
+
+  .slider-btn:active { transform: scale(0.95); }
+
+  html[dir="rtl"] .prev-btn i,
+  html[dir="rtl"] .next-btn i { transform: rotate(180deg); }
+
+  /* ── Card shell ─────────────────────────────────────────────── */
+  .project-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border-faint);
+    border-radius: calc(var(--radius) * 1.2);
+    overflow: hidden;
+    text-decoration: none !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+
+  .project-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    border-color: rgba(var(--accent-a-rgb), 0.4);
+  }
+
+  .project-card:focus-visible {
+    outline: 2px solid var(--accent-a);
+    outline-offset: 4px;
+    border-color: var(--accent-a);
+  }
+
+  /* ── Image / Slideshow area ─────────────────────────────────── */
+  .project-card-image {
+    position: relative;
+    height: 240px;
+    background: linear-gradient(135deg,
+      rgba(var(--surface-rgb), 0.95) 0%,
+      rgba(var(--accent-b-rgb), 0.15) 100%);
+    overflow: hidden;
+    flex-shrink: 0;
+  }
+
+  .slide-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.9s ease-in-out;
+    will-change: opacity;
+    z-index: 0;
+  }
+
+  .slide-img.active {
+    opacity: 0.85;
+    z-index: 1;
+  }
+
+  .project-card:hover .slide-img.active {
+    opacity: 1;
+  }
+
+  /* Gradient scrim at bottom of image */
+  .img-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      transparent 40%,
+      rgba(var(--surface-rgb), 0.92) 100%);
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  /* Category icon badge */
+  .card-icon {
+    position: absolute;
+    bottom: 16px;
+    left: 20px;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    background: rgba(var(--accent-a-rgb), 0.18);
+    border: 1px solid rgba(var(--accent-a-rgb), 0.35);
+    color: var(--accent-a);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    z-index: 3;
+    transition: all 0.3s ease;
+  }
+
+  html[dir="rtl"] .card-icon { left: auto; right: 20px; }
+
+  .project-card:hover .card-icon {
+    background: rgba(var(--accent-a-rgb), 0.35);
+    transform: scale(1.08);
+    color: #fff;
+  }
+
+  /* Dot indicators */
+  .slide-dots {
+    position: absolute;
+    bottom: 14px;
+    right: 20px;
+    display: flex;
+    gap: 6px;
+    z-index: 3;
+  }
+
+  html[dir="rtl"] .slide-dots { right: auto; left: 20px; }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--surface-alpha-85);
+    border: 1px solid var(--border-subtle);
+    transition: all 0.3s ease;
+  }
+
+  .dot.active {
+    background: var(--accent-a);
+    transform: scale(1.4);
+    box-shadow: 0 0 8px var(--accent-a);
+  }
+
+  /* ── Text content ───────────────────────────────────────────── */
+  .project-card-content {
+    padding: 24px 24px 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 10px;
+    text-align: left;
+  }
+
+  html[dir="rtl"] .project-card-content { text-align: right; }
+
+  .project-badge {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text);
+    background: rgba(var(--accent-a-rgb), 0.2);
+    border: 1px solid var(--accent-a);
+    padding: 3px 8px;
+    border-radius: 6px;
+    line-height: 1;
+    align-self: flex-start;
+  }
+
+  .project-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.35;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* The punchy hook line — short, results-focused */
+  .project-hook {
+    font-size: 14px;
+    color: var(--muted);
+    line-height: 1.65;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ── Card footer: Executive bar (tags + CTA) ────────────────── */
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 16px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .project-tags {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    overflow: hidden;
+    flex-wrap: nowrap;
+  }
+
+  .tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 4px 10px;
+    background: var(--surface-alpha-65);
+    border: 1px solid var(--border-subtle);
+    border-radius: 999px;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .view-cta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    background: rgba(var(--accent-a-rgb), 0.25);
+    border: 1px solid var(--accent-a);
+    padding: 6px 12px;
+    border-radius: 8px;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+  }
+
+  .project-card:hover .view-cta {
+    background: var(--accent-a);
+    color: #fff;
+  }
+
+  .view-cta i {
+    font-size: 11px;
+    transition: transform 0.25s var(--ease);
+  }
+
+  .project-card:hover .view-cta i { transform: translateX(4px); }
+  html[dir="rtl"] .view-cta i { transform: rotate(180deg); }
+  html[dir="rtl"] .project-card:hover .view-cta i { transform: rotate(180deg) translateX(4px); }
+
+  /* ── Responsive Overrides ───────────────────────────────────── */
+
+  /* Tablet (768px - 1024px) */
+  @media (max-width: 1024px) {
+    .project-card-image {
+      height: 210px;
+    }
+
+    .project-title { font-size: 18px; }
+    .project-hook { font-size: 13.5px; }
+  }
+
+  /* Mobile (< 768px) — Wide & Sleek */
+  @media (max-width: 768px) {
+    .project-slider {
+      gap: 16px;
+      padding-right: 24px;
+      padding-left: 8px;
+    }
+
+    html[dir="rtl"] .project-slider {
+      padding-right: 8px;
+      padding-left: 24px;
+    }
+
+    .project-card-image {
+      height: 185px;
+    }
+
+    .project-card-content {
+      padding: 18px 18px 16px;
+      gap: 8px;
+    }
+
+    .card-icon {
+      bottom: 12px;
+      left: 16px;
+      width: 36px;
+      height: 36px;
+      font-size: 16px;
+    }
+    html[dir="rtl"] .card-icon { left: auto; right: 16px; }
+
+    .slide-dots {
+      bottom: 12px;
+      right: 16px;
+    }
+    html[dir="rtl"] .slide-dots { right: auto; left: 16px; }
+
+    .project-title {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .project-hook {
+      font-size: 13px;
+      -webkit-line-clamp: 2;
+    }
+
+    /* Executive footer bar on mobile */
+    .card-footer {
+      padding-top: 12px;
+      gap: 8px;
+    }
+
+    .tag {
+      font-size: 10px;
+      padding: 3px 8px;
+    }
+
+    /* Show CTA text on mobile now that card is wide! */
+    .view-cta span { display: inline; font-size: 12px; }
+    .view-cta i { font-size: 11px; }
+
+    .slider-controls {
+      display: none !important;
+    }
+
+    .slider-btn {
+      width: 48px;
+      height: 48px;
+      font-size: 15px;
+    }
+  }
+
+  /* Very small screens (< 360px) */
+  @media (max-width: 360px) {
+    .project-card-image { height: 165px; }
+    .view-cta span { display: none; } /* Hide text only on tiny screens */
+  }
+</style>

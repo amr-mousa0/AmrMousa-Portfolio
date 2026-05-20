@@ -1,0 +1,32 @@
+[
+  {
+    "id": "t1",
+    "quoteKey": "test_ahmed_hassan_quote",
+    "quote": "Amr helped us a lot with our competitor analysis. He built a great dashboard that tracks our performance and shows exactly where we stand in the market. He’s organized, proactive, and very easy to work with.",
+    "nameKey": "test_ahmed_hassan_name",
+    "name": "Ahmed Hassan",
+    "titleKey": "test_ahmed_hassan_title",
+    "title": "Marketing Director @ Iris Communications",
+    "avatar": "images/avatar-1.png"
+  },
+  {
+    "id": "t2",
+    "quoteKey": "test_ahmed_sabry_quote",
+    "quote": "Amr didn't just help with our media buying, he noticed gaps in our content and suggested a new strategy. He even created over 25 designs before launching the campaign. I'm very impressed with his persistence and his ability to combine data analysis with marketing.",
+    "nameKey": "test_ahmed_sabry_name",
+    "name": "Ahmed Sabry",
+    "titleKey": "test_ahmed_sabry_title",
+    "title": "Business Owner @ So Care",
+    "avatar": "images/avatar-2.png"
+  },
+  {
+    "id": "t3",
+    "quoteKey": "test_ammar_quote",
+    "quote": "Exceptional precision in SQL and Power BI. Amr doesn't just deliver reports; he delivers clarity and strategic growth insights.",
+    "nameKey": "test_ammar_name",
+    "name": "Ammar Elbedweihy",
+    "titleKey": "test_ammar_title",
+    "title": "Senior Data Analyst",
+    "avatar": "images/avatar-3.png"
+  }
+]

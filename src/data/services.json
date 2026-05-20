@@ -1,0 +1,72 @@
+[
+  {
+    "id": "data-analytics",
+    "title": "Data Analytics & BI Dashboards",
+    "copy": "Your competitors see their numbers in real-time. You're still waiting for last month's report. Let's fix that.",
+    "gigs": [
+      "Interactive Sales & KPI Dashboards",
+      "Real-time ROI Tracking",
+      "Custom SQL Queries & Data Modeling",
+      "Data Cleaning & Processing"
+    ],
+    "tags": ["Power BI", "SQL", "Tableau"],
+    "cta": "Inquire about Dashboards",
+    "icon": "fa-solid fa-chart-pie"
+  },
+  {
+    "id": "media-buying",
+    "title": "Marketing Strategy & Media Buying",
+    "copy": "Tired of pouring money into Meta Ads and hearing crickets? Let's build campaigns that actually bring paying clients.",
+    "gigs": [
+      "Meta Ads Campaign Management",
+      "A/B Testing & ROAS Optimization",
+      "Pixel Setup & Conversion Tracking",
+      "Comprehensive Campaign Audits"
+    ],
+    "tags": ["Meta Ads", "Google Ads", "Tracking"],
+    "cta": "Scale Your Campaigns",
+    "icon": "fa-solid fa-bullhorn"
+  },
+  {
+    "id": "web-portfolios",
+    "title": "Custom Web Portfolios & Landing Pages",
+    "copy": "Visitors land on your page and leave in seconds. I design premium experiences that make them stay and buy.",
+    "gigs": [
+      "High-Converting Landing Pages",
+      "Personal & Corporate Portfolios",
+      "Responsive Mobile-First Design",
+      "Performance & SEO Optimization"
+    ],
+    "tags": ["Web Dev", "Design", "SEO"],
+    "cta": "Build Your Portfolio",
+    "icon": "fa-solid fa-laptop-code"
+  },
+  {
+    "id": "excel-expert",
+    "title": "Advanced Excel & Data Structuring",
+    "copy": "Your spreadsheets are a mess and your reports take days. I turn chaos into one-click automated dashboards.",
+    "gigs": [
+      "Automated Reports & Dashboards",
+      "Financial Modeling & Forecasting",
+      "VBA & Macro Automations",
+      "Data Consolidation & Formatting"
+    ],
+    "tags": ["Excel", "VBA", "Automation"],
+    "cta": "Automate Spreadsheets",
+    "icon": "fa-solid fa-file-excel"
+  },
+  {
+    "id": "crm-management",
+    "title": "CRM Setup & Workflow Automation",
+    "copy": "Leads slipping through the cracks? I build CRM systems that capture, nurture, and close every opportunity.",
+    "gigs": [
+      "CRM Architecture & Custom Setup",
+      "Lead Routing & Sales Funnels",
+      "Email Marketing Automations",
+      "Zapier / Make.com Integrations"
+    ],
+    "tags": ["CRM", "Zapier", "APIs"],
+    "cta": "Organize Your Workflow",
+    "icon": "fa-solid fa-users-gear"
+  }
+]

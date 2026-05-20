@@ -1,0 +1,110 @@
+[
+  {
+    "domain": "Data Analytics & BI",
+    "id": "data-analytics",
+    "icon": "fa-solid fa-chart-pie",
+    "description": "Transforming raw data into strategic decisions that solve operational bottlenecks and maximize ROI.",
+    "services": [
+      {
+        "id": "power-bi",
+        "title": "Power BI Interactive Dashboards",
+        "description": "Custom executive dashboards for sales tracking, inventory flow, and financial performance with real-time drill-down capabilities.",
+        "tags": ["Power BI", "DAX", "Data Viz"]
+      },
+      {
+        "id": "sql-expert",
+        "title": "SQL Querying & Database Analysis",
+        "description": "Advanced SQL scripting to extract, clean, and analyze complex datasets from relational databases.",
+        "tags": ["SQL", "ETL", "Analytics"]
+      },
+      {
+        "id": "excel-cleaning",
+        "title": "Advanced Excel & Data Structuring",
+        "description": "Automating workflows, cleaning messy datasets, and converting unstructured reports (PDF to Excel) into actionable tables.",
+        "tags": ["Excel", "Power Query", "Automation"]
+      },
+      {
+        "id": "etl-pipelines",
+        "title": "Data Cleaning & ETL Pipelines",
+        "description": "Building automated pipelines to clean, transform, and merge messy data from multiple sources into a single source of truth.",
+        "tags": ["ETL", "Data Engineering", "Python"]
+      },
+      {
+        "id": "financial-modeling",
+        "title": "Financial Modeling & Forecasting",
+        "description": "Advanced Excel/Power BI financial models, budgeting, cash flow analysis, and scenario planning for executives.",
+        "tags": ["Finance", "Modeling", "Forecasting"]
+      }
+    ]
+  },
+  {
+    "domain": "Marketing & Media Buying",
+    "id": "marketing",
+    "icon": "fa-solid fa-bullhorn",
+    "description": "Driving targeted traffic and building high-converting funnels through data-backed marketing strategies.",
+    "services": [
+      {
+        "id": "media-buying",
+        "title": "Meta Media Buying & Ad Campaigns",
+        "description": "Precision media buying on Facebook and Instagram with advanced audience targeting and continuous ROAS optimization.",
+        "tags": ["Meta Ads", "Media Buying", "ROAS"]
+      },
+      {
+        "id": "content-strategy",
+        "title": "Content Strategy & Development",
+        "description": "Mapping out comprehensive content plans tailored to each stage of the customer journey (Awareness to Conversion).",
+        "tags": ["Strategy", "Copywriting", "Funnel"]
+      },
+      {
+        "id": "social-management",
+        "title": "Social Media Management & Design",
+        "description": "Managing brand presence, creating eye-catching graphics (25+ designs executed), and fostering community engagement.",
+        "tags": ["Social Media", "Graphic Design", "Growth"]
+      },
+      {
+        "id": "google-ads",
+        "title": "Google Ads & Search Intent Marketing",
+        "description": "Capturing high-intent search traffic with optimized Google Search, Display, and Performance Max campaigns.",
+        "tags": ["Google Ads", "SEM", "PMax"]
+      },
+      {
+        "id": "cro-audit",
+        "title": "Conversion Rate Optimization (CRO)",
+        "description": "Auditing landing pages and user flows to identify drop-off points, conduct A/B testing, and boost conversion percentages.",
+        "tags": ["CRO", "A/B Testing", "Audit"]
+      }
+    ]
+  },
+  {
+    "domain": "Tech & Web Solutions",
+    "id": "tech-web",
+    "icon": "fa-solid fa-code",
+    "description": "Building the digital infrastructure required to capture leads and manage customer relationships effectively.",
+    "services": [
+      {
+        "id": "web-dev",
+        "title": "Custom Web Development",
+        "description": "Developing fast, responsive, and beautifully designed landing pages and portfolios engineered to convert visitors into clients.",
+        "tags": ["HTML/CSS/JS", "UI/UX", "Landing Page"]
+      },
+      {
+        "id": "crm-setup",
+        "title": "CRM Setup & Management",
+        "description": "Implementing and customizing CRM platforms to track sales pipelines, automate follow-ups, and retain customer data.",
+        "tags": ["CRM", "Sales Pipeline", "Automation"]
+      },
+      {
+        "id": "landing-pages",
+        "title": "High-Converting Landing Pages",
+        "description": "Developing ultra-fast, mobile-first landing pages specifically engineered for paid ad campaigns with zero friction.",
+        "tags": ["Landing Page", "Performance", "Conversion"]
+      },
+      {
+        "id": "web-analytics",
+        "title": "Web Analytics & Pixel Tracking",
+        "description": "Setting up Google Tag Manager (GTM), Meta Pixel, Google Analytics 4 (GA4), and Conversion API (CAPI) for precise ad tracking.",
+        "tags": ["GTM", "GA4", "Tracking"]
+      }
+    ]
+  }
+]

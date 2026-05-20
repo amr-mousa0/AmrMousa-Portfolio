@@ -1,0 +1,68 @@
+[
+  {
+    "id": "coffee-dashboard",
+    "title": "Coffee Shop Sales Dashboard",
+    "category": "Data Analytics & BI",
+    "icon": "fa-solid fa-mug-hot",
+    "imagePath": "../../assets/projects/coffee.jpg",
+    "images": [
+      "/images/Cafe%20&%20Bar%20project%20file/project.JPG",
+      "/images/Cafe%20&%20Bar%20project%20file/project%202.JPG",
+      "/images/Cafe%20&%20Bar%20project%20file/before.JPG",
+      "/images/Cafe%20&%20Bar%20project%20file/after.JPG"
+    ],
+    "tech": ["Power BI", "SQL", "Data Cleaning"],
+    "githubUrl": "https://github.com/amr-mousa0/Coffee-Shop-Sales-Dashboard-Power-BI-",
+    "powerBiUrl": "https://app.powerbi.com/view?r=eyJrIjoiMzYwMWU2ZGYtOTFmNy00NTEwLTk0MWEtYzY0OGM2NWM1OTU0IiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
+    "description": "Cleaned 10,000 POS records to build a Star Schema BI model, identifying peak sales windows and optimizing combo bundles to capture 80% Pareto revenue.",
+    "problem": "The client faced significant inventory waste and unpredictable staffing needs due to a complete lack of visibility into peak sales hours and top-performing product margins from a dirty, unstructured 10,000-row transaction dataset.",
+    "salesDescription": "Digitized, structured, and cleaned 95% of transaction data using Excel UNIQUE and XLOOKUP. Designed and built a robust Power BI Star Schema model to track hourly sales performance, product profitability, and identify offers' impact.",
+    "salesFunnelMetrics": "Discovered the Pareto Principle where the top 5 items generated 80% of revenue. Provided actionable combo offer recommendations to bundle high-margin and low-performing items, driving sales optimization and efficiency.",
+    "ctaLink": "#contact"
+  },
+  {
+    "id": "marketing-analysis",
+    "title": "Marketing Campaigns Analysis",
+    "category": "Marketing & Media Buying",
+    "icon": "fa-solid fa-chart-line",
+    "imagePath": "../../assets/projects/marketing.jpg",
+    "images": [
+      "/images/Marketing%20Analysis%20Pics/1756149438611.jpg",
+      "/images/Marketing%20Analysis%20Pics/1756149438724.jpg",
+      "/images/Marketing%20Analysis%20Pics/1756149438816.jpg",
+      "/images/Marketing%20Analysis%20Pics/1756149438820.jpg",
+      "/images/Marketing%20Analysis%20Pics/1756149438875.jpg"
+    ],
+    "tech": ["Meta Ads", "Excel", "Power BI"],
+    "githubUrl": "https://github.com/amr-mousa0/Marketing-Campaigns-Analysis",
+    "powerBiUrl": "https://app.powerbi.com/view?r=eyJrIjoiZmQ1NmJmMWEtMmJhMy00YTg2LTg2NGItYTEzYWFhMjhiOWVmIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
+    "description": "Engineered a multi-channel Star Schema analytics platform, reallocating ad budgets to Pinterest and Facebook to maximize ROAS and eliminate winter campaign waste.",
+    "problem": "The client struggled to measure the true effectiveness and efficiency of campaigns across Meta platforms, lacking visibility into success drivers, platform comparisons, and seasonal spend variants.",
+    "salesDescription": "Built an advanced Power BI marketing analytics platform featuring a Star Schema model with transaction data. Developed DAX formulas to calculate precise KPIs (CPA, ROAS, CTR, Conversion & Engagement rates) for Regular and High-Value segments.",
+    "salesFunnelMetrics": "Identified Pinterest as the highest ROI driver despite lower engagement, and Facebook excelled at brand awareness. Revealed winter campaign inefficiencies, enabling highly optimized, data-driven seasonal ad allocation.",
+    "ctaLink": "#contact"
+  },
+  {
+    "id": "gym-analysis",
+    "title": "Gym Franchise Financial Analysis",
+    "category": "Financial Analytics",
+    "icon": "fa-solid fa-dumbbell",
+    "imagePath": "../../assets/projects/gym.jpg",
+    "images": [
+      "/images/Oxgin%20Gym%20Analysis%20Pics/1759149287257.jpg",
+      "/images/Oxgin%20Gym%20Analysis%20Pics/1759149287549.jpg",
+      "/images/Oxgin%20Gym%20Analysis%20Pics/1759149287673.jpg",
+      "/images/Oxgin%20Gym%20Analysis%20Pics/1759149287723.jpg",
+      "/images/Oxgin%20Gym%20Analysis%20Pics/1759149287810.jpg",
+      "/images/Oxgin%20Gym%20Analysis%20Pics/1759149287882.jpg"
+    ],
+    "tech": ["SQL", "Excel", "Power BI"],
+    "githubUrl": "https://github.com/amr-mousa0/Data-Analyst-Financial-Administrative-Data-",
+    "powerBiUrl": "https://app.powerbi.com/view?r=eyJrIjoiYzY5ZmVjZWUtYjg2NC00YWQ4LTllZGEtNDM4YjkzMjY2YTI1IiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
+    "description": "Digitized 5 years of paper records into a comprehensive financial dashboard, exposing 93K EGP in billing leakages and mitigating an 80% monthly churn rate.",
+    "problem": "A gym franchise was crippled by 5 years of unorganized offline paper records, leading to blind management decisions, severe billing leakages, and unpredicted customer churn.",
+    "salesDescription": "Manually digitized 5 years of paper records, built a reliable Power BI Star Schema, and created three modules: Overview, Product Analysis, and Financial Analysis (assessing CAGR and Break-Even Point).",
+    "salesFunnelMetrics": "Revealed a -28% CAGR decline despite cost-cutting, identified 93,000 EGP in billing leakages, a 43% loss in supplement pricing, and 80% monthly membership churn. Offered key billing controls and retention strategies.",
+    "ctaLink": "#contact"
+  }
+]

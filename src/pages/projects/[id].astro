@@ -1,0 +1,814 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import projectsData from '../../data/projects.json';
+import { Image } from 'astro:assets';
+import fallbackImg from '../../assets/projects/coffee.jpg';
+
+// Generate static paths for SSG
+export async function getStaticPaths() {
+  return projectsData.map((project) => ({
+    params: { id: project.id },
+    props: { project },
+  }));
+}
+
+interface Props {
+  project: typeof projectsData[0];
+}
+
+const { project } = Astro.props;
+const cleanId = project.id.split('-')[0];
+
+// Dynamically discover all images in the projects directory at build-time
+const allImages = import.meta.glob('../../assets/projects/*.{png,jpg,jpeg,svg,webp}', { eager: true });
+const allProjectImages = import.meta.glob('../../assets/images/**/*.{png,jpg,jpeg,svg,webp,PNG,JPG,JPEG,SVG,WEBP}', { eager: true });
+
+function resolveAsset(url: string) {
+  if (!url) return fallbackImg;
+  const decoded = decodeURIComponent(url);
+  const relativePath = decoded.replace('/images/', '../../assets/images/');
+  const matched = allProjectImages[relativePath] as any;
+  return matched ? matched.default : fallbackImg;
+}
+
+const matchedAsset = allImages[project.imagePath] as any;
+const imgAsset = matchedAsset ? matchedAsset.default : fallbackImg;
+---
+
+<Layout title={`${project.title} — Amr Mousa Portfolio`}>
+  <div class="project-details-page-container">
+    
+    <!-- Top Nav / Back button -->
+    <div class="project-details-nav anim-child">
+      <a href={`${import.meta.env.BASE_URL}#projects`} class="back-link-btn">
+        <i class="fa-solid fa-arrow-left"></i>
+        <span data-i18n="case_study_back">Back to Projects</span>
+      </a>
+      
+      {project.githubUrl && (
+        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" class="github-link-btn">
+          <i class="fa-brands fa-github"></i>
+          <span data-i18n="project_github_label">View GitHub Repository</span>
+        </a>
+      )}
+    </div>
+
+    <!-- Header Section -->
+    <header class="project-details-header anim-child">
+      <div class="project-header-badge">
+        <span class="badge-dot"></span>
+        <span data-i18n={`project_${cleanId}_category`}>{project.category}</span>
+      </div>
+      <h1 class="project-details-title" data-i18n={`project_${cleanId}_title`}>{project.title}</h1>
+      
+      <div class="project-details-tech-stack">
+        {project.tech.map((t) => (
+          <span class="tech-tag">{t}</span>
+        ))}
+      </div>
+    </header>
+
+    <!-- Main Content Layout -->
+    <div class="project-details-grid">
+      
+      <!-- Left Column: Problem, Solution, Funnel metrics -->
+      <div class="project-details-content-col anim-child">
+        
+        <!-- Problem Card -->
+        <div class="details-card glass-card">
+          <div class="card-icon-header">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <h2 data-i18n="project_problem_label">The Problem</h2>
+          </div>
+          <p class="details-card-text" data-i18n={`project_${cleanId}_problem`}>{project.problem}</p>
+        </div>
+
+        <!-- Solution Card -->
+        <div class="details-card glass-card">
+          <div class="card-icon-header">
+            <i class="fa-solid fa-lightbulb"></i>
+            <h2 data-i18n="project_solution_label">The Solution & Value</h2>
+          </div>
+          <p class="details-card-text" data-i18n={`project_${cleanId}_solution`}>{project.salesDescription}</p>
+        </div>
+
+        <!-- Sales Funnel Impact Card (Highlight Card) -->
+        <div class="details-card glass-card highlight-card">
+          <div class="card-icon-header">
+            <i class="fa-solid fa-chart-line"></i>
+            <h2 data-i18n="project_metrics_label">Sales Funnel Impact</h2>
+          </div>
+          <p class="details-card-text premium-highlight" data-i18n={`project_${cleanId}_metrics`}>{project.salesFunnelMetrics}</p>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Interactive Gallery & Live Dashboard Tabs -->
+      <div class="project-details-media-col anim-child">
+        <div class="media-container glass-card">
+          
+          {/* Tab Header */}
+          <div class="media-tabs">
+            <button class="media-tab active" data-tab="gallery">
+              <i class="fa-solid fa-images"></i>
+              <span data-i18n="project_tab_gallery">Project Gallery</span>
+            </button>
+            {project.powerBiUrl && (
+              <button class="media-tab" data-tab="dashboard">
+                <i class="fa-solid fa-chart-pie"></i>
+                <span data-i18n="project_tab_live">Live Interactive Dashboard</span>
+              </button>
+            )}
+          </div>
+
+          {/* Tab Content 1: Interactive Screenshot Gallery */}
+          <div class="tab-content active" id="content-gallery">
+            <div class="gallery-main-view">
+              {project.images && project.images.length > 0 ? (
+                <>
+                  <Image 
+                    src={resolveAsset(project.images[0])} 
+                    alt={`${project.title} main preview`} 
+                    id="gallery-main-img" 
+                    class="gallery-preview-img"
+                    loading="eager"
+                    width={800}
+                    height={500}
+                  />
+                  <div class="glass-reflection-overlay"></div>
+                </>
+              ) : (
+                <>
+                  <Image 
+                    src={imgAsset} 
+                    alt={project.title}
+                    width={800}
+                    height={500}
+                    class="gallery-preview-img"
+                  />
+                  <div class="glass-reflection-overlay"></div>
+                </>
+              )}
+            </div>
+
+            {project.images && project.images.length > 1 && (
+              <div class="gallery-thumbnails">
+                {project.images.map((imgUrl: string, idx: number) => (
+                  <button 
+                    class={`thumbnail-btn ${idx === 0 ? 'active' : ''}`} 
+                    data-img={resolveAsset(imgUrl).src}
+                    aria-label={`View screenshot ${idx + 1}`}
+                  >
+                    <Image src={resolveAsset(imgUrl)} alt="Thumbnail" loading="lazy" width={120} height={75} />
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {project.powerBiUrl && (
+              <div class="gallery-cta-box">
+                <p data-i18n="gallery_prompt_text">Want to filter the data and explore the metrics interactively?</p>
+                <button class="btn-primary switch-dashboard-btn" id="trigger-live-dash">
+                  <i class="fa-solid fa-circle-play"></i>
+                  <span data-i18n="project_tab_live">Open Live Interactive Dashboard</span>
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Tab Content 2: Live Power BI Dashboard (with fallback notice) */}
+          {project.powerBiUrl && (
+            <div class="tab-content" id="content-dashboard">
+              <div class="dashboard-iframe-wrapper">
+                <iframe 
+                  title={project.title} 
+                  src={project.powerBiUrl} 
+                  allowFullScreen="true"
+                  loading="lazy">
+                </iframe>
+              </div>
+              <div class="dashboard-notice">
+                <i class="fa-solid fa-circle-info"></i>
+                <p data-i18n="powerbi_notice">Note: If the Microsoft Power BI service is blocked on your network or device, please use the <b>Project Gallery</b> tab above to view full high-resolution dashboard exports.</p>
+              </div>
+            </div>
+          )}
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom High-Converting Call-To-Action (CTA) -->
+    <footer class="project-details-footer anim-child">
+      <div class="cta-luxury-banner glass-card">
+        <h2 data-i18n="project_cta_label">Inquire About This Service</h2>
+        <p>Unlock optimized performance, streamlined operations, and high-impact analytics for your business today.</p>
+        <a href={`${import.meta.env.BASE_URL}#contact`} class="btn-primary cta-btn">
+          <span data-i18n="case_study_cta">Start a Similar Project</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+    </footer>
+
+  </div>
+</Layout>
+
+<script>
+  function initProjectMedia() {
+    const tabs = document.querySelectorAll('.media-tab');
+    const contents = document.querySelectorAll('.tab-content');
+    const mainImg = document.getElementById('gallery-main-img') as HTMLImageElement;
+    const thumbnails = document.querySelectorAll('.thumbnail-btn');
+    const triggerDashBtn = document.getElementById('trigger-live-dash');
+
+    // Tab switching
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = tab.getAttribute('data-tab');
+        
+        tabs.forEach(t => t.classList.remove('active'));
+        contents.forEach(c => c.classList.remove('active'));
+        
+        tab.classList.add('active');
+        const activeContent = document.getElementById(`content-${target}`);
+        if (activeContent) activeContent.classList.add('active');
+      });
+    });
+
+    // Thumbnail clicking
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        const newSrc = thumb.getAttribute('data-img');
+        if (!newSrc || !mainImg) return;
+
+        thumbnails.forEach(t => t.classList.remove('active'));
+        thumb.classList.add('active');
+
+        // Smooth fade transition
+        mainImg.style.opacity = '0';
+        setTimeout(() => {
+          mainImg.src = newSrc;
+          mainImg.style.opacity = '1';
+        }, 150);
+      });
+    });
+
+    // CTA button switching to dashboard tab
+    if (triggerDashBtn) {
+      triggerDashBtn.addEventListener('click', () => {
+        const dashTab = document.querySelector('.media-tab[data-tab="dashboard"]') as HTMLButtonElement;
+        if (dashTab) dashTab.click();
+      });
+    }
+  }
+
+  initProjectMedia();
+  document.addEventListener('astro:page-load', initProjectMedia);
+</script>
+
+<style>
+  /* --- Dedicated Page Container Styles --- */
+  .project-details-page-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 120px 16px 60px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  /* Nav actions */
+  .project-details-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .back-link-btn, .github-link-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: rgba(var(--surface-rgb), 0.5);
+    border: 1px solid var(--border-card);
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: color 0.25s ease, border-color 0.25s ease, background 0.25s ease, transform 0.25s ease;
+    min-height: 44px;
+    white-space: nowrap;
+  }
+
+  .back-link-btn:hover, .github-link-btn:hover {
+    color: var(--text);
+    border-color: rgba(var(--accent-a-rgb), 0.3);
+    background: rgba(var(--surface-rgb), 0.8);
+    transform: translateY(-2px);
+  }
+
+  .back-link-btn i {
+    transition: transform 0.25s ease;
+  }
+
+  .back-link-btn:hover i {
+    transform: translateX(-4px);
+  }
+
+  html[dir="rtl"] .back-link-btn:hover i {
+    transform: translateX(4px);
+  }
+
+  /* Header styles */
+  .project-details-header {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .project-header-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px;
+    background: rgba(var(--accent-a-rgb), 0.1);
+    border: 1px solid rgba(var(--accent-a-rgb), 0.2);
+    border-radius: 999px;
+    color: var(--accent-a);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    width: fit-content;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background: var(--accent-a);
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .project-details-title {
+    font-size: clamp(26px, 5vw, 48px);
+    font-weight: 800;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.2;
+  }
+
+  .project-details-tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .tech-tag {
+    font-size: 12px;
+    padding: 5px 12px;
+    background: var(--badge-bg);
+    border-radius: 999px;
+    color: var(--muted);
+    border: 1px solid var(--badge-border);
+  }
+
+  /* Layout Grid — mobile first: single column, dashboard BEFORE content */
+  .project-details-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "media"
+      "content";
+    gap: 24px;
+    align-items: start;
+  }
+
+  .project-details-content-col {
+    grid-area: content;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .project-details-media-col {
+    grid-area: media;
+  }
+
+  /* Cards */
+  .details-card {
+    padding: 20px;
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    background: rgba(var(--surface-rgb), 0.4);
+    border: 1px solid var(--border-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    transition: transform 0.4s ease;
+  }
+
+  .details-card:hover {
+    transform: translateY(-3px);
+    border-color: var(--border-card-hover);
+  }
+
+  /* disable hover lift on touch */
+  @media (hover: none) {
+    .details-card:hover {
+      transform: none;
+    }
+  }
+
+  .card-icon-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--accent-a);
+  }
+
+  .card-icon-header i {
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+
+  .card-icon-header h2 {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  .details-card-text {
+    font-size: 15px;
+    color: var(--text);
+    line-height: 1.7;
+    margin: 0;
+    opacity: 0.88;
+  }
+
+  /* Highlight Card */
+  .highlight-card {
+    border: 1px solid rgba(var(--accent-b-rgb), 0.3);
+    background: linear-gradient(135deg, rgba(var(--surface-rgb), 0.6) 0%, rgba(var(--accent-b-rgb), 0.08) 100%);
+  }
+
+  .highlight-card .card-icon-header {
+    color: var(--accent-b);
+  }
+
+  .premium-highlight {
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  /* --- Interactive Media System Styles --- */
+  .media-container {
+    padding: 16px;
+    border-radius: var(--radius);
+    background: rgba(var(--surface-rgb), 0.4);
+    border: 1px solid var(--border-card);
+    backdrop-filter: blur(16px);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Tab Header */
+  .media-tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--border-card);
+    padding-bottom: 12px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  .media-tabs::-webkit-scrollbar { display: none; }
+
+  .media-tab {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    background: var(--badge-bg);
+    border: 1px solid var(--badge-border);
+    border-radius: 999px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+  }
+
+  .media-tab:hover {
+    color: var(--text);
+    background: var(--badge-bg);
+    opacity: 0.85;
+  }
+
+  .media-tab.active {
+    color: #fff;
+    background: var(--accent-a);
+    border-color: var(--accent-a);
+    box-shadow: 0 4px 15px rgba(var(--accent-a-rgb), 0.35);
+  }
+
+  /* Tab Contents */
+  .tab-content {
+    display: none;
+    flex-direction: column;
+    gap: 16px;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .tab-content.active {
+    display: flex;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* Gallery View */
+  .gallery-main-view {
+    position: relative;
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border-card);
+    background: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .gallery-preview-img {
+    width: 100%;
+    height: auto;
+    max-height: 520px;
+    object-fit: contain;
+    display: block;
+    transition: opacity 0.2s ease;
+  }
+
+  .gallery-thumbnails {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;
+    padding-bottom: 6px;
+    scrollbar-width: none;
+  }
+  .gallery-thumbnails::-webkit-scrollbar { display: none; }
+
+  .thumbnail-btn {
+    width: 72px;
+    height: 52px;
+    border-radius: 6px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    cursor: pointer;
+    background: rgba(0,0,0,0.3);
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+    padding: 0;
+  }
+
+  .thumbnail-btn img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .thumbnail-btn:hover {
+    transform: translateY(-2px);
+    border-color: rgba(var(--accent-a-rgb), 0.5);
+  }
+
+  .thumbnail-btn.active {
+    border-color: var(--accent-a);
+    box-shadow: 0 0 10px rgba(var(--accent-a-rgb), 0.4);
+  }
+
+  /* Gallery CTA box */
+  .gallery-cta-box {
+    padding: 16px;
+    border-radius: 8px;
+    background: rgba(var(--accent-a-rgb), 0.08);
+    border: 1px solid rgba(var(--accent-a-rgb), 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  .gallery-cta-box p {
+    font-size: 13px;
+    color: var(--text);
+    margin: 0;
+    font-weight: 500;
+  }
+
+  .switch-dashboard-btn {
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border-radius: 999px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  /* Dashboard View */
+  .dashboard-iframe-wrapper {
+    position: relative;
+    width: 100%;
+    height: 0;
+    padding-bottom: 85%;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid var(--border-card);
+    background: #0a0a0a;
+  }
+
+  .dashboard-iframe-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  .dashboard-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    background: rgba(255, 170, 0, 0.1);
+    border: 1px solid rgba(255, 170, 0, 0.25);
+    color: #ffaa00;
+  }
+
+  .dashboard-notice i {
+    font-size: 16px;
+    margin-top: 2px;
+    flex-shrink: 0;
+  }
+
+  .dashboard-notice p {
+    font-size: 12px;
+    line-height: 1.5;
+    margin: 0;
+    color: var(--text);
+  }
+  .dashboard-notice p b {
+    color: #ffaa00;
+  }
+
+  .glass-reflection-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0) 50%);
+    pointer-events: none;
+  }
+
+  /* Bottom CTA */
+  .project-details-footer {
+    margin-top: 16px;
+    width: 100%;
+  }
+
+  .cta-luxury-banner {
+    padding: 36px 20px;
+    text-align: center;
+    border-radius: var(--radius);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    background: linear-gradient(180deg, rgba(var(--surface-rgb), 0.5) 0%, rgba(var(--accent-a-rgb), 0.05) 100%);
+    border: 1px solid rgba(var(--accent-a-rgb), 0.15);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  }
+
+  .cta-luxury-banner h2 {
+    font-size: clamp(20px, 4vw, 36px);
+    font-weight: 800;
+    color: var(--text);
+    margin: 0;
+    line-height: 1.25;
+  }
+
+  .cta-luxury-banner p {
+    font-size: clamp(14px, 2vw, 16px);
+    color: var(--muted);
+    max-width: 560px;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  .cta-luxury-banner .cta-btn {
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    min-height: 48px;
+    border-radius: 999px;
+  }
+
+  /* ── Tablet / Desktop overrides ──────────────── */
+  @media (min-width: 768px) {
+    .project-details-page-container {
+      padding: 140px 24px 80px;
+      gap: 40px;
+    }
+
+    .details-card {
+      padding: 28px;
+      gap: 18px;
+    }
+
+    .card-icon-header h2 {
+      font-size: 18px;
+    }
+
+    .details-card-text {
+      font-size: 16px;
+    }
+
+    .media-container {
+      padding: 24px;
+    }
+
+    .dashboard-iframe-wrapper {
+      padding-bottom: 70%;
+    }
+
+    .cta-luxury-banner {
+      padding: 60px 40px;
+    }
+
+    .project-details-content-col {
+      gap: 24px;
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .project-details-page-container {
+      padding: 160px 32px 100px;
+    }
+
+    /* Desktop: side-by-side — content left, media right */
+    .project-details-grid {
+      grid-template-columns: 1fr 1.2fr;
+      grid-template-areas: "content media";
+      gap: 40px;
+    }
+
+    .details-card {
+      padding: 32px;
+    }
+
+    .card-icon-header h2 {
+      font-size: 20px;
+    }
+  }
+
+  /* ── RTL overrides ────────────────────────────── */
+  html[dir="rtl"] .project-details-nav {
+    flex-direction: row-reverse;
+  }
+
+  html[dir="rtl"] .card-icon-header {
+    flex-direction: row-reverse;
+  }
+
+  html[dir="rtl"] .dashboard-header {
+    flex-direction: row-reverse;
+  }
+
+  html[dir="rtl"] .project-details-header {
+    align-items: flex-start;
+  }
+</style>

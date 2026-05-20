@@ -1,0 +1,30 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Hero from '../components/astro/Hero.astro';
+import TrustBar from '../components/ui/TrustBar.astro';
+import ServicesCarousel from '../components/sections/ServicesCarousel.astro';
+import ProjectSlider from '../components/astro/ProjectSlider.astro';
+import Contact from '../components/sections/Contact.astro';
+import projectsData from '../data/projects.json';
+---
+
+<Layout title="Amr Mousa — Portfolio">
+  <Hero />
+  <TrustBar />
+  <ServicesCarousel />
+
+  <section id="projects" aria-labelledby="projects-title">
+    <div class="section-anim-container">
+      <div class="section-inner" style="display: block;">
+        <div class="section-header anim-child">
+          <h2 id="projects-title" class="section-title left-aligned" data-i18n="projects_title">Case Studies</h2>
+          <p class="section-subtitle" data-i18n="projects_subtitle">Real results from real projects. See how we drive growth.</p>
+        </div>
+        
+        <ProjectSlider projects={projectsData} />
+      </div>
+    </div>
+  </section>
+
+  <Contact />
+</Layout>

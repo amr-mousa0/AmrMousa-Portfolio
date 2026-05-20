@@ -1,0 +1,94 @@
+---
+const gaId = import.meta.env.PUBLIC_GA_TRACKING_ID;
+const pixelId = import.meta.env.PUBLIC_META_PIXEL_ID;
+const clarityId = import.meta.env.PUBLIC_CLARITY_ID;
+---
+
+{gaId && (
+  <script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}></script>
+)}
+
+<script is:inline define:vars={{ gaId, pixelId, clarityId }}>
+  // Centralized Analytics Initialization (Runs inline for immediate config)
+  
+  // 1. Google Analytics (GA4)
+  if (gaId) {
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function() { window.dataLayer.push(arguments); };
+    window.gtag('js', new Date());
+    window.gtag('config', gaId, {
+      send_page_view: false // Handled manually below on load and page transition
+    });
+  }
+
+  // 2. Meta Pixel
+  if (pixelId) {
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    
+    window.fbq('init', pixelId);
+  }
+
+  // 3. Microsoft Clarity
+  if (clarityId) {
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", clarityId);
+  }
+</script>
+
+<script>
+  // Bundled script block to bind the utility to the window globally
+  import { trackClick } from '../../utils/trackEvent';
+  
+  if (typeof window !== 'undefined') {
+    window.trackClick = trackClick;
+  }
+</script>
+
+<script is:inline define:vars={{ gaId, pixelId }}>
+  // Pageview tracking helper for initial load and client-side page transitions
+  function trackPageView() {
+    const path = window.location.pathname;
+    
+    // GA4 Page View
+    if (gaId && typeof window.gtag === 'function') {
+      window.gtag('config', gaId, {
+        page_path: path,
+        page_title: document.title
+      });
+      window.gtag('event', 'page_view', {
+        page_path: path,
+        page_title: document.title
+      });
+    }
+
+    // Meta Pixel Page View
+    if (pixelId && typeof window.fbq === 'function') {
+      window.fbq('track', 'PageView');
+      
+      // Specifically track Methodology page visits
+      if (path.includes('/methodology')) {
+        window.fbq('trackCustom', 'MethodologyView', { path: path });
+      }
+    }
+  }
+
+  // Listen for initial load and Astro client-side router page transition
+  document.addEventListener('astro:page-load', trackPageView);
+</script>
+
+{pixelId && (
+  <noscript>
+    <img height="1" width="1" style="display:none"
+         src={`https://www.facebook.com/tr?id=${pixelId}&ev=PageView&noscript=1`} />
+  </noscript>
+)}

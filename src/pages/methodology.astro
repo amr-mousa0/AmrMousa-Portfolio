@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+import About from '../components/sections/About.astro';
+import Skills from '../components/sections/Skills.astro';
+import Experience from '../components/sections/Experience.astro';
+---
+
+<Layout title="Amr Mousa | Methodology & Experience">
+  <div class="methodology-page-wrapper">
+    <div class="nav-container">
+      <a href={`${import.meta.env.BASE_URL}`} class="back-link-btn" aria-label="Back to Portfolio">
+        <i class="fa-solid fa-arrow-left"></i> Back to Portfolio
+      </a>
+    </div>
+    
+    <div class="methodology-content">
+      <About />
+      <Skills />
+      <Experience />
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .methodology-page-wrapper {
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    padding-top: 120px; /* Clear fixed header */
+    padding-bottom: 80px;
+  }
+  
+  .nav-container {
+    position: sticky;
+    top: 96px; /* Stick below the fixed header */
+    z-index: 100;
+    margin-bottom: 2rem;
+    pointer-events: none;
+    max-width: 1500px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 40px;
+  }
+  
+  .back-link-btn {
+    pointer-events: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 50px;
+    background: var(--surface-card);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid var(--border-card);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  }
+  
+  .back-link-btn:hover {
+    background: var(--surface-card-hover);
+    border-color: var(--accent-a);
+    color: var(--accent-a);
+    transform: translateX(-5px);
+    box-shadow: 0 4px 25px rgba(var(--accent-a-rgb), 0.15);
+  }
+
+  .methodology-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  @media (max-width: 768px) {
+    .methodology-page-wrapper {
+      padding-top: 100px;
+      padding-bottom: 40px;
+    }
+    
+    .nav-container {
+      top: 86px;
+      margin-bottom: 1rem;
+      padding: 0 20px;
+    }
+    
+    .methodology-content {
+      gap: 1.5rem;
+    }
+  }
+</style>

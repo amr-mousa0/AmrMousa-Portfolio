@@ -1,0 +1,438 @@
+---
+import servicesData from '../../data/services.json';
+---
+
+<section id="services" aria-labelledby="services-title" class="py-16 px-4 my-12 overflow-hidden relative">
+  <!-- Clean, high-performance container (no massive GPU blur filters) -->
+
+  <div class="max-w-7xl mx-auto relative z-10">
+    
+    <!-- Section Header -->
+    <div class="services-section-header anim-child mb-10">
+      <div class="header-titles font-poppins">
+        <h2 id="services-title" class="text-3xl md:text-4xl font-bold text-text-main mb-3 tracking-tight" data-i18n="services_title">Services & Gigs</h2>
+        <p class="text-sm md:text-base text-muted max-w-xl font-poppins" data-i18n="services_subtitle">Actionable solutions designed to solve bottlenecks, eliminate wasted spend, and drive measurable growth.</p>
+      </div>
+    </div>
+
+    <!-- Premium Compact Services Slider (Cloned from Projects Slider layout) -->
+    <div class="services-slider-wrapper anim-child">
+      
+      <!-- Floating Navigation Controls (< and > circular buttons on the block itself) -->
+      <div class="slider-controls font-poppins">
+        <button class="slider-btn prev-btn" aria-label="Previous service">
+          <i class="fa-solid fa-chevron-left font-normal"></i>
+        </button>
+        <button class="slider-btn next-btn" aria-label="Next service">
+          <i class="fa-solid fa-chevron-right font-normal"></i>
+        </button>
+      </div>
+
+      <div class="services-slider scrolling-wrapper">
+        {servicesData.map((service) => (
+          <article class="service-card-wrapper">
+            <!-- Entire card is clickable/touchable taking user directly to proposal sheet -->
+            <a href={`${import.meta.env.BASE_URL}services/${service.id}`} onclick={`trackClick('service_click', { service_id: '${service.id}' })`} class="service-card font-poppins" aria-label={`View ${service.title} details`}>
+              
+              <!-- ── Glassmorphic Art Box Banner ── -->
+              <div class="luxury-card-banner">
+                <div class="banner-ambient-glow"></div>
+                
+                <div class="banner-top-row font-poppins">
+                  <span class="service-clean-badge font-poppins" data-i18n="service_badge">SERVICE</span>
+                  <span class="status-pulse-dot"></span>
+                </div>
+
+                <!-- Main Glowing Center Icon -->
+                <div class="banner-center-icon font-poppins font-normal">
+                  <i class={service.icon}></i>
+                </div>
+                
+                <div class="banner-glass-overlay"></div>
+              </div>
+
+              <!-- ── Expanded Text Content & Problem-Solving Sales Hook (No bottom button) ── -->
+              <div class="service-card-content font-poppins">
+                <h3 class="service-title font-poppins" data-i18n={`service_${service.id}_title`}>{service.title}</h3>
+                <p class="service-hook font-poppins" data-i18n={`service_${service.id}_copy`}>{service.copy}</p>
+
+                <div class="card-footer font-poppins">
+                  <span class="explore-hint font-poppins font-normal">
+                    <span data-i18n="service_explore">Explore Details</span>
+                    <i class="fa-solid fa-arrow-right font-normal"></i>
+                  </span>
+                </div>
+              </div>
+
+            </a>
+          </article>
+        ))}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  // ── Horizontal card slider with Floating Controls ─────────────
+  function initServicesSlider() {
+    document.querySelectorAll('#services').forEach(section => {
+      const slider = section.querySelector('.services-slider') as HTMLElement;
+      const prev   = section.querySelector('.prev-btn');
+      const next   = section.querySelector('.next-btn');
+      if (!slider || !prev || !next) return;
+
+      const scroll = (dir: number) => {
+        const card = slider.querySelector('.service-card-wrapper') as HTMLElement;
+        const gap  = parseInt(getComputedStyle(slider).gap) || 20;
+        const step = card ? card.offsetWidth + gap : 290;
+        const rtl  = document.documentElement.dir === 'rtl';
+        slider.scrollBy({ left: (rtl ? -dir : dir) * step, behavior: 'smooth' });
+      };
+
+      prev.addEventListener('click', () => scroll(-1));
+      next.addEventListener('click', () => scroll(1));
+    });
+  }
+
+  // Bootstrap immediately and on Astro view-transitions
+  initServicesSlider();
+  document.addEventListener('astro:page-load', initServicesSlider);
+</script>
+
+<style>
+  /* ── Section Header ── */
+  .services-section-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--border-subtle);
+    padding-bottom: 24px;
+  }
+
+  .header-titles {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+  }
+
+  html[dir="rtl"] .header-titles { text-align: right; }
+
+  /* ── Wrapper & horizontal scroll container ─────────────────── */
+  .services-slider-wrapper {
+    position: relative;
+    width: 100%;
+    margin: 30px 0 40px;
+  }
+
+  .services-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding: 10px 10px 40px;
+    margin-bottom: -40px;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .services-slider::-webkit-scrollbar { display: none; }
+
+  /* ── Floating Arrow Controls (Cloned from Projects Slider) ── */
+  .slider-controls {
+    position: absolute;
+    top: 50%;
+    left: -20px;
+    right: -20px;
+    transform: translateY(-60%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .slider-btn {
+    pointer-events: auto;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 1px solid var(--border-subtle);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    font-size: 15px;
+  }
+
+  .slider-btn:hover {
+    background: var(--accent-a);
+    color: #fff;
+    transform: scale(1.1);
+    border-color: var(--accent-a);
+    box-shadow: 0 12px 30px rgba(var(--accent-a-rgb), 0.5);
+  }
+
+  .slider-btn:focus-visible {
+    outline: 2px solid var(--accent-a);
+    outline-offset: 4px;
+    background: var(--accent-a);
+    color: #fff;
+  }
+
+  .slider-btn:active { transform: scale(0.95); }
+
+  html[dir="rtl"] .prev-btn i,
+  html[dir="rtl"] .next-btn i { transform: rotate(180deg); }
+
+  /* ── Card Dimensions — Optimal Luxury Proportions (Fluid Responsive) ── */
+  .service-card-wrapper {
+    width: 85vw;
+    max-width: 360px;
+    min-width: 280px;
+    flex: 0 0 auto;
+    scroll-snap-align: start;
+    display: flex;
+  }
+
+  .service-card-wrapper > * { width: 100%; }
+
+  /* ── Card Shell (Entirely Clickable) ───────────────────────── */
+  .service-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border-faint);
+    border-radius: calc(var(--radius) * 1.2);
+    overflow: hidden;
+    text-decoration: none !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+
+  .service-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+    border-color: rgba(var(--accent-a-rgb), 0.4);
+  }
+
+  .service-card:focus-visible {
+    outline: 2px solid var(--accent-a);
+    outline-offset: 4px;
+    border-color: var(--accent-a);
+  }
+
+  /* ── Glassmorphic Art Box Banner ────────────────────────────── */
+  .luxury-card-banner {
+    position: relative;
+    height: 110px;
+    background: linear-gradient(135deg,
+      rgba(var(--surface-rgb), 0.95) 0%,
+      rgba(var(--accent-b-rgb), 0.12) 50%,
+      rgba(var(--accent-a-rgb), 0.2) 100%);
+    overflow: hidden;
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border-subtle);
+  }
+
+  .banner-ambient-glow {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, rgba(var(--accent-a-rgb), 0.25) 0%, transparent 70%);
+    z-index: 1;
+    transition: opacity 0.5s ease;
+    will-change: opacity, transform;
+  }
+
+  .service-card:hover .banner-ambient-glow {
+    background: radial-gradient(circle at center, rgba(var(--accent-a-rgb), 0.45) 0%, transparent 70%);
+  }
+
+  .banner-top-row {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .service-clean-badge {
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text);
+    line-height: 1;
+    background: rgba(var(--accent-a-rgb), 0.2);
+    padding: 5px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--accent-a);
+  }
+
+  .status-pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-a);
+    border-radius: 50%;
+    box-shadow: 0 0 10px var(--accent-a);
+    animation: pulseDot 2s infinite ease-in-out;
+  }
+
+  @keyframes pulseDot {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.3); opacity: 0.6; box-shadow: 0 0 15px var(--accent-a); }
+  }
+
+  .banner-center-icon {
+    position: relative;
+    z-index: 3;
+    align-self: center;
+    font-size: 32px;
+    color: var(--accent-a);
+    filter: drop-shadow(0 4px 15px rgba(var(--accent-a-rgb), 0.4));
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    margin-bottom: 2px;
+  }
+
+  .service-card:hover .banner-center-icon {
+    transform: scale(1.18) rotate(8deg);
+    filter: drop-shadow(0 6px 20px rgba(var(--accent-a-rgb), 0.7));
+  }
+
+  .banner-glass-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 50%);
+    pointer-events: none;
+    z-index: 2;
+  }
+
+  /* ── Expanded Text Content (Full Persuasive Copy) ───────────── */
+  .service-card-content {
+    padding: 20px 20px 18px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    text-align: left;
+  }
+
+  html[dir="rtl"] .service-card-content { text-align: right; }
+
+  .service-title {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.35;
+    margin: 0 0 12px 0;
+  }
+
+  .service-hook {
+    font-size: 13.5px;
+    color: var(--muted);
+    line-height: 1.6;
+    margin: 0 0 16px 0;
+    flex-grow: 1;
+  }
+
+  /* ── Subtle Explore Hint (Replaces bulky button) ────────────── */
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: auto;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  html[dir="rtl"] .card-footer { justify-content: flex-end; }
+
+  .explore-hint {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text);
+    background: rgba(var(--accent-a-rgb), 0.25);
+    border: 1px solid var(--accent-a);
+    padding: 6px 12px;
+    border-radius: 8px;
+    white-space: nowrap;
+    transition: all 0.25s ease;
+  }
+
+  .service-card:hover .explore-hint {
+    background: var(--accent-a);
+    color: #fff;
+    gap: 8px;
+  }
+
+  .explore-hint i {
+    font-size: 11px;
+    transition: transform 0.25s var(--ease);
+  }
+
+  .service-card:hover .explore-hint i { transform: translateX(4px); }
+  
+  html[dir="rtl"] .explore-hint i { transform: rotate(180deg); }
+  html[dir="rtl"] .service-card:hover .explore-hint i { transform: rotate(180deg) translateX(4px); }
+
+  /* ── Responsive Overrides ───────────────────────────────────── */
+
+  /* Tablet (768px - 1024px) */
+  @media (max-width: 1024px) {
+    .luxury-card-banner { height: 100px; padding: 12px 18px; }
+    .banner-center-icon { font-size: 28px; }
+    .service-title { font-size: 17px; }
+    .service-hook { font-size: 13px; margin-bottom: 14px; }
+    .service-card-content { padding: 18px 18px 16px; }
+  }
+
+  /* Mobile (max-width: 767px) */
+  @media (max-width: 768px) {
+    .services-section-header {
+      padding-bottom: 20px;
+    }
+
+    .services-slider {
+      gap: 16px;
+      padding-bottom: 24px;
+      margin-bottom: -24px;
+    }
+
+    .luxury-card-banner {
+      height: 95px;
+      padding: 12px 16px;
+    }
+
+    .banner-center-icon { font-size: 26px; margin-bottom: 0; }
+    .service-card-content { padding: 16px 16px 14px; }
+    .service-title { font-size: 16px; margin-bottom: 6px; }
+    .service-hook { font-size: 12.5px; line-height: 1.5; margin-bottom: 12px; }
+    .card-footer { padding-top: 12px; }
+
+    .slider-controls {
+      display: none !important;
+    }
+
+    .slider-btn {
+      width: 48px;
+      height: 48px;
+      font-size: 15px;
+    }
+  }
+
+  /* Very small screens (< 360px) */
+  @media (max-width: 360px) {
+    .luxury-card-banner { height: 85px; }
+    .explore-hint span { display: none; } /* Hide text only on tiny screens */
+  }
+</style>

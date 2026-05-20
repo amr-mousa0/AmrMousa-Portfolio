@@ -1,0 +1,540 @@
+---
+---
+
+<section id="who" aria-labelledby="who-title" class="who-section">
+  <div class="who-glow-bg" aria-hidden="true"></div>
+  <div class="who-container">
+    <div class="who-grid">
+      
+      <!-- Left Column: Narrative Storytelling -->
+      <div class="who-content">
+        <div class="who-label-wrapper">
+          <span class="who-label-bar"></span>
+          <h2 id="who-title" class="who-label" data-i18n="who_title">Who I am</h2>
+        </div>
+        <div class="who-heading font-poppins">
+          <span class="reveal-line" data-i18n="who_p1">I translate complex data into clear, actionable insights that drive smarter decision-making.</span>
+        </div>
+        <div class="who-narrative">
+          <p class="reveal-p" data-i18n="who_p2">My journey began in analytics and naturally evolved into a deep interest in human behavior—understanding not just the <em>what</em> of data, but the <em>why</em> behind every interaction.</p>
+          <p class="reveal-p" data-i18n="who_p3">I bridge the gap between technical performance and the human journey, turning patterns and conversions into a cohesive strategy.</p>
+          <p class="reveal-p" data-i18n="who_p4">I believe the most powerful solutions emerge at the intersection of data, strategy, and human understanding.</p>
+          <p class="reveal-p" data-i18n="who_p5">When faced with complexity, I focus on finding direction through structure, patterns, and purposeful insight.</p>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Cinematic Visual Canvas -->
+      <div class="who-visual-column" aria-hidden="true">
+        <div class="who-visual-canvas">
+          <!-- Glassmorphic Card 1: Data Analytics (Foreground) -->
+          <div class="visual-card data-card">
+            <div class="card-glass-glow"></div>
+            <div class="card-header-bar">
+              <span class="dot red"></span>
+              <span class="dot yellow"></span>
+              <span class="dot green"></span>
+            </div>
+            <div class="card-chart-wrapper">
+              <svg viewBox="0 0 100 40" class="mini-chart">
+                <defs>
+                  <linearGradient id="chart-glow" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="var(--accent-a)" stop-opacity="0.4"></stop>
+                    <stop offset="100%" stop-color="var(--accent-a)" stop-opacity="0"></stop>
+                  </linearGradient>
+                </defs>
+                <path d="M0,35 Q15,10 30,25 T60,5 T90,20 L100,10 L100,40 L0,40 Z" fill="url(#chart-glow)"></path>
+                <path d="M0,35 Q15,10 30,25 T60,5 T90,20 L100,10" fill="none" stroke="var(--accent-a)" stroke-width="2" stroke-linecap="round" class="chart-line-draw"></path>
+                <circle cx="60" cy="5" r="3" fill="#fff" class="chart-pulse-node"></circle>
+              </svg>
+            </div>
+            <div class="card-metrics">
+              <div class="metric-row">
+                <span class="metric-title">Performance Index</span>
+                <span class="metric-val text-accent">+250%</span>
+              </div>
+              <div class="metric-bar-bg"><div class="metric-bar-fill fill-accent"></div></div>
+            </div>
+          </div>
+
+          <!-- Glassmorphic Card 2: Marketing Strategy (Background Depth) -->
+          <div class="visual-card strategy-card">
+            <div class="card-glass-glow"></div>
+            <div class="card-metrics">
+              <div class="metric-row">
+                <span class="metric-title">Conversion Rate</span>
+                <span class="metric-val text-secondary">92.4%</span>
+              </div>
+              <div class="metric-bar-bg"><div class="metric-bar-fill fill-secondary"></div></div>
+            </div>
+            <div class="connections-net">
+              <svg viewBox="0 0 80 40" class="net-svg">
+                <circle cx="15" cy="10" r="2" fill="var(--muted)"></circle>
+                <circle cx="40" cy="20" r="2.5" fill="var(--accent-b)"></circle>
+                <circle cx="65" cy="15" r="2" fill="var(--muted)"></circle>
+                <circle cx="50" cy="32" r="1.5" fill="var(--muted)"></circle>
+                <line x1="15" y1="10" x2="40" y2="20" stroke="var(--border-subtle)" stroke-width="0.75"></line>
+                <line x1="40" y1="20" x2="65" y2="15" stroke="var(--border-subtle)" stroke-width="0.75"></line>
+                <line x1="40" y1="20" x2="50" y2="32" stroke="var(--border-subtle)" stroke-width="0.75"></line>
+                <line x1="15" y1="10" x2="50" y2="32" stroke="var(--border-subtle)" stroke-width="0.5" stroke-dasharray="2,2"></line>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Decorative Ambient Glowing Circles -->
+          <div class="ambient-glow orb-1"></div>
+          <div class="ambient-glow orb-2"></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  function initAboutAnimation() {
+    const section = document.querySelector('.who-section');
+    if (!section) return;
+
+    const label = section.querySelector('.who-label-wrapper');
+    const heading = section.querySelector('.who-heading');
+    const paragraphs = section.querySelectorAll('.reveal-p');
+    const dataCard = section.querySelector('.data-card');
+    const strategyCard = section.querySelector('.strategy-card');
+    const orb1 = section.querySelector('.orb-1');
+    const orb2 = section.querySelector('.orb-2');
+    const chartLine = section.querySelector('.chart-line-draw');
+
+    // Reset initial positions to prevent visual jumps
+    gsap.set([label, heading, paragraphs], { opacity: 0, y: 12 });
+    gsap.set([dataCard, strategyCard], { opacity: 0, scale: 0.97, y: 15 });
+    if (chartLine) {
+      gsap.set(chartLine, { strokeDasharray: 100, strokeDashoffset: 100 });
+    }
+
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+    // ScrollTrigger Timeline
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        scroller: "main",
+        start: "top 85%",
+        toggleActions: "play none none none"
+      }
+    });
+
+    if (isMobile) {
+      // Light, GPU-friendly animations for mobile devices
+      tl.to(label, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" })
+        .to(heading, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.25")
+        .to(paragraphs, { opacity: 1, y: 0, stagger: 0.06, duration: 0.4, ease: "power2.out" }, "-=0.3")
+        .to([dataCard, strategyCard], { opacity: 1, scale: 1, y: 0, stagger: 0.08, duration: 0.5, ease: "power2.out" }, "-=0.35");
+    } else {
+      // Cinematic animations on desktop
+      tl.to(label, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" })
+        .to(heading, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.3")
+        .to(paragraphs, { opacity: 1, y: 0, stagger: 0.12, duration: 0.7, ease: "power2.out" }, "-=0.4")
+        .to([dataCard, strategyCard], { opacity: 1, scale: 1, y: 0, stagger: 0.15, duration: 0.8, ease: "back.out(1.2)" }, "-=0.6");
+    }
+
+    if (chartLine) {
+      tl.to(chartLine, { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut" }, "-=0.8");
+    }
+
+    if (!isMobile) {
+      // Gentle parallax effect on scroll (Desktop only)
+      gsap.to(strategyCard, {
+        y: -25,
+        scrollTrigger: {
+          trigger: section,
+          scroller: "main",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true
+        }
+      });
+
+      gsap.to(dataCard, {
+        y: -10,
+        scrollTrigger: {
+          trigger: section,
+          scroller: "main",
+          start: "top bottom",
+          end: "bottom top",
+          scrub: true
+        }
+      });
+
+      if (orb1 && orb2) {
+        gsap.to([orb1, orb2], {
+          x: "random(-20, 20)",
+          y: "random(-20, 20)",
+          duration: 8,
+          repeat: -1,
+          yoyo: true,
+          ease: "sine.inOut"
+        });
+      }
+    }
+  }
+
+  // Run on load and transitions
+  initAboutAnimation();
+  document.addEventListener('astro:page-load', initAboutAnimation);
+</script>
+
+<style>
+  .who-section {
+    position: relative;
+    padding: 100px 40px;
+    background: var(--bg);
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .who-glow-bg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(var(--accent-a-rgb), 0.03) 0%, rgba(0,0,0,0) 70%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .who-container {
+    width: 100%;
+    max-width: 1300px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .who-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  /* Left Column: Content Styling */
+  .who-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 720px;
+  }
+
+  .who-label-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .who-label-bar {
+    width: 24px;
+    height: 2px;
+    background: var(--accent-a);
+    display: inline-block;
+  }
+
+  .who-label {
+    font-size: 13.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    font-weight: 600;
+    color: var(--accent-a);
+  }
+
+  .who-heading {
+    font-size: 28px;
+    line-height: 1.4;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  .who-narrative {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .who-narrative p {
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--muted);
+  }
+
+  .who-narrative p em {
+    color: var(--text);
+    font-style: normal;
+    font-weight: 500;
+  }
+
+  /* Right Column: Interactive Canvas */
+  .who-visual-column {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 100%;
+    height: 400px;
+  }
+
+  .who-visual-canvas {
+    position: relative;
+    width: 100%;
+    max-width: 380px;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .visual-card {
+    position: absolute;
+    background: var(--surface-card);
+    border: 1px solid var(--border-card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    z-index: 5;
+    overflow: hidden;
+  }
+
+  .card-glass-glow {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
+    pointer-events: none;
+  }
+
+  /* Foregound Data Card */
+  .data-card {
+    width: 240px;
+    left: 20px;
+    top: 50px;
+    z-index: 10;
+  }
+
+  .card-header-bar {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 16px;
+  }
+
+  .card-header-bar .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  .card-header-bar .dot.red { background: #ff5f56; }
+  .card-header-bar .dot.yellow { background: #ffbd2e; }
+  .card-header-bar .dot.green { background: #27c93f; }
+
+  .card-chart-wrapper {
+    width: 100%;
+    margin-bottom: 16px;
+  }
+
+  .mini-chart {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .chart-pulse-node {
+    filter: drop-shadow(0 0 4px var(--accent-a));
+    animation: nodePulse 2s infinite ease-in-out;
+  }
+
+  @keyframes nodePulse {
+    0%, 100% { r: 3; opacity: 1; }
+    50% { r: 5; opacity: 0.6; }
+  }
+
+  /* Background Strategy Card */
+  .strategy-card {
+    width: 220px;
+    right: 20px;
+    bottom: 50px;
+    z-index: 6;
+  }
+
+  .connections-net {
+    margin-top: 14px;
+    width: 100%;
+  }
+
+  .net-svg {
+    width: 100%;
+    height: auto;
+  }
+
+  /* Metrics styling within cards */
+  .card-metrics {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .metric-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .metric-title {
+    font-size: 11px;
+    color: var(--muted);
+    font-weight: 500;
+  }
+
+  .metric-val {
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .metric-val.text-accent { color: var(--accent-a); }
+  .metric-val.text-secondary { color: var(--accent-b); }
+
+  .metric-bar-bg {
+    width: 100%;
+    height: 4px;
+    background: var(--badge-bg);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .metric-bar-fill {
+    height: 100%;
+    border-radius: 2px;
+  }
+
+  .metric-bar-fill.fill-accent {
+    width: 75%;
+    background: var(--accent-a);
+  }
+
+  .metric-bar-fill.fill-secondary {
+    width: 92%;
+    background: var(--accent-b);
+  }
+
+  /* Ambient glowing orbs */
+  .ambient-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.15;
+    pointer-events: none;
+  }
+
+  .orb-1 {
+    width: 150px;
+    height: 150px;
+    background: var(--accent-a);
+    top: 20px;
+    right: 40px;
+  }
+
+  .orb-2 {
+    width: 130px;
+    height: 130px;
+    background: var(--accent-b);
+    bottom: 20px;
+    left: 40px;
+  }
+
+  /* Responsive Design */
+  @media (max-width: 1024px) {
+    .who-grid {
+      gap: 40px;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .who-section {
+      padding: 60px 20px;
+    }
+
+    .who-grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .who-content {
+      gap: 20px;
+    }
+
+    .who-heading {
+      font-size: 22px;
+      line-height: 1.45;
+    }
+
+    .who-narrative {
+      gap: 14px;
+    }
+
+    .who-narrative p {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .who-visual-column {
+      height: auto;
+      margin-top: 10px;
+      width: 100%;
+    }
+
+    .who-visual-canvas {
+      max-width: 100%;
+      height: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      position: relative;
+      width: 100%;
+    }
+
+    .visual-card {
+      position: relative;
+      left: auto !important;
+      right: auto !important;
+      top: auto !important;
+      bottom: auto !important;
+      width: 100% !important;
+      max-width: 100%;
+      padding: 14px 16px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      border-radius: 12px;
+    }
+
+    .mini-chart {
+      margin-bottom: 10px;
+    }
+
+    .card-header-bar {
+      margin-bottom: 10px;
+    }
+
+    .connections-net {
+      margin-top: 8px;
+    }
+
+    .ambient-glow {
+      display: none !important;
+    }
+  }
+</style>

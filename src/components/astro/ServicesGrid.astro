@@ -1,0 +1,306 @@
+---
+import gigsData from '../../data/gigs.json';
+import GigCard from './GigCard.astro';
+---
+
+<section id="services" aria-labelledby="services-title">
+  <div class="section-anim-container">
+    <div class="section-inner" style="display: block;">
+      <div class="section-header anim-child">
+        <h2 id="services-title" class="section-title left-aligned" data-i18n="services_title">Services & Gigs</h2>
+        <p class="section-subtitle" data-i18n="services_subtitle">Actionable solutions designed to solve bottlenecks and drive growth.</p>
+      </div>
+
+      <div class="domains-container">
+        {gigsData.map((domain, index) => (
+          <div class="domain-section anim-child" style={`transition-delay: ${index * 0.1}s;`}>
+            <div class="domain-header-wrapper">
+              <div class="domain-header">
+                <div class="domain-icon">
+                  <i class={domain.icon}></i>
+                </div>
+                <div class="domain-info">
+                  <h3 class="domain-title" data-i18n={`domain_${domain.id}_title`}>{domain.domain}</h3>
+                  <p class="domain-desc" data-i18n={`domain_${domain.id}_desc`}>{domain.description}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div class="gigs-slider-container">
+              <div class="gigs-slider" id={`slider-${domain.id}`}>
+                {domain.services.map((gig) => (
+                  <div class="gig-wrapper">
+                    <GigCard gig={gig} />
+                  </div>
+                ))}
+              </div>
+              <div class="slider-controls">
+                <button class="slider-btn prev-btn" onclick={`scrollSlider('slider-${domain.id}', -1)`} aria-label="Previous">
+                  <i class="fa-solid fa-chevron-left"></i>
+                </button>
+                <button class="slider-btn next-btn" onclick={`scrollSlider('slider-${domain.id}', 1)`} aria-label="Next">
+                  <i class="fa-solid fa-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  #services {
+    padding: 100px 20px;
+    position: relative;
+  }
+
+  .section-header {
+    margin-bottom: 60px;
+    text-align: center;
+  }
+
+  .section-title {
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .section-title.left-aligned {
+    text-align: left;
+  }
+
+  .section-subtitle {
+    font-size: 16px;
+    color: var(--muted);
+    max-width: 600px;
+  }
+  
+  html[dir="ltr"] .section-subtitle {
+    margin: 0;
+    text-align: left;
+  }
+
+  html[dir="rtl"] .section-subtitle {
+    margin: 0;
+    text-align: right;
+  }
+
+  .domains-container {
+    display: flex;
+    flex-direction: column;
+    gap: 80px;
+  }
+
+  .domain-section {
+    position: relative;
+  }
+
+  .domain-header-wrapper {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 32px;
+    gap: 20px;
+  }
+
+  .domain-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+  }
+
+  .domain-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 64px;
+    height: 64px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, var(--accent-a), var(--accent-b));
+    color: white;
+    font-size: 24px;
+    flex-shrink: 0;
+    box-shadow: 0 10px 20px rgba(var(--accent-a-rgb), 0.2);
+  }
+
+  .domain-title {
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+    margin: 0 0 8px 0;
+  }
+
+  .domain-desc {
+    font-size: 16px;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.6;
+    max-width: 800px;
+  }
+
+  .gigs-slider-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .gigs-slider {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 24px;
+    padding-bottom: 32px; /* Space for hover effects */
+    margin-bottom: -32px;
+    scroll-behavior: smooth;
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    /* Add padding so first/last cards have breathing room */
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+
+  .gigs-slider::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+
+  .gigs-slider .gig-wrapper {
+    min-width: 320px;
+    max-width: 320px;
+    flex: 0 0 auto;
+    scroll-snap-align: start; /* Changed back to start for standard carousel behavior */
+    display: flex;
+  }
+  
+  .gigs-slider .gig-wrapper > * {
+    width: 100%;
+  }
+
+  .slider-controls {
+    position: absolute;
+    top: 50%;
+    left: 8px; /* Arrow overlapping the card */
+    right: 8px;
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    pointer-events: none; /* Let clicks pass through empty space to cards */
+    z-index: 10;
+  }
+
+  .slider-btn {
+    pointer-events: auto; /* Re-enable clicks on the buttons themselves */
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(var(--surface-rgb), 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+  }
+
+  .slider-btn:hover {
+    background: var(--accent-a);
+    border-color: var(--accent-a);
+    color: white;
+    transform: scale(1.1);
+    box-shadow: 0 10px 20px rgba(var(--accent-a-rgb), 0.4);
+  }
+  
+  .slider-btn:active {
+    transform: scale(0.95);
+  }
+
+  .slider-btn:active {
+    transform: scale(0.95);
+  }
+
+  html[dir="rtl"] .prev-btn i {
+    transform: rotate(180deg);
+  }
+  
+  html[dir="rtl"] .next-btn i {
+    transform: rotate(180deg);
+  }
+
+  @media (max-width: 768px) {
+    .domains-container {
+      gap: 60px;
+    }
+
+    .domain-header-wrapper {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .domain-header {
+      gap: 16px;
+    }
+
+    .domain-icon {
+      width: 48px;
+      height: 48px;
+      font-size: 20px;
+      border-radius: 12px;
+    }
+
+    .domain-title {
+      font-size: 24px;
+    }
+    
+    .slider-controls {
+      display: flex; /* Keep them visible on mobile if user wants them on the card! */
+      left: 0;
+      right: 0;
+    }
+
+    .slider-btn {
+      width: 40px;
+      height: 40px;
+      font-size: 14px;
+    }
+
+    .gigs-slider {
+      gap: 16px; /* slightly smaller gap on mobile */
+      padding-right: 20px; 
+    }
+
+    html[dir="rtl"] .gigs-slider {
+      padding-right: 0;
+      padding-left: 20px;
+    }
+
+    .gigs-slider .gig-wrapper {
+      min-width: 75vw; /* Shows 1 full card (75%) and 25% of the next card peeking! */
+      max-width: 75vw;
+      scroll-snap-align: start;
+    }
+  }
+</style>
+
+<script is:inline>
+  function scrollSlider(sliderId, direction) {
+    const slider = document.getElementById(sliderId);
+    if (!slider) return;
+    
+    const isRtl = document.documentElement.dir === 'rtl';
+    const card = slider.querySelector('.gig-card');
+    if (!card) return;
+    
+    const cardWidth = card.offsetWidth + 24; // Card width + gap
+    // In RTL mode, scrolling left (visually right) might require negative values depending on browser
+    // but smooth scrolling usually handles logic if we just invert direction
+    const scrollAmount = isRtl ? (direction * -cardWidth) : (direction * cardWidth);
+    
+    slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  }
+</script>
