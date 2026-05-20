@@ -57,15 +57,15 @@
   },
   {
     "id": "crm-management",
-    "title": "CRM Setup & Workflow Automation",
-    "copy": "Leads slipping through the cracks? I build CRM systems that capture, nurture, and close every opportunity.",
+    "title": "Custom CRM & Systems Development",
+    "copy": "Losing hot leads to manual follow-up chaos? I build custom web CRM systems linking your orders, team workflows, and analytics to capture every opportunity with zero monthly fees.",
     "gigs": [
-      "CRM Architecture & Custom Setup",
-      "Lead Routing & Sales Funnels",
-      "Email Marketing Automations",
-      "Zapier / Make.com Integrations"
+      "Custom CRM Web Development (No Subscriptions)",
+      "Direct Order-to-Analytics Sync (GA4/GTM)",
+      "Granular Role Privileges & Access Security",
+      "Automated Workflow & Lead Routing Pipelines"
     ],
-    "tags": ["CRM", "Zapier", "APIs"],
+    "tags": ["Custom CRM", "Web Dev", "Analytics", "Workflow"],
     "cta": "Organize Your Workflow",
     "icon": "fa-solid fa-users-gear"
   }

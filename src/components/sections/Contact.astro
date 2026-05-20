@@ -1,7 +1,7 @@
 ---
 ---
 
-<section id="contact" aria-labelledby="contact-title" class="py-20 px-4 my-12 relative">
+<section id="contact" aria-labelledby="contact-title" class="py-20 px-4 my-12 relative contact-desktop-only">
   <div class="max-w-6xl mx-auto bg-surface-card backdrop-blur-md border border-border-card rounded-3xl p-8 md:p-12 shadow-luxury">
     
     <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -17,20 +17,20 @@
 
           <div>
             <label for="name" class="block text-sm font-semibold text-text-main mb-2 font-poppins" data-i18n="contact_label_name">Name</label>
-            <input type="text" id="name" name="name" placeholder="Full Name" class="w-full h-14 px-5 rounded-xl bg-input-bg border border-input-border text-text-main placeholder:text-muted/50 focus:border-accent-a focus:outline-none transition-all font-poppins" data-i18n-ph="contact_ph_name" required />
+            <input type="text" id="name" name="name" placeholder="Full Name" class="w-full h-14 px-5 rounded-xl bg-input-bg border border-input-border text-text-main placeholder:text-muted/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-a focus-visible:border-accent-a transition-all font-poppins" data-i18n-ph="contact_ph_name" required />
           </div>
 
           <div>
             <label for="email" class="block text-sm font-semibold text-text-main mb-2 font-poppins" data-i18n="contact_label_email">Email</label>
-            <input type="email" id="email" name="email" placeholder="your@email.com" class="w-full h-14 px-5 rounded-xl bg-input-bg border border-input-border text-text-main placeholder:text-muted/50 focus:border-accent-a focus:outline-none transition-all font-poppins" data-i18n-ph="contact_ph_email" required />
+            <input type="email" id="email" name="email" placeholder="your@email.com" class="w-full h-14 px-5 rounded-xl bg-input-bg border border-input-border text-text-main placeholder:text-muted/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-a focus-visible:border-accent-a transition-all font-poppins" data-i18n-ph="contact_ph_email" required />
           </div>
 
           <div>
             <label for="message" class="block text-sm font-semibold text-text-main mb-2 font-poppins" data-i18n="contact_label_message">Message</label>
-            <textarea id="message" name="message" placeholder="Tell me about your project or just say hi..." rows="4" class="w-full p-5 rounded-xl bg-input-bg border border-input-border text-text-main placeholder:text-muted/50 focus:border-accent-a focus:outline-none transition-all font-poppins resize-none" data-i18n-ph="contact_ph_message" required></textarea>
+            <textarea id="message" name="message" placeholder="Tell me about your project or just say hi..." rows="4" class="w-full p-5 rounded-xl bg-input-bg border border-input-border text-text-main placeholder:text-muted/50 focus:outline-none focus-visible:ring-2 focus-visible:ring-accent-a focus-visible:border-accent-a transition-all font-poppins resize-none" data-i18n-ph="contact_ph_message" required></textarea>
           </div>
 
-          <button type="submit" class="w-full h-14 rounded-xl bg-accent-a hover:bg-accent-a/80 text-white font-semibold flex items-center justify-center gap-3 shadow-luxury hover:shadow-luxury-hover transition-all duration-300 font-poppins">
+          <button type="submit" class="w-full h-14 rounded-xl bg-accent-a hover:bg-accent-a/80 text-white font-semibold flex items-center justify-center gap-3 shadow-luxury hover:shadow-luxury-hover focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card focus-visible:ring-accent-a transition-all duration-300 font-poppins">
             <span data-i18n="contact_btn_send">Send Message</span>
             <i class="fa-solid fa-paper-plane"></i>
           </button>
@@ -43,7 +43,7 @@
         <div class="space-y-6">
           <h3 class="text-2xl font-bold text-text-main font-poppins">Direct Contact</h3>
           
-          <ul class="space-y-4 text-base font-poppins">
+          <ul class="space-y-4 text-base font-poppins" style="direction: ltr;">
             <li class="flex items-center gap-4 text-muted hover:text-text-main transition-colors">
               <div class="w-12 h-12 rounded-xl bg-badge-bg border border-badge-border flex items-center justify-center text-accent-a flex-shrink-0">
                 <i class="fa-solid fa-at text-lg"></i>
@@ -70,16 +70,16 @@
         <div class="space-y-4">
           <h4 class="text-sm font-semibold text-muted uppercase tracking-wider font-poppins">Social Networks</h4>
           <div class="flex flex-wrap gap-4">
-            <a href="https://www.linkedin.com/in/amr-mousa0" onclick="trackClick('social_click', { platform: 'linkedin' })" aria-label="LinkedIn" target="_blank" class="w-12 h-12 rounded-xl bg-social-bg border border-social-border flex items-center justify-center text-text-main hover:bg-accent-a hover:border-accent-a hover:text-white transition-all duration-300 shadow-sm hover:shadow-luxury">
+            <a href="https://www.linkedin.com/in/amr-mousa0" onclick="trackClick('social_click', { platform: 'linkedin' })" aria-label="LinkedIn" target="_blank" class="w-12 h-12 rounded-xl bg-social-bg border border-social-border flex items-center justify-center text-text-main hover:bg-accent-a hover:border-accent-a hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card focus-visible:ring-accent-a transition-all duration-300 shadow-sm hover:shadow-luxury">
               <i class="fa-brands fa-linkedin-in text-lg"></i>
             </a>
-            <a href="https://github.com/amr-mousa0" onclick="trackClick('social_click', { platform: 'github' })" aria-label="GitHub" target="_blank" class="w-12 h-12 rounded-xl bg-social-bg border border-social-border flex items-center justify-center text-text-main hover:bg-accent-a hover:border-accent-a hover:text-white transition-all duration-300 shadow-sm hover:shadow-luxury">
+            <a href="https://github.com/amr-mousa0" onclick="trackClick('social_click', { platform: 'github' })" aria-label="GitHub" target="_blank" class="w-12 h-12 rounded-xl bg-social-bg border border-social-border flex items-center justify-center text-text-main hover:bg-accent-a hover:border-accent-a hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card focus-visible:ring-accent-a transition-all duration-300 shadow-sm hover:shadow-luxury">
               <i class="fa-brands fa-github text-lg"></i>
             </a>
-            <a href="https://www.facebook.com/amr.mousa.927947" onclick="trackClick('social_click', { platform: 'facebook' })" aria-label="Facebook" target="_blank" class="w-12 h-12 rounded-xl bg-social-bg border border-social-border flex items-center justify-center text-text-main hover:bg-accent-a hover:border-accent-a hover:text-white transition-all duration-300 shadow-sm hover:shadow-luxury">
+            <a href="https://www.facebook.com/amr.mousa.927947" onclick="trackClick('social_click', { platform: 'facebook' })" aria-label="Facebook" target="_blank" class="w-12 h-12 rounded-xl bg-social-bg border border-social-border flex items-center justify-center text-text-main hover:bg-accent-a hover:border-accent-a hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card focus-visible:ring-accent-a transition-all duration-300 shadow-sm hover:shadow-luxury">
               <i class="fa-brands fa-facebook-f text-lg"></i>
             </a>
-            <a href="https://wa.me/201017749925" onclick="trackClick('contact_click', { method: 'whatsapp' })" aria-label="WhatsApp" target="_blank" class="w-12 h-12 rounded-xl bg-social-bg border border-social-border flex items-center justify-center text-text-main hover:bg-accent-a hover:border-accent-a hover:text-white transition-all duration-300 shadow-sm hover:shadow-luxury">
+            <a href="https://wa.me/201017749925" onclick="trackClick('contact_click', { method: 'whatsapp' })" aria-label="WhatsApp" target="_blank" class="w-12 h-12 rounded-xl bg-social-bg border border-social-border flex items-center justify-center text-text-main hover:bg-accent-a hover:border-accent-a hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-card focus-visible:ring-accent-a transition-all duration-300 shadow-sm hover:shadow-luxury">
               <i class="fa-brands fa-whatsapp text-lg"></i>
             </a>
           </div>
@@ -91,3 +91,11 @@
 
   </div>
 </section>
+
+<style>
+  @media (max-width: 768px) {
+    .contact-desktop-only {
+      display: none !important;
+    }
+  }
+</style>

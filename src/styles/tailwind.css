@@ -191,6 +191,7 @@
     overflow-x: hidden;
     scroll-behavior: smooth;
     scroll-snap-type: y proximity;
+    -webkit-overflow-scrolling: touch;
 
     /* DARK MODE grid (default) */
     background-color: #0e0e10;
@@ -208,6 +209,12 @@
       40px 40px;
     background-attachment: local, local, local, local, local;
     transition: background-color var(--trans);
+  }
+
+  @media (max-width: 768px) {
+    main {
+      scroll-snap-type: none;
+    }
   }
 
   /* LIGHT MODE grid */
@@ -2744,9 +2751,9 @@
 
   /* ---------------- Luxury Footer (Quiet Luxury 3-Column Layout) ---------------- */
   .luxury-footer {
-    background: rgba(255, 255, 255, 0.015);
+    background: var(--surface-card);
     backdrop-filter: blur(16px);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--border-card);
     padding: 80px 60px 40px 60px;
     margin-top: 100px;
     display: flex;
@@ -2755,11 +2762,6 @@
     z-index: 10;
     position: relative;
     font-family: 'Poppins', sans-serif;
-  }
-
-  body.light .luxury-footer {
-    background: rgba(255, 255, 255, 0.6);
-    border-top-color: rgba(0, 0, 0, 0.08);
   }
 
   .footer-content {
@@ -4107,7 +4109,7 @@
 
     /* --- Services Section --- */
     #services {
-      padding: 60px 20px !important;
+      padding: 44px 14px !important;
     }
 
     .services-grid {
@@ -4155,7 +4157,7 @@
   /* === للموبايل (أقل من 768px) === */
   @media (max-width: 768px) {
     section {
-      padding: 60px 20px !important;
+      padding: 44px 14px !important;
     }
 
     .competencies-container {
@@ -4365,6 +4367,12 @@
     font-family: 'Playfair Display', serif;
     color: rgba(255, 255, 255, 0.2);
     line-height: 1;
+  }
+
+  @media (max-width: 1280px) {
+    .idea-text {
+      display: none;
+    }
   }
 
   .available-badge {
@@ -4691,12 +4699,13 @@
     }
 
     [dir="rtl"] .split-left {
-      direction: rtl;
+      direction: ltr;
     }
 
     /* idea-text (quote) inside gradient should align right but keep position */
     [dir="rtl"] .idea-text {
       text-align: right;
+      direction: rtl;
     }
 
     [dir="rtl"] .idea-text p {

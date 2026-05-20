@@ -20,7 +20,7 @@ const translations = {
         "hero_description": 'I use data to understand systems, and marketing to <span class="understand-people">understand people.</span>',
         "cta_primary": "Explore Services",
         "cta_contact": "Contact Me",
-        "cta_methodology": "Read the Methodology",
+        "cta_methodology": "Get to Know Me",
         "trust_badge": "Proven Track Record",
         "trust_headline": "Measurable Impact & Scaling Authority",
         "trust_metric1_val": "+250%",
@@ -77,24 +77,25 @@ const translations = {
         "comp_sm_desc": "Managing social media presence through audience-focused content, platform strategy, and consistent brand communication.",
 
         // Services Section
-                "gig_cta": "Inquire",
-        "services_subtitle": "Actionable solutions designed to solve bottlenecks and drive growth.",
+        "gig_cta": "Inquire",
+        "service_badge": "SERVICE",
+        "services_subtitle": "Actionable solutions designed to solve bottlenecks, eliminate wasted spend, and drive measurable growth.",
         "services_title": "Services & Gigs",
         "service_data-analytics_title": "Data Analytics & BI Dashboards",
         "service_media-buying_title": "Marketing Strategy & Media Buying",
         "service_web-portfolios_title": "Custom Web Portfolios & Landing Pages",
         "service_excel-expert_title": "Advanced Excel & Data Structuring",
-        "service_crm-management_title": "CRM Setup & Workflow Automation",
+        "service_crm-management_title": "Custom CRM & Systems Development",
         "service_data-analytics_copy": "Your competitors see their numbers in real-time. You're still waiting for last month's report. Let's fix that.",
         "service_media-buying_copy": "Tired of pouring money into Meta Ads and hearing crickets? Let's build campaigns that actually bring paying clients.",
         "service_web-portfolios_copy": "Visitors land on your page and leave in seconds. I design premium experiences that make them stay and buy.",
         "service_excel-expert_copy": "Your spreadsheets are a mess and your reports take days. I turn chaos into one-click automated dashboards.",
-        "service_crm-management_copy": "Leads slipping through the cracks? I build CRM systems that capture, nurture, and close every opportunity.",
+        "service_crm-management_copy": "Spending thousands on ads but losing hot leads to manual follow-up chaos? Click to see how we stop this budget bleeding immediately.",
         "service_data-analytics_prop_summary": "Stop guessing. I transform raw data into interactive dashboards that reveal bottlenecks, track live KPIs, and maximize ROI.",
         "service_media-buying_prop_summary": "Expose which ad campaigns actually convert. I manage and scale paid campaigns to eliminate wasted ad spend and drive qualified leads.",
         "service_web-portfolios_prop_summary": "I design and develop ultra-fast, luxurious web portfolios and landing pages engineered to convert visitors into premium clients.",
         "service_excel-expert_prop_summary": "Say goodbye to manual entry. I automate messy spreadsheets, build financial models, and create advanced VBA workflows.",
-        "service_crm-management_prop_summary": "Replace repetitive manual tasks with streamlined automated workflows. I connect your CRM, spreadsheets, and apps to save hours.",
+        "service_crm-management_prop_summary": "No more manual mistakes or lost leads. I develop custom CRM web platforms with tailored user privileges, automated lead routing, and direct analytics sync.",
         "domain_data-analytics_title": "Data Analytics & BI",
         "domain_data-analytics_desc": "Transforming raw data into strategic decisions that solve operational bottlenecks and maximize ROI.",
         "gig_power-bi_title": "Power BI Interactive Dashboards",
@@ -180,12 +181,12 @@ const translations = {
         "service_sm_deliv3": "Performance analytics & recommendations",
         "service_sm_deliv4": "Brand voice & identity development",
 
-        "service_crm_title": "CRM & Data Management",
-        "service_crm_desc": "Organize, clean, and leverage your customer data to build lasting loyalty.",
-        "service_crm_deliv1": "Customer data cleaning & preparation",
-        "service_crm_deliv2": "Segmentation for targeted marketing",
-        "service_crm_deliv3": "Email & Loyalty program management",
-        "service_crm_deliv4": "Customer journey mapping from data",
+        "service_crm_title": "Custom CRM & Systems Development",
+        "service_crm_desc": "Develop custom web CRM applications connecting orders, team roles, and analytics to eliminate manual errors and track every lead.",
+        "service_crm_deliv1": "Custom CRM web application with role-based privileges",
+        "service_crm_deliv2": "Direct integration linking orders to analytics (GA4/GTM)",
+        "service_crm_deliv3": "Automated lead capture & customized workflow routing",
+        "service_crm_deliv4": "End-to-end sales funnel tracking & data consistency tools",
 
         // Experience Section
         "exp_intern_title": "Internship Data Analyst",
@@ -262,7 +263,7 @@ const translations = {
         "achieve_macq_desc": "Through this specialization from Macquarie University, I can bring data to life using advanced Excel functions, creative visualizations, and powerful automation features.",
         "achieve_ibm_found_title": "IBM - Data Analysis and Visualization Foundations",
         "achieve_ibm_found_desc": "I learned foundational data analysis, visualization, and dashboard creation using core tools like Excel and Cognos Analytics.",
-        
+
         "achieve_cat_analytics": "Data Analytics",
         "achieve_cat_marketing": "Digital Marketing",
         "achieve_cat_sql": "SQL & Data Analysis",
@@ -281,12 +282,12 @@ const translations = {
         "test_ammar_name": "Ammar Elbedweihy",
 
         // Contact Section
-        "contact_title": "Initiate Your Growth Strategy",
-        "contact_subtitle": "Stop making decisions in the dark. Tell me about your current bottlenecks, data goals, or marketing targets, and let's build an actionable roadmap.",
-        "contact_label_name": "Your Name",
+        "contact_title": "Ready to Discuss Your Project and Develop a Growth Plan?",
+        "contact_subtitle": "Skip the generic tactics. Share your business goals or current bottlenecks, and let's design a clear, custom roadmap to develop your operations and scale your revenue.",
+        "contact_label_name": "Full Name",
         "contact_label_email": "Email Address",
         "contact_label_message": "Project Scope & Goals",
-        "contact_btn_send": "Send Message & Start Scaling",
+        "contact_btn_send": "Let's Discuss Your Project & Start Developing",
         "contact_ph_name": "What should I call you?",
         "contact_ph_email": "Where can I reach you? (e.g. name@company.com)",
         "contact_ph_message": "Tell me about your current data bottlenecks, marketing budget, or timeline expectations...",
@@ -301,7 +302,7 @@ const translations = {
         "project_dashboard_label": "Live Interactive Dashboard",
         "project_cta_label": "Inquire About This Service",
         "project_github_label": "View GitHub Repository",
-        
+
         "project_coffee_category": "Data Analytics & BI",
         "project_coffee_problem": "The café was crippled by operational blindness: high perishable inventory waste, unpredictable customer peak hours, and complete lack of visibility into which products drove 80% of their revenue from a dirty, raw 10,000-row transaction history.",
         "project_coffee_solution": "Utilized Excel UNIQUE and XLOOKUP to clean 95% of data anomalies. Engineered a robust relational Star Schema database in Power BI, writing complex DAX queries to dynamically segment peak sales periods.",
@@ -316,7 +317,7 @@ const translations = {
         "project_gym_problem": "The business was trapped in 'profitability illusion'—relying on manual paper ledgers, losing revenue to uncollected billing leakages, and suffering from 80% customer churn.",
         "project_gym_solution": "Digitized 5 years of paper records into a Power BI model, implementing advanced financial analytics (CAGR, Break-Even analysis, and product cost allocations across Supplements, Beverages, and Subscriptions).",
         "project_gym_metrics": "Revealed a -28% CAGR decline despite cost-cutting, identified 93,000 EGP in leaked unbilled memberships, a 43% net loss in supplement pricing, and provided strategic controls to recover revenue and stop churn.",
-        
+
         "hero_subheadline": "",
         "trust_badge": "Proven Track Record",
         "trust_headline": "Measurable Impact & Scaling Authority",
@@ -361,13 +362,13 @@ const translations = {
         "service_excel-expert_gig_3": "Data Consolidation & Formatting",
         "service_excel-expert_cta": "Automate Spreadsheets",
 
-        "service_crm-management_title": "CRM Setup & Workflow Automation",
-        "service_crm-management_copy": "Replace repetitive manual tasks with streamlined automated workflows. I connect your CRM, spreadsheets, and apps to save hours.",
-        "service_crm-management_gig_0": "CRM Architecture & Custom Setup",
-        "service_crm-management_gig_1": "Lead Routing & Sales Funnels",
-        "service_crm-management_gig_2": "Email Marketing Automations",
-        "service_crm-management_gig_3": "Zapier / Make.com Integrations",
-        "service_crm-management_cta": "Organize Your Workflow",
+        "service_crm-management_title": "Custom CRM & Systems Development",
+        "service_crm-management_copy": "Spending thousands on ads but losing hot leads to manual follow-up chaos? Click to see how we stop this budget bleeding immediately.",
+        "service_crm-management_gig_0": "Custom CRM Web Development (No Subscriptions)",
+        "service_crm-management_gig_1": "Direct Order-to-Analytics Sync (GA4/GTM)",
+        "service_crm-management_gig_2": "Granular Role Privileges & Access Security",
+        "service_crm-management_gig_3": "Automated Workflow & Lead Routing Pipelines",
+        "service_crm-management_cta": "Develop Your Custom CRM",
 
         // Dedicated Service Proposal Pages (EN)
         "proposal_intro_label": "Executive Summary",
@@ -418,15 +419,15 @@ const translations = {
         "service_excel-expert_prop_get_3": "Locked sheets with drop-downs and validation, preventing human-input errors.",
         "service_excel-expert_prop_get_4": "Perfect integration-ready sheets matching standard schema formats for BI software.",
 
-        "service_crm-management_prop_summary": "Your software stack should talk to each other. I architect, integrate, and automate your CRMs (HubSpot, Zoho, Salesforce) and apps using Zapier or Make.com, ensuring leads flow smoothly without a single manual click.",
-        "service_crm-management_prop_do_1": "Mapping lead sources, deal pipelines, custom fields, and email sequences.",
-        "service_crm-management_prop_do_2": "Architecting the relational sync between your marketing ads, sheets, and CRM.",
-        "service_crm-management_prop_do_3": "Coding Zapier and Make integrations for lead routing and instant Slack notices.",
-        "service_crm-management_prop_do_4": "Designing drip-email logic workflows to nurture leads through different deal stages.",
-        "service_crm-management_prop_get_1": "A fully automated pipeline routing leads to sales representatives in under 5 minutes.",
-        "service_crm-management_prop_get_2": "15+ hours saved weekly by completely offloading manual sales administration.",
-        "service_crm-management_prop_get_3": "Centralized database where no contact details, notes, or attachments are lost.",
-        "service_crm-management_prop_get_4": "Higher retention rates via automatic post-purchase onboarding emails and messages."
+        "service_crm-management_prop_summary": "Relying on expensive CRM subscriptions or messy spreadsheets that don't talk to your website? I develop custom web CRM applications tailored entirely to your workflow. I connect your orders directly with Google Analytics (GA4/GTM) and setup automated lead routing and employee privileges, ensuring not a single lead is lost and your marketing data is 100% accurate.",
+        "service_crm-management_prop_do_1": "Mapping your lead lifecycle, order statuses, custom sales funnels, and team privilege levels.",
+        "service_crm-management_prop_do_2": "Building a custom CRM web app (no per-user fees) with a clean database architecture.",
+        "service_crm-management_prop_do_3": "Integrating direct, zero-delay APIs linking web orders to analytics and team notifications (WhatsApp/Slack).",
+        "service_crm-management_prop_do_4": "Coding automated workflows to track deal stages, assign leads, and monitor sales performance.",
+        "service_crm-management_prop_get_1": "100% custom CRM platform owned by you, eliminating expensive monthly software subscription fees.",
+        "service_crm-management_prop_get_2": "Zero lost leads: instant automatic capturing and routing to your sales team in under 60 seconds.",
+        "service_crm-management_prop_get_3": "100% accurate analytics sync linking orders to GA4/GTM to track true marketing ROAS.",
+        "service_crm-management_prop_get_4": "Granular user privilege levels, preventing data leaks and ensuring employees only see their assigned leads."
     },
     ar: {
         // Navigation
@@ -449,7 +450,7 @@ const translations = {
         "hero_description": 'بستخدم البيانات عشان أفهم الأنظمة، وبستخدم التسويق عشان <span class="understand-people">أفهم الناس.</span>',
         "cta_primary": "تصفح الخدمات",
         "cta_contact": "تواصل معايا",
-        "cta_methodology": "تصفح المنهجية",
+        "cta_methodology": "اعرف المزيد عني",
 
         // Who Section
         "who_title": "مين أنا",
@@ -495,18 +496,59 @@ const translations = {
         "comp_sm_desc": "إدارة التواجد على السوشيال ميديا من خلال محتوى مخصص للجمهور، استراتيجيات المنصات، والتواصل المستمر بهوية البراند.",
 
         // Services Section
-        "services_title": "خدمات احترافية",
+        "services_title": "الخدمات والحلول المتاحة",
+        "services_subtitle": "حلول عملية مصممة لمعالجة الاختناقات، وتقليل الهدر في الميزانية، وتحقيق نمو قابل للقياس.",
+        "gig_cta": "استفسر الآن",
+        "service_badge": "خدمة",
         "service_explore": "استكشاف التفاصيل",
+
+        "domain_data-analytics_title": "تحليل البيانات وذكاء الأعمال",
+        "domain_data-analytics_desc": "تحويل البيانات الخام لقرارات استراتيجية بتحل مشاكل التشغيل وبتعظم العائد على الاستثمار.",
+        "gig_power-bi_title": "لوحات تحكم تفاعلية (Power BI)",
+        "gig_power-bi_desc": "لوحات تنفيذية مخصصة لتتبع المبيعات، حركة المخزون، والأداء المالي بشكل لحظي وتفصيلي.",
+        "gig_sql-expert_title": "تحليل قواعد البيانات بـ SQL",
+        "gig_sql-expert_desc": "كتابة سكريبتات SQL متقدمة لاستخراج وتنظيف وتحليل مجموعات البيانات المعقدة من قواعد البيانات.",
+        "gig_excel-cleaning_title": "أكسيل متقدم وهيكلة البيانات",
+        "gig_excel-cleaning_desc": "أتمتة المهام، تنظيف البيانات العشوائية، وتحويل التقارير غير المهيكلة لجداول عملية.",
+        "gig_etl-pipelines_title": "هندسة وتنظيف البيانات (ETL)",
+        "gig_etl-pipelines_desc": "بناء مسارات مؤتمتة لتنظيف ودمج البيانات من مصادر متعددة في مصدر واحد موثوق.",
+        "gig_financial-modeling_title": "النماذج المالية والتوقعات",
+        "gig_financial-modeling_desc": "نماذج مالية متقدمة، تخطيط الميزانيات، وتحليل التدفقات النقدية لدعم الإدارة العليا.",
+
+        "domain_marketing_title": "التسويق وشراء المساحات الإعلانية",
+        "domain_marketing_desc": "جذب زيارات مستهدفة وبناء قمع مبيعات عالي التحويل من خلال استراتيجيات تسويق مبنية على البيانات.",
+        "gig_media-buying_title": "إعلانات ميتا (فيسبوك وإنستجرام)",
+        "gig_media-buying_desc": "إدارة الإعلانات باستهداف دقيق للجمهور وتحسين مستمر للعائد على الإنفاق الإعلاني (ROAS).",
+        "gig_content-strategy_title": "استراتيجية وتطوير المحتوى",
+        "gig_content-strategy_desc": "تخطيط محتوى متكامل مخصص لكل مرحلة من مراحل رحلة العميل (من الوعي للتحويل).",
+        "gig_social-management_title": "إدارة السوشيال ميديا والتصميم",
+        "gig_social-management_desc": "إدارة تواجد علامتك التجارية، تصميمات جذابة، وزيادة تفاعل المجتمع.",
+        "gig_google-ads_title": "إعلانات جوجل والتسويق عبر البحث",
+        "gig_google-ads_desc": "استهداف العملاء ذوي النية الشرائية العالية بحملات إعلانية مُحسنة على شبكة البحث والظهور.",
+        "gig_cro-audit_title": "تحسين معدل التحويل (CRO)",
+        "gig_cro-audit_desc": "مراجعة صفحات الهبوط ومسار المستخدم لتحديد نقاط التسرب وإجراء اختبارات A/B لزيادة المبيعات.",
+
+        "domain_tech-web_title": "الحلول التقنية وبرمجة الويب",
+        "domain_tech-web_desc": "بناء البنية التحتية الرقمية المطلوبة لجمع العملاء المحتملين وإدارة العلاقات بفعالية.",
+        "gig_web-dev_title": "برمجة مواقع مخصصة",
+        "gig_web-dev_desc": "برمجة صفحات هبوط ومواقع سريعة ومتجاوبة ومصممة خصيصاً لتحويل الزوار لعملاء.",
+        "gig_crm-setup_title": "إعداد وإدارة الـ CRM",
+        "gig_crm-setup_desc": "تطبيق وتخصيص أنظمة إدارة علاقات العملاء لتتبع المبيعات وأتمتة المتابعات.",
+        "gig_landing-pages_title": "صفحات هبوط عالية التحويل",
+        "gig_landing-pages_desc": "تطوير صفحات هبوط سريعة جداً مُهندسة خصيصاً لحملات الإعلانات المدفوعة.",
+        "gig_web-analytics_title": "تحليلات الويب وتتبع البيكسل",
+        "gig_web-analytics_desc": "إعداد GTM وبيكسل ميتا وGA4 لتتبع دقيق لأداء الإعلانات وتحركات المستخدمين.",
         "service_data-analytics_title": "تحليل البيانات ولوحات التحكم",
         "service_media-buying_title": "إدارة الحملات الإعلانية",
-        "service_web-portfolios_title": "تصميم وتطوير مواقع الويب",
+        "service_web-portfolios_title": "تصميم وتطوير البورتفوليو",
         "service_excel-expert_title": "حلول إكسيل المتقدمة وأتمتة الداتا",
-        "service_crm-management_title": "تنظيم وإدارة الـ CRM والأتمتة",
+        "service_crm-management_title": "برمجة وتطوير أنظمة الـ CRM المخصصة",
         "service_data-analytics_copy": "منافسينك شايفين أرقامهم لحظة بلحظة. وانت لسه مستني تقرير الشهر اللي فات. تعالى نحل الموضوع.",
         "service_media-buying_copy": "زهقت تصرف فلوس على إعلانات ميتا ومفيش نتيجة؟ تعالى نبني حملات تجيبلك عملاء فعلاً.",
         "service_web-portfolios_copy": "الزوّار بيدخلوا صفحتك وبيمشوا في ثواني. أنا بصمّم تجارب فاخرة تخليهم يقعدوا ويشتروا.",
         "service_excel-expert_copy": "شيتاتك فوضى وتقاريرك بتاخد أيام. بحوّل الفوضى لداشبوردات أوتوماتيك بضغطة زرار.",
-        "service_crm-management_copy": "ليدز بتضيع منك؟ ببني أنظمة CRM تمسك كل فرصة وتحوّلها لعميل.",
+        "service_crm-management_copy": "بتصرف آلاف الدولارات على الإعلانات والليدز بتضيع منك في النص بسبب بهدلة الشغل اليدوي؟ ادخل شوف إزاي هنوقف النزيف ده فوراً.",
+        "service_crm-management_prop_summary": "انسى الغلطات البشرية والليدز الضايعة. هبني لك نظام ويب مخصص لإدارة المبيعات والعملاء (CRM) يربط أوردراتك بالتحليلات مباشرة مع صلاحيات تحكم كاملة لفريق العمل وأتمتة مسارات التشغيل.",
         "service_tag_analytics": "تحليلات",
         "service_tag_database": "قواعد بيانات",
         "service_tag_efficiency": "كفاءة",
@@ -556,12 +598,12 @@ const translations = {
         "service_sm_deliv3": "تحليل أداء المحتوى وتقديم توصيات",
         "service_sm_deliv4": "بناء هوية البراند وتفاعلها مع الجمهور",
 
-        "service_crm_title": "إدارة علاقات العملاء (CRM) والبيانات",
-        "service_crm_desc": "تنظيم وتظيف واستغلال بيانات عملائك لبناء ولاء دايم.",
-        "service_crm_deliv1": "تنظيف وتجهيز بيانات العملاء",
-        "service_crm_deliv2": "تقسيم العملاء لزيادة التفاعل",
-        "service_crm_deliv3": "إدارة حملات البريد الإلكتروني والـ Loyalty",
-        "service_crm_deliv4": "تحسين تجربة العميل بناءً على بياناته",
+        "service_crm_title": "برمجة وتطوير أنظمة الـ CRM المخصصة",
+        "service_crm_desc": "تطوير أنظمة CRM ويب مخصصة تربط الأوردرات بالتحليلات وصلاحيات الموظفين، لمنع أي تسرب للعملاء المحتملين وتوفير بيانات دقيقة.",
+        "service_crm_deliv1": "تطوير نظام ويب CRM مخصص بالكامل مع صلاحيات تحكم للموظفين",
+        "service_crm_deliv2": "ربط مباشر وتلقائي للأوردرات مع أدوات التحليلات والبيكسل",
+        "service_crm_deliv3": "أتمتة كاملة لمسارات العمل (Workflows) وتوجيه الليدز تلقائياً",
+        "service_crm_deliv4": "تتبع دقيق لمسار المبيعات بالكامل ومنع الأخطاء البشرية",
 
         // Experience Section
         "exp_intern_title": "متدرب تحليل بيانات",
@@ -572,7 +614,7 @@ const translations = {
         "exp_intern_bullet3": "اشتغلت مع فريق محترف وطلعت نتائج قوية من خلال عروض تقديمية تقنية.",
         "exp_intern_bullet4": "وازنت بين التحليل التقني ومنطق البيزنس وقدمت توصيات مبنية على البيانات.",
 
-        "exp_media_title": "مشتري مساحات إعلانية | مطور محتوى",
+        "exp_media_title": "ميديا باينج | كونتنت ديفيلوبر",
         "exp_media_company": "So Care",
         "exp_media_date": "يناير ٢٠٢٦ – حالياً",
         "exp_media_bullet1": "أدرت وحسنت حملات تسويقية أداءها عالي، وحققت زيادة +٢٥٠٪ في إجمالي الإيرادات.",
@@ -638,7 +680,7 @@ const translations = {
         "achieve_macq_desc": "من خلال التخصص ده من جامعة ماكواري، بقدر أحول البيانات لقصة واضحة ومؤثرة باستخدام دوال Excel المتقدمة، الرسوم البيانية المبتكرة، وأدوات الأتمتة القوية.",
         "achieve_ibm_found_title": "أساسيات تحليل وتصور البيانات من IBM",
         "achieve_ibm_found_desc": "اتعلمت الأسس والقواعد المهنية لتحليل البيانات، تصميم الرسوم البيانية، وبناء لوحات المعلومات التفاعلية باستخدام Excel و Cognos Analytics.",
-        
+
         "achieve_cat_analytics": "تحليل البيانات",
         "achieve_cat_marketing": "التسويق الرقمي",
         "achieve_cat_sql": "SQL وتحليل البيانات",
@@ -657,18 +699,18 @@ const translations = {
         "test_ammar_name": "عمار البدوييهي",
 
         // Contact Section
-        "contact_title": "ابدأ استراتيجية نمو أعمالك",
-        "contact_subtitle": "بلاش تاخد قرارات عشوائية. كلمني عن التحديات اللي بتواجهك في بياناتك أو أهدافك التسويقية، وخلينا نبني خطة عمل واضحة تحقق أرباح فعلية.",
-        "contact_label_name": "الاسم الكريم",
+        "contact_title": "جاهز نناقش مشروعك ونشوف هنطوره إزاي؟",
+        "contact_subtitle": "تجاوز عشوائية القرارات والعمل اليدوي المستنزف للوقت. احكيلي عن فكرة مشروعك أو التحديات التشغيلية التي تواجهك، وتعال نرسم معًا خطة عمل واضحة ومجانية لتطوير أرقامك وزيادة كفاءتك.",
+        "contact_label_name": "الاسم الكامل",
         "contact_label_email": "البريد الإلكتروني",
         "contact_label_message": "تفاصيل وأهداف المشروع",
-        "contact_btn_send": "إرسال الرسالة وابدأ النمو",
-        "contact_ph_name": "أتشرف باسمك إيه؟",
-        "contact_ph_email": "أقدر أتواصل معاك فين؟ (مثال: name@company.com)",
-        "contact_ph_message": "كلمني عن التحديات اللي بتواجهك في بياناتك، الميزانية المقترحة، أو توقعاتك للوقت...",
+        "contact_btn_send": "يلا نناقش مشروعك وابعت رسالتك",
+        "contact_ph_name": "أتشرف بكتابة اسمك الكريم هنا...",
+        "contact_ph_email": "أين يمكنني التواصل معك؟ (مثال: name@company.com)",
+        "contact_ph_message": "يرجى مشاركة التحديات التي تواجهك حالياً، أو الميزانية التقديرية، أو التوقعات الزمنية للمشروع...",
         "contact_location": "القاهرة - مصر",
         "sticky_whatsapp": "واتساب",
-        "sticky_call": "اتصل بيا",
+        "sticky_call": "اتصل بي",
 
         // Dedicated Projects Pages
         "project_problem_label": "المشكلة اللي كانت موجودة",
@@ -677,7 +719,7 @@ const translations = {
         "project_dashboard_label": "لوحة البيانات التفاعلية (Live Power BI)",
         "project_cta_label": "اطلب الخدمة / استفسر الآن",
         "project_github_label": "عرض كود المشروع على GitHub",
-        
+
         "project_coffee_category": "تحليل البيانات وذكاء الأعمال",
         "project_coffee_problem": "كان الكافيه يعاني من غياب كامل للرؤية: هدر كبير في المخزون، عدم استقرار ساعات ذروة الزبائن، والجهل بالمنتجات التي تقود ٨٠٪ من إجمالي الإيرادات من واقع داتا معاملات POS غير منظمة تحتوي على ١٠ آلاف صف.",
         "project_coffee_solution": "استخدمت دوال Excel المتقدمة (UNIQUE و XLOOKUP) لتنظيف وتعديل ٩٥٪ من شذوذ البيانات، وصممت Star Schema متكامل يربط جداول المعاملات والأبعاد في Power BI بكتابة معادلات DAX متطورة لتتبع المبيعات كل ساعة.",
@@ -729,11 +771,11 @@ const translations = {
         "service_excel-expert_gig_3": "دمج وتنسيق البيانات من مصادر متعددة",
         "service_excel-expert_cta": "أتمت ملفات الإكسيل",
 
-        "service_crm-management_gig_0": "تصميم وتجهيز أنظمة الـ CRM",
-        "service_crm-management_gig_1": "توجيه العملاء وتصميم مسارات البيع",
-        "service_crm-management_gig_2": "أتمتة حملات البريد الإلكتروني",
-        "service_crm-management_gig_3": "ربط البرامج ببعضها عن طريق Zapier / Make",
-        "service_crm-management_cta": "نظم سير عملك",
+        "service_crm-management_gig_0": "برمجة وتطوير أنظمة CRM ويب مخصصة",
+        "service_crm-management_gig_1": "ربط الأوردرات المباشر بأدوات التحليلات (GA4/GTM)",
+        "service_crm-management_gig_2": "صلاحيات ومستويات تحكم كاملة للموظفين",
+        "service_crm-management_gig_3": "أتمتة كاملة لمسارات العمل وتوجيه الليدز",
+        "service_crm-management_cta": "طور نظام الـ CRM الخاص بك",
 
         // Dedicated Service Proposal Pages (AR)
         "proposal_intro_label": "الملخص التنفيذي",
@@ -784,15 +826,15 @@ const translations = {
         "service_excel-expert_prop_get_3": "حماية كاملة للملفات وقوائم منسدلة منظمة تمنع أخطاء الإدخال البشري تماماً.",
         "service_excel-expert_prop_get_4": "تنظيم مثالي للبيانات بهيكل موحد جاهز للربط مع أدوات Power BI مباشرة.",
 
-        "service_crm-management_prop_summary": "ربط برامجك ببعضها هو سر سرعة الإنتاجية. أنا بأتمت وبربط الـ CRM بتاعك (HubSpot, Zoho, Salesforce) مع شيتاتك وبرامجك بـ Zapier أو Make.com عشان العملاء يتدفقوا بدون أي تدخل يدوي.",
-        "service_crm-management_prop_do_1": "رسم مسارات العملاء ومراحل البيع وتحديد الحقول المخصصة وسلاسل الإيميل المناسبة.",
-        "service_crm-management_prop_do_2": "ربط إعلانات السوشيال ميديا وشيتات البيانات بنظام الـ CRM بشكل فوري وآمن.",
-        "service_crm-management_prop_do_3": "برمجة وتجهيز روبوتات الأتمتة لإرسال إشعارات فورية لفريقك على Slack أو الواتساب عند وصول عميل جديد.",
-        "service_crm-management_prop_do_4": "تصميم قمع بيع متكامل بالإيميلات والرسائل التلقائية لتنبيه العملاء ومتابعتهم.",
-        "service_crm-management_prop_get_1": "قمع مبيعات أوتوماتيكي بالكامل يوزع العملاء على فريق المبيعات في أقل من 5 دقائق.",
-        "service_crm-management_prop_get_2": "توفير 15+ ساعة عمل أسبوعية كانت تضيع في المهام الروتينية والإدارية.",
-        "service_crm-management_prop_get_3": "قاعدة بيانات مركزية آمنة تضمن عدم ضياع أي بيانات تواصل أو ملاحظات خاصة بالعميل.",
-        "service_crm-management_prop_get_4": "زيادة احتفاظ وولاء العملاء من خلال إيميلات ورسائل ترحيبية ومتابعة تلقائية بعد الشراء."
+        "service_crm-management_prop_summary": "بتدفع اشتراكات شهرية خيالية لـ CRM جاهز أو تايه في شيتات إكسيل والليدز بتقع منك؟ هبنيلك نظام CRM ويب مخصص لشركتك بالكامل، يربط أوردراتك بالتحليلات (GA4/GTM) لحظياً مع توزيع أوتوماتيكي للعملاء وصلاحيات دقيقة لموظفينك، عشان تضمن إن مفيش عميل واحد يضيع وداتا إعلاناتك تكون صحيحة 100% وبدون اشتراكات شهرية غالية لكل مستخدم.",
+        "service_crm-management_prop_do_1": "رسم وتحديد دورة حياة العميل (Lead Lifecycle)، مراحل البيع، وصلاحيات الموظفين بدقة.",
+        "service_crm-management_prop_do_2": "برمجة وتطوير سيستم الـ CRM ويب مخصص بالكامل وقاعدة بيانات آمنة تناسب حجم شغلك.",
+        "service_crm-management_prop_do_3": "ربط الأوردرات تلقائياً بـ GTM و GA4 لتتبع الإعلانات بدقة، مع أتمتة إشعارات الواتساب وفريق العمل.",
+        "service_crm-management_prop_do_4": "تطوير مسارات تشغيل تلقائية (Workflows) لتوجيه العملاء ومتابعة أداء المبيعات لحظة بلحظة.",
+        "service_crm-management_prop_get_1": "سيستم CRM خاص بيك ملكية كاملة، بيوفر عليك آلاف الدولارات من الاشتراكات الشهرية المتكررة.",
+        "service_crm-management_prop_get_2": "توزيع فوري وأوتوماتيكي للعملاء الجدد على موظفي المبيعات في أقل من دقيقة لسرعة الرد ومنع خسارتهم.",
+        "service_crm-management_prop_get_3": "تحليلات دقيقة بنسبة 100% تربط أوردراتك الحقيقية بالحملات الإعلانية لحساب العائد الفعلي (ROAS) بدقة.",
+        "service_crm-management_prop_get_4": "أمان كامل وصلاحيات محددة تمنع تسريب داتا العملاء وتخلي كل موظف يشوف شغله وبس."
     }
 };
 
