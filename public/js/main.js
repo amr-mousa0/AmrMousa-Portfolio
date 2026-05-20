@@ -301,7 +301,7 @@ function initApp() {
     // Hide loader on load
     const luxuryLoader = document.getElementById('luxury-loader');
     if (luxuryLoader) {
-        const minLoaderTime = 800;
+        const minLoaderTime = 300;
         const initTime = Date.now();
         function hideLoader() {
             const elapsed = Date.now() - initTime;
@@ -310,10 +310,10 @@ function initApp() {
                 luxuryLoader.classList.add('hidden');
             }, remaining);
         }
-        if (document.readyState === 'complete') {
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
             hideLoader();
         } else {
-            window.addEventListener('load', hideLoader);
+            document.addEventListener('DOMContentLoaded', hideLoader);
         }
     }
 

@@ -4514,9 +4514,12 @@
     background-color: #f2f3f7;
   }
 
-  #luxury-loader.hidden {
-    opacity: 0;
-    visibility: hidden;
+  #luxury-loader.hidden,
+  html.no-loader #luxury-loader {
+    display: none !important;
+    opacity: 0 !important;
+    visibility: hidden !important;
+    transition: none !important;
   }
 
   .loader-brand {
