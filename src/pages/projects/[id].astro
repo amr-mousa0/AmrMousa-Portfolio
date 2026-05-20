@@ -35,7 +35,10 @@ const matchedAsset = allImages[project.imagePath] as any;
 const imgAsset = matchedAsset ? matchedAsset.default : fallbackImg;
 ---
 
-<Layout title={`${project.title} — Amr Mousa Portfolio`}>
+<Layout 
+  title={`${project.title} — Amr Mousa Portfolio`}
+  description={project.description}
+>
   <div class="project-details-page-container">
     
     <!-- Top Nav / Back button -->

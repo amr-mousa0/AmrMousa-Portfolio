@@ -5,10 +5,15 @@ import Analytics from '../components/astro/Analytics.astro';
 import '../styles/tailwind.css';
 interface Props {
   title: string;
+  description?: string;
   lang?: string;
   dir?: string;
 }
-const { title, lang = Astro.currentLocale || 'en' } = Astro.props;
+const { 
+  title, 
+  description = "Amr Mousa — Expert Data Analyst, BI Specialist & Marketing Strategist. Transforming complex data into high-ROI business decisions in Egypt & Worldwide. عمرو موسى — خبير تحليل البيانات وتطوير الأعمال.",
+  lang = Astro.currentLocale || 'en' 
+} = Astro.props;
 let { dir = 'ltr' } = Astro.props;
 if (lang === 'ar') dir = 'rtl';
 
@@ -22,7 +27,7 @@ const currentPath = Astro.url.pathname;
   <title>{title}</title>
   
   <!-- ── Advanced SEO & GEO Meta Tags ────────────────────────────── -->
-  <meta name="description" content="Amr Mousa — Expert Data Analyst, BI Specialist & Marketing Strategist. Transforming complex data into high-ROI business decisions in Egypt & Worldwide. عمرو موسى — خبير تحليل البيانات وتطوير الأعمال." />
+  <meta name="description" content={description} />
   <meta name="keywords" content="Amr Mousa, Data Analyst Amr Mousa, Marketing Strategist Egypt, Power BI Expert Cairo, SQL Analyst, Business Intelligence Egypt, عمرو موسى, محلل بيانات عمرو موسى, خبير Power BI مصر, Data Visualization" />
   <meta name="author" content="Amr Mousa" />
   <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
@@ -40,7 +45,7 @@ const currentPath = Astro.url.pathname;
   <!-- OpenGraph / Facebook -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content={title} />
-  <meta property="og:description" content="Amr Mousa — Expert Data Analyst, BI Specialist & Marketing Strategist. Transforming complex data into high-ROI business decisions." />
+  <meta property="og:description" content={description} />
   <meta property="og:image" content={`${import.meta.env.BASE_URL}images/Amr-Mousa.JPG`} />
   <meta property="og:url" content={Astro.url ? Astro.url.href : "https://amrmousa.com"} />
   <meta property="og:site_name" content="Amr Mousa — Portfolio" />
@@ -50,7 +55,7 @@ const currentPath = Astro.url.pathname;
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
-  <meta name="twitter:description" content="Amr Mousa — Expert Data Analyst, BI Specialist & Marketing Strategist. Transforming complex data into high-ROI business decisions." />
+  <meta name="twitter:description" content={description} />
   <meta name="twitter:image" content={`${import.meta.env.BASE_URL}images/Amr-Mousa.JPG`} />
 
   <!-- ── Resource Preloads & Core Web Vitals ─────────────────────── -->
