@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://amr-mousa0.github.io',
-  base: '/AmrMousa-Portofolio/',
+  base: process.env.VERCEL ? '/' : '/AmrMousa-Portofolio/',
 
   i18n: {
     defaultLocale: "en",

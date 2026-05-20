@@ -1,9 +1,9 @@
 /**
  * Egyptian Arabic Localization & Global UI Interactivity Logic
- * Handles language switching, dictionary lookup, theme toggle, drawer, modals, audio, and scroll animations.
+ * Handles language switching, dictionary lookup, theme toggle, drawer, modals, and scroll animations.
  */
 
-window.trackClick = window.trackClick || function(eventName, eventData = {}) {
+window.trackClick = window.trackClick || function (eventName, eventData = {}) {
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({
         event: eventName,
@@ -20,7 +20,7 @@ function updateContent() {
         const key = el.getAttribute('data-i18n');
         if (translations[currentLang] && translations[currentLang][key]) {
             const translation = translations[currentLang][key];
-            
+
             // Handle HTML content if it's the hero description or similar
             if (translation.includes('<')) {
                 el.innerHTML = translation;
@@ -51,12 +51,12 @@ function toggleLanguage() {
 
     const luxuryLoader = document.getElementById('luxury-loader');
     const html = document.documentElement;
-    
+
     // 1. Show Loader and spirited messages
     if (luxuryLoader) {
         const loaderTitle = luxuryLoader.querySelector('.loader-job-title');
         if (loaderTitle) {
-            const messages = currentLang === 'en' 
+            const messages = currentLang === 'en'
                 ? ["بنظبط زوايا التصميم...", "بنجهز الأكواد بالحب...", "بنرتب البيانات بكل شياكة..."]
                 : ["Aligning architectural precision...", "Curating data elegance...", "Manifesting luxury experience..."];
             loaderTitle.textContent = messages[Math.floor(Math.random() * messages.length)];
@@ -65,9 +65,6 @@ function toggleLanguage() {
         luxuryLoader.style.opacity = '';
         luxuryLoader.style.visibility = '';
     }
-
-    // 2. Play Click Sound
-    if (typeof playClick === 'function') playClick();
 
     // 3. Perform Switch after brief delay (Loader cinematic feel)
     setTimeout(() => {
@@ -94,51 +91,19 @@ function toggleLanguage() {
 }
 
 /* ===== Global UI Interactivity ===== */
-let isMuted = localStorage.getItem('amr_muted') === '1';
 let drawerOpen = false;
-let introPlayed = false;
 
 function applyTheme(name) {
     const themeBtn = document.getElementById('themeBtn');
     if (name === 'light') {
         document.body.classList.add('light');
-        if (themeBtn) themeBtn.textContent = '🌞';
+        if (themeBtn) themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
     } else {
         document.body.classList.remove('light');
-        if (themeBtn) themeBtn.textContent = '🌙';
+        if (themeBtn) themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
     }
     localStorage.setItem('amr_theme', name);
     document.querySelectorAll('.blob').forEach(b => b.style.opacity = document.body.classList.contains('light') ? 0.08 : 0.12);
-}
-
-function setMuted(v) {
-    isMuted = !!v;
-    localStorage.setItem('amr_muted', isMuted ? '1' : '0');
-    const muteBtn = document.getElementById('muteBtn');
-    if (muteBtn) muteBtn.textContent = isMuted ? '🔇' : '🔊';
-    const introAudio = document.getElementById('introAudio');
-    const clickAudio = document.getElementById('clickAudio');
-    if (introAudio) introAudio.muted = isMuted;
-    if (clickAudio) clickAudio.muted = isMuted;
-}
-
-function playClick() {
-    if (isMuted) return;
-    const clickAudio = document.getElementById('clickAudio');
-    if (!clickAudio) return;
-    try {
-        clickAudio.currentTime = 0;
-        clickAudio.play();
-    } catch (e) { }
-}
-
-function firstGesture() {
-    const introAudio = document.getElementById('introAudio');
-    if (!introPlayed && !isMuted && introAudio) {
-        introAudio.play().catch(() => { });
-        introPlayed = true;
-    }
-    window.removeEventListener('pointerdown', firstGesture);
 }
 
 function setDrawer(open) {
@@ -162,12 +127,12 @@ function setDrawer(open) {
 function goToSection(sel) {
     const luxuryLoader = document.getElementById('luxury-loader');
     const target = document.querySelector(sel);
-    
+
     // Check if we are on the homepage (accounting for base path)
-    const isHomePage = window.location.pathname === (window.BASE_URL || '/') || 
-                       window.location.pathname === (window.BASE_URL || '/').replace(/\/$/, '') || 
-                       window.location.pathname === '/';
-    
+    const isHomePage = window.location.pathname === (window.BASE_URL || '/') ||
+        window.location.pathname === (window.BASE_URL || '/').replace(/\/$/, '') ||
+        window.location.pathname === '/';
+
     if (!isHomePage) {
         if (window.location.pathname.includes('/methodology') && sel === '#who') {
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -179,7 +144,6 @@ function goToSection(sel) {
             const homeUrl = (window.BASE_URL || '/');
             if (luxuryLoader) {
                 luxuryLoader.classList.remove('hidden');
-                playClick();
                 setTimeout(() => {
                     window.location.href = homeUrl + sel;
                 }, 400);
@@ -189,7 +153,7 @@ function goToSection(sel) {
             return;
         }
     }
-    
+
     function updateFocus() {
         if (target) {
             target.setAttribute('tabindex', '-1');
@@ -199,7 +163,6 @@ function goToSection(sel) {
 
     if (luxuryLoader) {
         luxuryLoader.classList.remove('hidden');
-        playClick();
         setTimeout(() => {
             target?.scrollIntoView({ behavior: 'auto', block: 'start' });
             updateFocus();
@@ -208,7 +171,6 @@ function goToSection(sel) {
     } else {
         target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         updateFocus();
-        playClick();
     }
 }
 
@@ -249,23 +211,14 @@ function initApp() {
         themeBtn.onclick = () => {
             const now = document.body.classList.contains('light') ? 'dark' : 'light';
             applyTheme(now);
-            playClick();
         };
     }
 
-    const muteBtn = document.getElementById('muteBtn');
-    setMuted(isMuted);
-    if (muteBtn) {
-        muteBtn.onclick = () => { setMuted(!isMuted); };
-    }
-
-    window.addEventListener('pointerdown', firstGesture, { passive: true });
-
     const menuBtn = document.getElementById('menuBtn');
-    if (menuBtn) menuBtn.onclick = () => { setDrawer(!drawerOpen); playClick(); };
-    
+    if (menuBtn) menuBtn.onclick = () => { setDrawer(!drawerOpen); };
+
     const closeBtn = document.getElementById('closeBtn');
-    if (closeBtn) closeBtn.onclick = () => { setDrawer(false); playClick(); };
+    if (closeBtn) closeBtn.onclick = () => { setDrawer(false); };
 
     const drawer = document.getElementById('drawer');
     if (drawer) {
@@ -287,21 +240,12 @@ function initApp() {
         if (e.key === 'Escape' && modal && modal.classList.contains('active')) closeModal();
     });
 
-    if (!window.audioClickDelegated) {
-        window.audioClickDelegated = true;
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('button, a')) {
-                playClick();
-            }
-        }, { passive: true });
-    }
-
 
 
     // Hide loader on load
     const luxuryLoader = document.getElementById('luxury-loader');
     if (luxuryLoader) {
-        const minLoaderTime = 800;
+        const minLoaderTime = 300;
         const initTime = Date.now();
         function hideLoader() {
             const elapsed = Date.now() - initTime;
@@ -310,10 +254,10 @@ function initApp() {
                 luxuryLoader.classList.add('hidden');
             }, remaining);
         }
-        if (document.readyState === 'complete') {
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
             hideLoader();
         } else {
-            window.addEventListener('load', hideLoader);
+            document.addEventListener('DOMContentLoaded', hideLoader);
         }
     }
 
@@ -360,11 +304,11 @@ function initApp() {
                     scrollTopBtn.classList.remove('visible');
                 }
             }
-            
+
             // Skip section scrollspy highlights on subpages
-            const isHomePage = window.location.pathname === (window.BASE_URL || '/') || 
-                               window.location.pathname === (window.BASE_URL || '/').replace(/\/$/, '') || 
-                               window.location.pathname === '/';
+            const isHomePage = window.location.pathname === (window.BASE_URL || '/') ||
+                window.location.pathname === (window.BASE_URL || '/').replace(/\/$/, '') ||
+                window.location.pathname === '/';
             if (!isHomePage) return;
 
             if (sectionOffsets.length === 0) cacheOffsets();

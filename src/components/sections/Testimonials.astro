@@ -21,7 +21,7 @@ function resolveAvatar(avatarPath: string) {
     </div>
 
     <!-- Mobile Carousel (Scroll Snap) / Desktop Grid -->
-    <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:grid md:grid-cols-3 md:gap-8 md:overflow-x-visible scrollbar-none">
+    <div class="flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 md:grid md:grid-cols-3 md:gap-8 md:overflow-x-visible scrollbar-none testimonials-slider">
       {testimonialsData.map((testimonial) => (
         <article class="bg-surface/40 backdrop-blur-md border border-white/10 rounded-2xl p-8 shadow-luxury flex flex-col justify-between min-w-[85vw] md:min-w-0 snap-start transition-all duration-300 hover:border-accent-a/40 hover:shadow-luxury-hover group">
           
@@ -62,6 +62,10 @@ function resolveAvatar(avatarPath: string) {
 </section>
 
 <style>
+  .testimonials-slider {
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
+  }
   /* Hide scrollbar for Chrome, Safari and Opera */
   .scrollbar-none::-webkit-scrollbar {
     display: none;
