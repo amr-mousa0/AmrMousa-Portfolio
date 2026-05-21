@@ -765,12 +765,10 @@
     0%,
     100% {
       transform: translateY(0) scale(1);
-      box-shadow: 0 10px 25px rgba(var(--accent-a-rgb), 0.15);
     }
 
     50% {
       transform: translateY(-2px) scale(1.01);
-      box-shadow: 0 15px 35px rgba(var(--accent-a-rgb), 0.25);
     }
   }
 
@@ -778,13 +776,11 @@
 
     0%,
     100% {
-      border-color: var(--border-color);
-      box-shadow: 0 0 0 transparent;
+      opacity: 1;
     }
 
     50% {
-      border-color: var(--accent-a);
-      box-shadow: 0 0 15px rgba(var(--accent-a-rgb), 0.15);
+      opacity: 0.8;
     }
   }
 
