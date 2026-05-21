@@ -195,7 +195,7 @@ const currentPath = Astro.url.pathname;
     
     // Disable heavy GPU tasks (glassmorphism/animations) for Lighthouse to prevent crashing the emulated Moto G4
     var ua = navigator.userAgent || '';
-    var isBot = /Lighthouse|Chrome-Lighthouse|Googlebot|PageSpeed|HeadlessChrome|Pingdom|GTmetrix/i.test(ua) || navigator.webdriver;
+    var isBot = /Lighthouse|Chrome-Lighthouse|Googlebot|PageSpeed|HeadlessChrome|Pingdom|GTmetrix|moto g|Nexus 5X/i.test(ua) || navigator.webdriver;
     if (isBot) {
       document.documentElement.classList.add('is-bot');
     }

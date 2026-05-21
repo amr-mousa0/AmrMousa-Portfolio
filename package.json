@@ -19,6 +19,8 @@
   "devDependencies": {
     "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.60.0",
-    "@types/node": "^25.9.0"
+    "@types/node": "^25.9.0",
+    "browserslist": "^4.28.2",
+    "lightningcss": "^1.32.0"
   }
 }
