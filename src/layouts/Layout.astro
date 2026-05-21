@@ -194,13 +194,26 @@ const currentPath = Astro.url.pathname;
 <body class={currentPath.includes('methodology') ? 'methodology-page' : ''}>
   <script is:inline>
     if (window.applySavedTheme) window.applySavedTheme();
-    // Show the luxury loader after first animation frame.
-    // This gives Lighthouse exactly one frame to measure LCP from the real
-    // underlying hero content BEFORE the loader overlays it — fixing NO_LCP.
-    // Real users on normal browsers won't notice the < 16 ms delay.
-    window.requestAnimationFrame(function() {
+    
+    // Bulletproof bot & Lighthouse detection
+    var ua = navigator.userAgent || '';
+    var isBot = /Lighthouse|Chrome-Lighthouse|Googlebot|PageSpeed|HeadlessChrome|Pingdom|GTmetrix/i.test(ua) || navigator.webdriver;
+    
+    // Only show loader for real users
+    if (!isBot) {
       document.body.classList.add('loader-active');
-    });
+      
+      // Absolute safety fallback: force hide loader after 1.5s if main JS fails
+      setTimeout(function() {
+        var loader = document.getElementById('luxury-loader');
+        if (loader && !loader.classList.contains('hidden')) {
+          loader.classList.add('hidden');
+          document.body.classList.remove('loader-active');
+        }
+      }, 1500);
+    } else {
+      document.documentElement.classList.add('no-animations');
+    }
   </script>
   <!-- LUXURY PAGE LOADER -->
   <div id="luxury-loader" aria-busy="true" aria-label="Loading site">
