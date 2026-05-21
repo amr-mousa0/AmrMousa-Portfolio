@@ -15,30 +15,33 @@ let currentLang = localStorage.getItem('amr_lang') || 'en';
 let isTransitioning = false;
 
 function updateContent() {
-    const elements = document.querySelectorAll('[data-i18n]');
-    elements.forEach(el => {
-        const key = el.getAttribute('data-i18n');
-        if (translations[currentLang] && translations[currentLang][key]) {
-            const translation = translations[currentLang][key];
-
-            // Handle HTML content if it's the hero description or similar
-            if (translation.includes('<')) {
-                el.innerHTML = translation;
-            } else {
-                el.textContent = translation;
+    // Skip heavy DOM mutations when language is already English (default).
+    // This is critical: updating text on the h1 (even with the same value)
+    // invalidates the LCP candidate, causing Lighthouse mobile to report NO_LCP.
+    if (currentLang !== 'en') {
+        const elements = document.querySelectorAll('[data-i18n]');
+        elements.forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (translations[currentLang] && translations[currentLang][key]) {
+                const translation = translations[currentLang][key];
+                if (translation.includes('<')) {
+                    el.innerHTML = translation;
+                } else {
+                    el.textContent = translation;
+                }
             }
-        }
-    });
+        });
 
-    const phElements = document.querySelectorAll('[data-i18n-ph]');
-    phElements.forEach(el => {
-        const key = el.getAttribute('data-i18n-ph');
-        if (translations[currentLang] && translations[currentLang][key]) {
-            el.setAttribute('placeholder', translations[currentLang][key]);
-        }
-    });
+        const phElements = document.querySelectorAll('[data-i18n-ph]');
+        phElements.forEach(el => {
+            const key = el.getAttribute('data-i18n-ph');
+            if (translations[currentLang] && translations[currentLang][key]) {
+                el.setAttribute('placeholder', translations[currentLang][key]);
+            }
+        });
+    }
 
-    // Update toggle button text
+    // Always update button label (small, no LCP impact)
     const langBtn = document.getElementById('langBtn');
     if (langBtn) {
         langBtn.textContent = currentLang === 'en' ? 'AR' : 'EN';
