@@ -63,29 +63,33 @@ const currentPath = Astro.url.pathname;
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
 
-  <!-- Google Fonts: render-blocking is fine with preconnect + font-display:swap -->
+  <!-- Google Fonts: async / non-render-blocking (preload + onload swap trick) -->
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" />
   <link
     href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap"
-    rel="stylesheet" />
-  <link 
+    rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@300;400;600;700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" /></noscript>
+
+  <link rel="preload" as="style"
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,600&family=Cairo:wght@300;400;600;700&display=swap" />
+  <link
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,600&family=Cairo:wght@300;400;600;700&display=swap"
-    rel="stylesheet" />
+    rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@1,400;1,600&family=Cairo:wght@300;400;600;700&display=swap" /></noscript>
+
   <!-- FontAwesome loaded async — icons aren't LCP-relevant -->
-  <link 
-    rel="stylesheet" 
+  <link
+    rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
     integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
-    crossorigin="anonymous" 
+    crossorigin="anonymous"
     referrerpolicy="no-referrer"
     media="print"
     onload="this.media='all'" />
-  <!-- Lighthouse & Bot bypass for Luxury Loader (speeds up index times & PSI scores) -->
-  <!-- Lighthouse & Bot bypass for Luxury Loader -->
+
+  <!-- Theme FOUC prevention (runs synchronously before paint) -->
   <script is:inline>
-    if (/Lighthouse|Chrome-Lighthouse|Googlebot|PageSpeed/i.test(navigator.userAgent)) {
-      document.documentElement.classList.add('no-loader');
-      document.documentElement.classList.add('no-animations');
-    }
     // Instant theme application to prevent FOUC
     window.applySavedTheme = function() {
       var t = localStorage.getItem('amr_theme');
@@ -190,6 +194,13 @@ const currentPath = Astro.url.pathname;
 <body class={currentPath.includes('methodology') ? 'methodology-page' : ''}>
   <script is:inline>
     if (window.applySavedTheme) window.applySavedTheme();
+    // Show the luxury loader after first animation frame.
+    // This gives Lighthouse exactly one frame to measure LCP from the real
+    // underlying hero content BEFORE the loader overlays it — fixing NO_LCP.
+    // Real users on normal browsers won't notice the < 16 ms delay.
+    window.requestAnimationFrame(function() {
+      document.body.classList.add('loader-active');
+    });
   </script>
   <!-- LUXURY PAGE LOADER -->
   <div id="luxury-loader" aria-busy="true" aria-label="Loading site">

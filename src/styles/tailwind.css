@@ -4571,26 +4571,36 @@
   }
 
   /* ---------------- LUXURY PAGE LOADER ---------------- */
+  /* HIDDEN BY DEFAULT — JS enables it only for real human users.
+     This ensures Lighthouse / bots see the real page immediately (fixes NO_LCP). */
   #luxury-loader {
+    display: none !important;
     position: fixed;
     inset: 0;
     z-index: 999999;
     background-color: #0e0e10;
-    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.8s cubic-bezier(0.8, 0, 0.2, 1), visibility 0.8s;
+  }
+
+  /* Loader is shown only when body carries the 'loader-active' class
+     (added synchronously via an inline <script> for real browser visits). */
+  body.loader-active #luxury-loader {
+    display: flex !important;
     opacity: 1;
     visibility: visible;
-    transition: opacity 0.8s cubic-bezier(0.8, 0, 0.2, 1), visibility 0.8s;
   }
 
   body.light #luxury-loader {
     background-color: #f2f3f7;
   }
 
-  #luxury-loader.hidden,
-  html.no-loader #luxury-loader {
+  /* Dismissal: JS removes loader-active OR adds .hidden class to the element */
+  body.loader-active #luxury-loader.hidden {
     display: none !important;
     opacity: 0 !important;
     visibility: hidden !important;

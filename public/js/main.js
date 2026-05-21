@@ -52,7 +52,7 @@ function toggleLanguage() {
     const luxuryLoader = document.getElementById('luxury-loader');
     const html = document.documentElement;
 
-    // 1. Show Loader and spirited messages
+    // 1. Show Loader with spirited messages
     if (luxuryLoader) {
         const loaderTitle = luxuryLoader.querySelector('.loader-job-title');
         if (loaderTitle) {
@@ -62,11 +62,10 @@ function toggleLanguage() {
             loaderTitle.textContent = messages[Math.floor(Math.random() * messages.length)];
         }
         luxuryLoader.classList.remove('hidden');
-        luxuryLoader.style.opacity = '';
-        luxuryLoader.style.visibility = '';
+        document.body.classList.add('loader-active');
     }
 
-    // 3. Perform Switch after brief delay (Loader cinematic feel)
+    // 2. Perform Switch after brief delay (Loader cinematic feel)
     setTimeout(() => {
         currentLang = currentLang === 'en' ? 'ar' : 'en';
         localStorage.setItem('amr_lang', currentLang);
@@ -78,13 +77,12 @@ function toggleLanguage() {
         // Update all text content
         updateContent();
 
-        // 4. Hide Loader
+        // 3. Hide Loader
         setTimeout(() => {
             if (luxuryLoader) {
                 luxuryLoader.classList.add('hidden');
-                luxuryLoader.style.opacity = '';
-                luxuryLoader.style.visibility = '';
             }
+            document.body.classList.remove('loader-active');
             isTransitioning = false;
         }, 600);
     }, 400);
@@ -144,6 +142,7 @@ function goToSection(sel) {
             const homeUrl = (window.BASE_URL || '/');
             if (luxuryLoader) {
                 luxuryLoader.classList.remove('hidden');
+                document.body.classList.add('loader-active');
                 setTimeout(() => {
                     window.location.href = homeUrl + sel;
                 }, 400);
@@ -163,10 +162,14 @@ function goToSection(sel) {
 
     if (luxuryLoader) {
         luxuryLoader.classList.remove('hidden');
+        document.body.classList.add('loader-active');
         setTimeout(() => {
             target?.scrollIntoView({ behavior: 'auto', block: 'start' });
             updateFocus();
-            setTimeout(() => { luxuryLoader.classList.add('hidden'); }, 600);
+            setTimeout(() => {
+                luxuryLoader.classList.add('hidden');
+                document.body.classList.remove('loader-active');
+            }, 600);
         }, 400);
     } else {
         target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -242,7 +245,7 @@ function initApp() {
 
 
 
-    // Hide loader on load
+    // Dismiss loader on load (works with the new loader-active CSS system)
     const luxuryLoader = document.getElementById('luxury-loader');
     if (luxuryLoader) {
         const minLoaderTime = 300;
@@ -252,6 +255,7 @@ function initApp() {
             const remaining = Math.max(0, minLoaderTime - elapsed);
             setTimeout(() => {
                 luxuryLoader.classList.add('hidden');
+                document.body.classList.remove('loader-active');
             }, remaining);
         }
         if (document.readyState === 'complete' || document.readyState === 'interactive') {
