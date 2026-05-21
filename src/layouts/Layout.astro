@@ -264,41 +264,34 @@ const currentPath = Astro.url.pathname;
   <script src="../utils/cleanNavigation.js"></script>
 
   <script>
-    import { gsap } from "gsap";
-    import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-    gsap.registerPlugin(ScrollTrigger);
-
     function initGlobalAnimations() {
-      // Skip animations for Lighthouse/bots — content must be visible for LCP
-      if (document.documentElement.classList.contains('no-animations')) return;
+      // If no-animations is active (bots/Lighthouse), skip observing and show everything immediately
+      if (document.documentElement.classList.contains('no-animations')) {
+        document.querySelectorAll('.anim-child').forEach((el) => {
+          el.classList.add('fade-up');
+        });
+        return;
+      }
 
-      // Select all anim-child elements globally
+      const mainScroller = document.getElementById('main');
       const elements = document.querySelectorAll('.anim-child');
-      
-      elements.forEach((el) => {
-        // Get transition delay from style attribute if it exists
-        const styleAttr = el.getAttribute('style') || '';
-        const match = styleAttr.match(/transition-delay:\s*([\d\.]+)s/);
-        const delay = match ? parseFloat(match[1]) : 0;
 
-        // Animate with GSAP ScrollTrigger
-        gsap.fromTo(el,
-          { y: 25, opacity: 0 },
-          {
-            y: 0,
-            opacity: 1,
-            duration: 0.8,
-            delay: delay,
-            ease: "power2.out",
-            scrollTrigger: {
-              trigger: el,
-              scroller: "main",
-              start: "top 92%", // Starts when top of element is 92% down the viewport
-              toggleActions: "play none none none"
-            }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            el.classList.add('fade-up');
+            observer.unobserve(el);
           }
-        );
+        });
+      }, {
+        root: mainScroller,
+        rootMargin: '0px 0px -5% 0px',
+        threshold: 0.02
+      });
+
+      elements.forEach((el) => {
+        observer.observe(el);
       });
     }
 
@@ -308,7 +301,6 @@ const currentPath = Astro.url.pathname;
     // Re-run on Astro view transitions
     document.addEventListener('astro:page-load', () => {
       initGlobalAnimations();
-      ScrollTrigger.refresh();
     });
   </script>
 </body>

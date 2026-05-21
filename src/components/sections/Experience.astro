@@ -6,7 +6,7 @@
   <div class="experience-container">
     
     <!-- Section Header -->
-    <div class="experience-header">
+    <div class="experience-header anim-child" style="transition-delay: 0.05s;">
       <div class="header-titles">
         <div class="exp-label-wrapper">
           <span class="exp-label-bar"></span>
@@ -38,7 +38,7 @@
       <div class="experience-slider">
         
         <!-- Card 1: NTI -->
-        <div class="experience-card-wrapper">
+        <div class="experience-card-wrapper anim-child" style="transition-delay: 0.1s;">
           <div class="experience-card" tabindex="0">
             <div class="card-glass-glow"></div>
             <div class="card-meta">
@@ -56,7 +56,7 @@
         </div>
 
         <!-- Card 2: So Care -->
-        <div class="experience-card-wrapper">
+        <div class="experience-card-wrapper anim-child" style="transition-delay: 0.16s;">
           <div class="experience-card" tabindex="0">
             <div class="card-glass-glow"></div>
             <div class="card-meta">
@@ -74,7 +74,7 @@
         </div>
 
         <!-- Card 3: DEPI -->
-        <div class="experience-card-wrapper">
+        <div class="experience-card-wrapper anim-child" style="transition-delay: 0.22s;">
           <div class="experience-card" tabindex="0">
             <div class="card-glass-glow"></div>
             <div class="card-meta">
@@ -92,7 +92,7 @@
         </div>
 
         <!-- Card 4: Oxygen Gym -->
-        <div class="experience-card-wrapper">
+        <div class="experience-card-wrapper anim-child" style="transition-delay: 0.28s;">
           <div class="experience-card" tabindex="0">
             <div class="card-glass-glow"></div>
             <div class="card-meta">
@@ -110,7 +110,7 @@
         </div>
 
         <!-- Card 5: Iris Communications -->
-        <div class="experience-card-wrapper">
+        <div class="experience-card-wrapper anim-child" style="transition-delay: 0.34s;">
           <div class="experience-card" tabindex="0">
             <div class="card-glass-glow"></div>
             <div class="card-meta">
@@ -135,7 +135,7 @@
       <div class="mobile-timeline-track"></div>
       
       <!-- Station 1: NTI -->
-      <div class="mobile-timeline-station" data-index="0">
+      <div class="mobile-timeline-station anim-child" data-index="0" style="transition-delay: 0.1s;">
         <div class="station-node-wrapper">
           <div class="station-glow-dot"></div>
         </div>
@@ -162,7 +162,7 @@
       </div>
 
       <!-- Station 2: So Care -->
-      <div class="mobile-timeline-station" data-index="1">
+      <div class="mobile-timeline-station anim-child" data-index="1" style="transition-delay: 0.16s;">
         <div class="station-node-wrapper">
           <div class="station-glow-dot"></div>
         </div>
@@ -189,7 +189,7 @@
       </div>
 
       <!-- Station 3: DEPI -->
-      <div class="mobile-timeline-station" data-index="2">
+      <div class="mobile-timeline-station anim-child" data-index="2" style="transition-delay: 0.22s;">
         <div class="station-node-wrapper">
           <div class="station-glow-dot"></div>
         </div>
@@ -216,7 +216,7 @@
       </div>
 
       <!-- Station 4: Oxygen Gym -->
-      <div class="mobile-timeline-station" data-index="3">
+      <div class="mobile-timeline-station anim-child" data-index="3" style="transition-delay: 0.28s;">
         <div class="station-node-wrapper">
           <div class="station-glow-dot"></div>
         </div>
@@ -243,7 +243,7 @@
       </div>
 
       <!-- Station 5: Iris Communications -->
-      <div class="mobile-timeline-station" data-index="4">
+      <div class="mobile-timeline-station anim-child" data-index="4" style="transition-delay: 0.34s;">
         <div class="station-node-wrapper">
           <div class="station-glow-dot"></div>
         </div>
@@ -274,27 +274,14 @@
 </section>
 
 <script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
-
   function initExperienceSection() {
     const section = document.querySelector('.experience-section');
     if (!section) return;
-
-    // A. Clean up previous triggers to avoid memory leaks
-    if ((window as any).experienceTriggers) {
-      (window as any).experienceTriggers.forEach((t: any) => t.kill());
-    }
-    const localTriggers: any[] = [];
-    (window as any).experienceTriggers = localTriggers;
 
     const slider = section.querySelector('.experience-slider') as HTMLElement;
     const progressFill = section.querySelector('.timeline-progress-fill') as HTMLElement;
     const prevBtn = section.querySelector('.prev-btn');
     const nextBtn = section.querySelector('.next-btn');
-    const cards = section.querySelectorAll('.experience-card-wrapper');
     const stations = section.querySelectorAll('.mobile-timeline-station');
 
     // 1. Initialize mobile timeline accordion click handlers
@@ -302,7 +289,7 @@
       const header = station.querySelector('.station-header') as HTMLElement;
       if (!header) return;
 
-      // Prevent duplicate listener attachments due to dual boot cycles (Initial run + astro:page-load)
+      // Prevent duplicate listener attachments due to dual boot cycles
       if (header.dataset.listenerAttached === 'true') return;
       header.dataset.listenerAttached = 'true';
 
@@ -339,80 +326,44 @@
       });
     }
 
-    // 3. Process animations and slider controls based on viewport size
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
-    if (isMobile) {
-      // Mobile interactive timeline reveal: animate stations sequentially into view with a very subtle fade-up
-      gsap.set(stations, { opacity: 0, y: 8 });
-      const revealAnim = gsap.to(stations, {
-        opacity: 1,
-        y: 0,
-        stagger: 0.06,
-        duration: 0.5,
-        ease: "power1.out",
-        scrollTrigger: {
-          trigger: '.mobile-timeline-container',
-          scroller: "main",
-          start: "top 85%",
-          toggleActions: "play none none none"
+    // 3. Desktop slider progress bar and scroll controls
+    if (slider) {
+      const updateProgress = () => {
+        const scrollWidth = slider.scrollWidth - slider.clientWidth;
+        if (scrollWidth <= 0) return;
+        
+        const scrollLeft = Math.abs(slider.scrollLeft);
+        const progress = scrollLeft / scrollWidth;
+        
+        if (progressFill) {
+          progressFill.style.transformOrigin = document.documentElement.dir === 'rtl' ? 'right center' : 'left center';
+          progressFill.style.transition = 'transform 0.2s cubic-bezier(0.16, 1, 0.3, 1)';
+          progressFill.style.transform = `scaleX(${progress})`;
         }
-      });
-      if (revealAnim.scrollTrigger) localTriggers.push(revealAnim.scrollTrigger);
-    } else {
-      if (slider) {
-        // Desktop horizontal slide-in stagger
-        gsap.set(cards, { opacity: 0, y: 10 });
-        const deskAnim = gsap.to(cards, {
-          opacity: 1,
-          y: 0,
-          stagger: 0.08,
-          duration: 0.6,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: section,
-            scroller: "main",
-            start: "top 80%",
-            toggleActions: "play none none none"
-          }
+      };
+
+      slider.addEventListener('scroll', updateProgress, { passive: true });
+      window.addEventListener('resize', updateProgress, { passive: true });
+      updateProgress();
+
+      // Slider Controls Click Actions (Desktop only)
+      const scrollAmount = (dir: number) => {
+        const card = slider.querySelector('.experience-card-wrapper') as HTMLElement;
+        const gap = parseInt(getComputedStyle(slider).gap) || 24;
+        const step = card ? card.offsetWidth + gap : 420;
+        const isRtl = document.documentElement.dir === 'rtl';
+
+        slider.scrollBy({
+          left: (isRtl ? -dir : dir) * step,
+          behavior: 'smooth'
         });
-        if (deskAnim.scrollTrigger) localTriggers.push(deskAnim.scrollTrigger);
+      };
 
-        // Update progress bar on scroll (Desktop only)
-        const updateProgress = () => {
-          const scrollWidth = slider.scrollWidth - slider.clientWidth;
-          if (scrollWidth <= 0) return;
-          
-          const scrollLeft = Math.abs(slider.scrollLeft);
-          const progress = scrollLeft / scrollWidth;
-          
-          gsap.to(progressFill, {
-            scaleX: progress,
-            duration: 0.2,
-            ease: "power1.out",
-            transformOrigin: document.documentElement.dir === 'rtl' ? 'right center' : 'left center'
-          });
-        };
-
-        slider.addEventListener('scroll', updateProgress, { passive: true });
-        window.addEventListener('resize', updateProgress, { passive: true });
-        updateProgress();
-
-        // Slider Controls Click Actions (Desktop only)
-        const scrollAmount = (dir: number) => {
-          const card = slider.querySelector('.experience-card-wrapper') as HTMLElement;
-          const gap = parseInt(getComputedStyle(slider).gap) || 24;
-          const step = card ? card.offsetWidth + gap : 420;
-          const isRtl = document.documentElement.dir === 'rtl';
-
-          slider.scrollBy({
-            left: (isRtl ? -dir : dir) * step,
-            behavior: 'smooth'
-          });
-        };
-
-        if (prevBtn) prevBtn.addEventListener('click', () => scrollAmount(-1));
-        if (nextBtn) nextBtn.addEventListener('click', () => scrollAmount(1));
+      if (prevBtn) {
+        prevBtn.addEventListener('click', () => scrollAmount(-1));
+      }
+      if (nextBtn) {
+        nextBtn.addEventListener('click', () => scrollAmount(1));
       }
     }
   }
@@ -421,7 +372,6 @@
   initExperienceSection();
   document.addEventListener('astro:page-load', () => {
     initExperienceSection();
-    ScrollTrigger.refresh();
   });
 </script>
 

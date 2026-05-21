@@ -6,7 +6,7 @@
   <div class="skills-container">
     
     <!-- Section Sub-Header -->
-    <div class="skills-section-header">
+    <div class="skills-section-header anim-child" style="transition-delay: 0.05s;">
       <div class="skills-label-wrapper">
         <span class="skills-label-bar"></span>
         <span class="skills-label" data-i18n="nav_skills">Core Skills</span>
@@ -18,7 +18,7 @@
     <div class="tools-grid">
       
       <!-- SQL Card -->
-      <div class="tool-card sql-glow" tabindex="0">
+      <div class="tool-card sql-glow anim-child" style="transition-delay: 0.1s;" tabindex="0">
         <div class="card-ambient-overlay"></div>
         <div class="tool-card-content">
           <div class="tool-icon">
@@ -32,7 +32,7 @@
       </div>
 
       <!-- Python Card -->
-      <div class="tool-card python-glow" tabindex="0">
+      <div class="tool-card python-glow anim-child" style="transition-delay: 0.16s;" tabindex="0">
         <div class="card-ambient-overlay"></div>
         <div class="tool-card-content">
           <div class="tool-icon">
@@ -57,7 +57,7 @@
       </div>
 
       <!-- Excel Card -->
-      <div class="tool-card excel-glow" tabindex="0">
+      <div class="tool-card excel-glow anim-child" style="transition-delay: 0.22s;" tabindex="0">
         <div class="card-ambient-overlay"></div>
         <div class="tool-card-content">
           <div class="tool-icon">
@@ -84,7 +84,7 @@
       </div>
 
       <!-- Power BI Card -->
-      <div class="tool-card powerbi-glow" tabindex="0">
+      <div class="tool-card powerbi-glow anim-child" style="transition-delay: 0.28s;" tabindex="0">
         <div class="card-ambient-overlay"></div>
         <div class="tool-card-content">
           <div class="tool-icon">
@@ -122,47 +122,6 @@
   </div>
 </section>
 
-<script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
-
-  gsap.registerPlugin(ScrollTrigger);
-
-  function initSkillsAnimation() {
-    const section = document.querySelector('.skills-section');
-    if (!section) return;
-
-    const header = section.querySelector('.skills-section-header');
-    const cards = section.querySelectorAll('.tool-card');
-
-    // Initial state
-    gsap.set(header, { opacity: 0, y: 8 });
-    gsap.set(cards, { opacity: 0, y: 8 });
-
-    // Staggered reveal timeline (soft, lightweight, no scale, fast duration)
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        scroller: "main",
-        start: "top 85%",
-        toggleActions: "play none none none"
-      }
-    });
-
-    tl.to(header, { opacity: 1, y: 0, duration: 0.4, ease: "power1.out" })
-      .to(cards, { 
-        opacity: 1, 
-        y: 0, 
-        stagger: 0.06, 
-        duration: 0.4, 
-        ease: "power1.out" 
-      }, "-=0.2");
-  }
-
-  // Bootstrap
-  initSkillsAnimation();
-  document.addEventListener('astro:page-load', initSkillsAnimation);
-</script>
 
 <style>
   .skills-section {

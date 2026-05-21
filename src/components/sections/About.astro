@@ -8,18 +8,18 @@
       
       <!-- Left Column: Narrative Storytelling -->
       <div class="who-content">
-        <div class="who-label-wrapper">
+        <div class="who-label-wrapper anim-child" style="transition-delay: 0.05s;">
           <span class="who-label-bar"></span>
           <h2 id="who-title" class="who-label" data-i18n="who_title">Who I am</h2>
         </div>
-        <div class="who-heading font-poppins">
+        <div class="who-heading font-poppins anim-child" style="transition-delay: 0.1s;">
           <span class="reveal-line" data-i18n="who_p1">I translate complex data into clear, actionable insights that drive smarter decision-making.</span>
         </div>
         <div class="who-narrative">
-          <p class="reveal-p" data-i18n="who_p2">My journey began in analytics and naturally evolved into a deep interest in human behavior—understanding not just the <em>what</em> of data, but the <em>why</em> behind every interaction.</p>
-          <p class="reveal-p" data-i18n="who_p3">I bridge the gap between technical performance and the human journey, turning patterns and conversions into a cohesive strategy.</p>
-          <p class="reveal-p" data-i18n="who_p4">I believe the most powerful solutions emerge at the intersection of data, strategy, and human understanding.</p>
-          <p class="reveal-p" data-i18n="who_p5">When faced with complexity, I focus on finding direction through structure, patterns, and purposeful insight.</p>
+          <p class="reveal-p anim-child" style="transition-delay: 0.15s;" data-i18n="who_p2">My journey began in analytics and naturally evolved into a deep interest in human behavior—understanding not just the <em>what</em> of data, but the <em>why</em> behind every interaction.</p>
+          <p class="reveal-p anim-child" style="transition-delay: 0.2s;" data-i18n="who_p3">I bridge the gap between technical performance and the human journey, turning patterns and conversions into a cohesive strategy.</p>
+          <p class="reveal-p anim-child" style="transition-delay: 0.25s;" data-i18n="who_p4">I believe the most powerful solutions emerge at the intersection of data, strategy, and human understanding.</p>
+          <p class="reveal-p anim-child" style="transition-delay: 0.3s;" data-i18n="who_p5">When faced with complexity, I focus on finding direction through structure, patterns, and purposeful insight.</p>
         </div>
       </div>
 
@@ -27,7 +27,7 @@
       <div class="who-visual-column" aria-hidden="true">
         <div class="who-visual-canvas">
           <!-- Card 1: Data Analytics (Foreground) -->
-          <div class="visual-card data-card" style="background: transparent !important; box-shadow: none !important; border: none !important;">
+          <div class="visual-card data-card anim-child" style="transition-delay: 0.35s; background: transparent !important; box-shadow: none !important; border: none !important;">
             <div class="card-chart-wrapper">
               <svg viewBox="0 0 100 40" class="mini-chart">
                 <defs>
@@ -51,7 +51,7 @@
           </div>
 
           <!-- Card 2: Marketing Strategy (Background Depth) -->
-          <div class="visual-card strategy-card" style="background: transparent !important; box-shadow: none !important; border: none !important;">
+          <div class="visual-card strategy-card anim-child" style="transition-delay: 0.4s; background: transparent !important; box-shadow: none !important; border: none !important;">
             <div class="card-metrics">
               <div class="metric-row">
                 <span class="metric-title">Conversion Rate</span>
@@ -83,103 +83,7 @@
   </div>
 </section>
 
-<script>
-  import { gsap } from "gsap";
-  import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-  gsap.registerPlugin(ScrollTrigger);
-
-  function initAboutAnimation() {
-    const section = document.querySelector('.who-section');
-    if (!section) return;
-
-    const label = section.querySelector('.who-label-wrapper');
-    const heading = section.querySelector('.who-heading');
-    const paragraphs = section.querySelectorAll('.reveal-p');
-    const dataCard = section.querySelector('.data-card');
-    const strategyCard = section.querySelector('.strategy-card');
-    const orb1 = section.querySelector('.orb-1');
-    const orb2 = section.querySelector('.orb-2');
-    const chartLine = section.querySelector('.chart-line-draw');
-
-    // Reset initial positions to prevent visual jumps
-    gsap.set([label, heading, paragraphs], { opacity: 0, y: 12 });
-    gsap.set([dataCard, strategyCard], { opacity: 0, scale: 0.97, y: 15 });
-    if (chartLine) {
-      gsap.set(chartLine, { strokeDasharray: 100, strokeDashoffset: 100 });
-    }
-
-    const isMobile = window.matchMedia('(max-width: 768px)').matches;
-
-    // ScrollTrigger Timeline
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        scroller: "main",
-        start: "top 85%",
-        toggleActions: "play none none none"
-      }
-    });
-
-    if (isMobile) {
-      // Light, GPU-friendly animations for mobile devices
-      tl.to(label, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" })
-        .to(heading, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, "-=0.25")
-        .to(paragraphs, { opacity: 1, y: 0, stagger: 0.06, duration: 0.4, ease: "power2.out" }, "-=0.3")
-        .to([dataCard, strategyCard], { opacity: 1, scale: 1, y: 0, stagger: 0.08, duration: 0.5, ease: "power2.out" }, "-=0.35");
-    } else {
-      // Cinematic animations on desktop
-      tl.to(label, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" })
-        .to(heading, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, "-=0.3")
-        .to(paragraphs, { opacity: 1, y: 0, stagger: 0.12, duration: 0.7, ease: "power2.out" }, "-=0.4")
-        .to([dataCard, strategyCard], { opacity: 1, scale: 1, y: 0, stagger: 0.15, duration: 0.8, ease: "back.out(1.2)" }, "-=0.6");
-    }
-
-    if (chartLine) {
-      tl.to(chartLine, { strokeDashoffset: 0, duration: 1.2, ease: "power2.inOut" }, "-=0.8");
-    }
-
-    if (!isMobile) {
-      // Gentle parallax effect on scroll (Desktop only)
-      gsap.to(strategyCard, {
-        y: -25,
-        scrollTrigger: {
-          trigger: section,
-          scroller: "main",
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true
-        }
-      });
-
-      gsap.to(dataCard, {
-        y: -10,
-        scrollTrigger: {
-          trigger: section,
-          scroller: "main",
-          start: "top bottom",
-          end: "bottom top",
-          scrub: true
-        }
-      });
-
-      if (orb1 && orb2) {
-        gsap.to([orb1, orb2], {
-          x: "random(-20, 20)",
-          y: "random(-20, 20)",
-          duration: 8,
-          repeat: -1,
-          yoyo: true,
-          ease: "sine.inOut"
-        });
-      }
-    }
-  }
-
-  // Run on load and transitions
-  initAboutAnimation();
-  document.addEventListener('astro:page-load', initAboutAnimation);
-</script>
 
 <style>
   .who-section {
