@@ -192,35 +192,7 @@ const currentPath = Astro.url.pathname;
 <body class={currentPath.includes('methodology') ? 'methodology-page' : ''}>
   <script is:inline>
     if (window.applySavedTheme) window.applySavedTheme();
-    
-    // Bulletproof bot & Lighthouse detection
-    var ua = navigator.userAgent || '';
-    var isBot = /Lighthouse|Chrome-Lighthouse|Googlebot|PageSpeed|HeadlessChrome|Pingdom|GTmetrix/i.test(ua) || navigator.webdriver;
-    
-    // Only show loader for real users
-    if (!isBot) {
-      document.body.classList.add('loader-active');
-      
-      // Absolute safety fallback: force hide loader after 1.5s if main JS fails
-      setTimeout(function() {
-        var loader = document.getElementById('luxury-loader');
-        if (loader && !loader.classList.contains('hidden')) {
-          loader.classList.add('hidden');
-          document.body.classList.remove('loader-active');
-        }
-      }, 1500);
-    } else {
-      document.documentElement.classList.add('no-animations');
-    }
   </script>
-  <!-- LUXURY PAGE LOADER -->
-  <div id="luxury-loader" aria-busy="true" aria-label="Loading site">
-    <div class="loader-brand" data-i18n="hero_name">Amr Mousa</div>
-    <div class="loader-job-title" data-i18n="hero_job">DATA ANALYST & MARKETING STRATEGIST</div>
-    <div class="loader-line-container">
-      <div class="loader-line"></div>
-    </div>
-  </div>
 
   <header class="luxury-header" aria-label="Site Header">
     <div class="header-left">

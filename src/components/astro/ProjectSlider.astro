@@ -37,44 +37,25 @@ function resolveAsset(url: string) {
       const matchedAsset = allImages[imgKey] as any;
       const imgAsset = matchedAsset ? matchedAsset.default : fallbackImg;
       const cleanId = project.id.split('-')[0];
-      const hasImages = project.images && project.images.length > 0;
+      const firstImage = project.images && project.images.length > 0 ? project.images[0] : '';
 
       return (
         <article class="project-card-wrapper">
           <a href={`${import.meta.env.BASE_URL}projects/${project.id}`} onclick={`trackClick('project_click', { project_id: '${project.id}' })`} class="project-card" aria-label={`View ${project.title} case study`}>
             
             {/* ── Image area: multi-image slideshow ── */}
-            <div class="project-card-image" data-slideshow={hasImages ? "true" : "false"}>
-              {hasImages ? (
-                project.images.map((imgUrl: string, idx: number) => (
-                  <Image
-                    src={resolveAsset(imgUrl)}
-                    alt={`${project.title} — screenshot ${idx + 1}`}
-                    class={`slide-img${idx === 0 ? ' active' : ''}`}
-                    loading="lazy"
-                    width={600}
-                    height={327}
-                    aria-hidden={idx === 0 ? 'false' : 'true'}
-                  />
-                ))
-              ) : (
-                <Image
-                  src={imgAsset}
-                  alt={project.title}
-                  width={600}
-                  height={327}
-                  class="slide-img active"
-                  loading="lazy"
-                />
-              )}
+            <div class="project-card-image">
+              <Image
+                src={firstImage ? resolveAsset(firstImage) : imgAsset}
+                alt={project.title}
+                width={440}
+                height={240}
+                quality={55}
+                format="webp"
+                class="slide-img active"
+                loading="lazy"
+              />
               <div class="img-gradient"></div>
-              {hasImages && project.images.length > 1 && (
-                <div class="slide-dots">
-                  {project.images.map((_: string, idx: number) => (
-                    <span class={`dot${idx === 0 ? ' active' : ''}`}></span>
-                  ))}
-                </div>
-              )}
             </div>
 
             <span class="card-icon">
@@ -130,111 +111,8 @@ function resolveAsset(url: string) {
     });
   }
 
-  // ── Cleanup functions to prevent memory leaks ──────────────────
-  function cleanupSlideshows() {
-    document.querySelectorAll('.project-card-image[data-slideshow="true"]').forEach(container => {
-      const interval = (container as any).__interval;
-      if (interval) {
-        clearInterval(interval);
-        (container as any).__interval = null;
-      }
-      
-      const listeners = (container as any).__listeners;
-      if (listeners) {
-        const { onMouseEnter, onMouseLeave, onFocus, onBlur, card } = listeners;
-        card.removeEventListener('mouseenter', onMouseEnter);
-        card.removeEventListener('mouseleave', onMouseLeave);
-        card.removeEventListener('focusin', onFocus);
-        card.removeEventListener('focusout', onBlur);
-        (container as any).__listeners = null;
-      }
-
-      if ((window as any).slideshowObserver) {
-        (window as any).slideshowObserver.unobserve(container);
-      }
-    });
-  }
-
-  // ── Per-card image slideshow (Optimized with IntersectionObserver) ──
-  function initSlideshows() {
-    cleanupSlideshows();
-
-    if (!(window as any).slideshowObserver) {
-      (window as any).slideshowObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-          const container = entry.target as HTMLElement;
-          const imgs = Array.from(container.querySelectorAll('.slide-img'));
-          const dots = Array.from(container.querySelectorAll('.dot'));
-          if (imgs.length < 2) return;
-
-          const old = (container as any).__interval;
-          if (old) clearInterval(old);
-
-          if (entry.isIntersecting) {
-            let idx = imgs.findIndex(img => img.classList.contains('active'));
-            if (idx === -1) idx = 0;
-            let intervalId: any = null;
-            let isPaused = false;
-
-            const advance = () => {
-              if (isPaused) return;
-
-              imgs[idx].classList.remove('active');
-              imgs[idx].setAttribute('aria-hidden', 'true');
-              dots[idx]?.classList.remove('active');
-              
-              idx = (idx + 1) % imgs.length;
-              
-              imgs[idx].classList.add('active');
-              imgs[idx].setAttribute('aria-hidden', 'false');
-              dots[idx]?.classList.add('active');
-            };
-
-            const startInterval = () => {
-              if (intervalId) clearInterval(intervalId);
-              intervalId = setInterval(advance, 3000);
-              (container as any).__interval = intervalId;
-            };
-
-            const pause = () => { isPaused = true; };
-            const resume = () => { isPaused = false; };
-
-            startInterval();
-
-            const card = container.closest('.project-card');
-            if (card) {
-              const onMouseEnter = () => pause();
-              const onMouseLeave = () => resume();
-              const onFocus = () => pause();
-              const onBlur = () => resume();
-
-              card.addEventListener('mouseenter', onMouseEnter);
-              card.addEventListener('mouseleave', onMouseLeave);
-              card.addEventListener('focusin', onFocus);
-              card.addEventListener('focusout', onBlur);
-
-              (container as any).__listeners = { onMouseEnter, onMouseLeave, onFocus, onBlur, card };
-            }
-          }
-        });
-      }, { threshold: 0.1 });
-    }
-
-    document.querySelectorAll('.project-card-image[data-slideshow="true"]').forEach(container => {
-      (window as any).slideshowObserver.observe(container);
-    });
-  }
-
-  // ── Bootstrap ──────────────────────────────────────────────────
-  function boot() {
-    initSlider();
-    initSlideshows();
-  }
-
-  // Run immediately and on each Astro view-transition page load
-  boot();
-  document.addEventListener('astro:page-load', boot);
-  document.addEventListener('astro:before-swap', cleanupSlideshows);
+  initSlider();
+  document.addEventListener('astro:page-load', initSlider);
 </script>
 
 <style>

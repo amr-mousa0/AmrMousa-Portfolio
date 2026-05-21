@@ -245,25 +245,7 @@ function initApp() {
 
 
 
-    // Dismiss loader on load (works with the new loader-active CSS system)
-    const luxuryLoader = document.getElementById('luxury-loader');
-    if (luxuryLoader) {
-        const minLoaderTime = 300;
-        const initTime = Date.now();
-        function hideLoader() {
-            const elapsed = Date.now() - initTime;
-            const remaining = Math.max(0, minLoaderTime - elapsed);
-            setTimeout(() => {
-                luxuryLoader.classList.add('hidden');
-                document.body.classList.remove('loader-active');
-            }, remaining);
-        }
-        if (document.readyState === 'complete' || document.readyState === 'interactive') {
-            hideLoader();
-        } else {
-            document.addEventListener('DOMContentLoaded', hideLoader);
-        }
-    }
+    // Removed luxury loader logic as it is deleted from HTML
 
     // Zero-Hash Navigation: Intercept anchor links with hashes (guard against duplicate registration)
     if (!window._zeroHashDelegated) {
