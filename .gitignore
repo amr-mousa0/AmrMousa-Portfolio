@@ -52,3 +52,16 @@ css/
 # E2E / Playwright tests (dev tooling only)
 e2e/
 tests/
+playwright.config.ts
+lighthouserc.json
+
+# Internal docs & unused legacy files
+CONSTITUTION.md
+DESIGN.md
+PRODUCT.md
+QA_INSTRUCTIONS.md
+session_checkpoint.md
+add_gigs_trans.cjs
+code.html
+index.legacy.html
+.env.example
