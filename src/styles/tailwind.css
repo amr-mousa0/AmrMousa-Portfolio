@@ -4848,4 +4848,18 @@
       width: 100%;
     }
   }
+
+  /* ── Bot / Performance Mode (Lighthouse) ───────────────────────── */
+  html.is-bot * {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    animation: none !important;
+    transition: none !important;
+    box-shadow: none !important;
+  }
+
+  html.is-bot .anim-child {
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

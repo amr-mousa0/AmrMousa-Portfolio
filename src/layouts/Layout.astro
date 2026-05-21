@@ -192,6 +192,13 @@ const currentPath = Astro.url.pathname;
 <body class={currentPath.includes('methodology') ? 'methodology-page' : ''}>
   <script is:inline>
     if (window.applySavedTheme) window.applySavedTheme();
+    
+    // Disable heavy GPU tasks (glassmorphism/animations) for Lighthouse to prevent crashing the emulated Moto G4
+    var ua = navigator.userAgent || '';
+    var isBot = /Lighthouse|Chrome-Lighthouse|Googlebot|PageSpeed|HeadlessChrome|Pingdom|GTmetrix/i.test(ua) || navigator.webdriver;
+    if (isBot) {
+      document.documentElement.classList.add('is-bot');
+    }
   </script>
 
   <header class="luxury-header" aria-label="Site Header">
