@@ -65,3 +65,7 @@ add_gigs_trans.cjs
 code.html
 index.legacy.html
 .env.example
+skills-lock.json
+task.md
+test-output.txt
+update_*.cjs
