@@ -191,6 +191,7 @@
     overflow-x: hidden;
     scroll-behavior: smooth;
     scroll-snap-type: y proximity;
+    -webkit-overflow-scrolling: touch;
 
     /* DARK MODE grid (default) */
     background-color: #0e0e10;
@@ -210,6 +211,12 @@
     transition: background-color var(--trans);
   }
 
+  @media (max-width: 768px) {
+    main {
+      scroll-snap-type: none;
+    }
+  }
+
   /* LIGHT MODE grid */
   body.light main {
     background-color: #f2f3f7;
@@ -226,23 +233,13 @@
     background-attachment: local, local, local, local;
   }
 
-  /* METHODOLOGY PAGE OVERRIDES (No grid, no scroll snap) */
+  /* METHODOLOGY PAGE OVERRIDES (No scroll snap) */
   body.methodology-page main {
     scroll-snap-type: none !important;
-    background-image:
-      radial-gradient(ellipse 80% 70% at 50% 40%, transparent 25%, rgba(6, 6, 8, 0.8) 100%),
-      radial-gradient(ellipse 65% 55% at 5% 0%, rgba(0, 102, 121, 0.13) 0%, transparent 65%),
-      radial-gradient(ellipse 55% 45% at 95% 100%, rgba(140, 40, 95, 0.10) 0%, transparent 60%) !important;
-    background-size: 100% 100%, 100% 100%, 100% 100% !important;
-    background-attachment: local, local, local !important;
   }
 
   body.light.methodology-page main {
-    background-image:
-      radial-gradient(ellipse 75% 65% at 50% 30%, rgba(255, 253, 248, 0.75) 0%, transparent 70%),
-      radial-gradient(ellipse 55% 45% at 5% 0%, rgba(200, 220, 255, 0.22) 0%, transparent 60%) !important;
-    background-size: 100% 100%, 100% 100% !important;
-    background-attachment: local, local !important;
+    scroll-snap-type: none !important;
   }
 
   section {
@@ -2744,9 +2741,9 @@
 
   /* ---------------- Luxury Footer (Quiet Luxury 3-Column Layout) ---------------- */
   .luxury-footer {
-    background: rgba(255, 255, 255, 0.015);
+    background: var(--surface-card);
     backdrop-filter: blur(16px);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--border-card);
     padding: 80px 60px 40px 60px;
     margin-top: 100px;
     display: flex;
@@ -2755,11 +2752,6 @@
     z-index: 10;
     position: relative;
     font-family: 'Poppins', sans-serif;
-  }
-
-  body.light .luxury-footer {
-    background: rgba(255, 255, 255, 0.6);
-    border-top-color: rgba(0, 0, 0, 0.08);
   }
 
   .footer-content {
@@ -4107,7 +4099,7 @@
 
     /* --- Services Section --- */
     #services {
-      padding: 60px 20px !important;
+      padding: 44px 14px !important;
     }
 
     .services-grid {
@@ -4155,7 +4147,7 @@
   /* === للموبايل (أقل من 768px) === */
   @media (max-width: 768px) {
     section {
-      padding: 60px 20px !important;
+      padding: 44px 14px !important;
     }
 
     .competencies-container {
@@ -4365,6 +4357,12 @@
     font-family: 'Playfair Display', serif;
     color: rgba(255, 255, 255, 0.2);
     line-height: 1;
+  }
+
+  @media (max-width: 1280px) {
+    .idea-text {
+      display: none;
+    }
   }
 
   .available-badge {
@@ -4614,7 +4612,7 @@
 
   .loader-line-container {
     width: 240px;
-    height: 1px;
+    height: 2px;
     background: rgba(var(--accent-a-rgb), 0.15);
     position: relative;
     overflow: hidden;
@@ -4626,8 +4624,9 @@
     top: 0;
     left: 0;
     height: 100%;
-    width: 0%;
-    background: linear-gradient(90deg, transparent, var(--accent-a), var(--accent-b), transparent);
+    width: 100%;
+    background: linear-gradient(90deg, transparent, var(--accent-a), transparent);
+    box-shadow: 0 0 10px rgba(var(--accent-a-rgb), 0.5);
     animation: loaderLineAnim 1.4s cubic-bezier(0.8, 0, 0.2, 1) infinite;
   }
 
@@ -4643,10 +4642,44 @@
       left: -100%;
       width: 100%;
     }
-
     100% {
       left: 100%;
       width: 100%;
+    }
+  }
+
+  /* Loader — fully responsive on all mobile sizes */
+  @media (max-width: 480px) {
+    .loader-brand {
+      font-size: 1.75rem;
+      letter-spacing: 0.12em;
+    }
+    .loader-job-title {
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-align: center;
+      padding: 0 20px;
+      line-height: 1.6;
+    }
+    .loader-line-container {
+      width: 150px;
+    }
+  }
+
+  @media (max-width: 768px) and (min-width: 481px) {
+    .loader-brand {
+      font-size: 2.2rem;
+      letter-spacing: 0.15em;
+    }
+    .loader-job-title {
+      font-size: 0.75rem;
+      letter-spacing: 0.25em;
+      text-align: center;
+      padding: 0 16px;
+      line-height: 1.5;
+    }
+    .loader-line-container {
+      width: 200px;
     }
   }
 
@@ -4691,12 +4724,13 @@
     }
 
     [dir="rtl"] .split-left {
-      direction: rtl;
+      direction: ltr;
     }
 
     /* idea-text (quote) inside gradient should align right but keep position */
     [dir="rtl"] .idea-text {
       text-align: right;
+      direction: rtl;
     }
 
     [dir="rtl"] .idea-text p {

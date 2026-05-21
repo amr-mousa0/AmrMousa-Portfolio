@@ -29,7 +29,7 @@ import amrAvatar from '../../assets/Amr-Mousa.JPG';
   </div>
 
   <div class="split-right">
-    <div class="hero-text-content" style="animation-delay:0.2s">
+    <div class="hero-text-content">
       <h1 id="hero-title" class="hero-main-name" data-i18n="hero_name">Amr Mousa</h1>
       <div class="sub-heading" data-i18n="hero_job">Data & Marketing Analyst</div>
       <p class="hero-skills-text" data-i18n="hero_skills">SQL • Power BI • Python • Media Buying • Content Strategy</p>
@@ -40,79 +40,12 @@ import amrAvatar from '../../assets/Amr-Mousa.JPG';
 
       <div class="cta mt-8 flex flex-col sm:flex-row gap-4">
         <button class="btn-primary min-w-[160px] h-12 flex items-center justify-center font-semibold transition-all" onclick="trackClick('cta_click', { cta_name: 'explore_services' }); goToSection('#services')" data-i18n="cta_primary">Explore Services</button>
-        <a href={`${import.meta.env.BASE_URL}methodology`} class="btn-ghost min-w-[160px] h-12 flex items-center justify-center font-semibold transition-all" onclick="trackClick('cta_click', { cta_name: 'read_methodology' })" data-i18n="cta_methodology">Read the Methodology</a>
+        <a href={`${import.meta.env.BASE_URL}methodology`} class="btn-ghost min-w-[160px] h-12 flex items-center justify-center font-semibold transition-all" onclick="trackClick('cta_click', { cta_name: 'read_methodology' })" data-i18n="cta_methodology">Get to Know Me</a>
       </div>
     </div>
   </div>
 
-  <style>
-    @keyframes variant-bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(6px); }
-    }
-    @keyframes variant-pulse {
-      0% { box-shadow: 0 0 0 0 rgba(var(--accent-a-rgb), 0.4); }
-      70% { box-shadow: 0 0 0 15px rgba(var(--accent-a-rgb), 0); }
-      100% { box-shadow: 0 0 0 0 rgba(var(--accent-a-rgb), 0); }
-    }
-    @keyframes variant-float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-3px); }
-    }
-    @keyframes variant-slide {
-      0% { transform: translateY(0); }
-      100% { transform: translateY(80px); }
-    }
-    
-    /* Variant 3: Minimalist Flow */
-    @scope ([data-impeccable-variant="3"]) {
-      :scope>div {
-        display: flex;
-        justify-content: center;
-        margin-bottom: 25px;
-      }
-      :scope a {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        text-decoration: none;
-        color: var(--accent-a);
-        transition: all 0.3s;
-      }
-      :scope .learn-more-text {
-        display: none;
-      }
-      :scope .indicator-line {
-        width: 1px;
-        height: 40px;
-        background: linear-gradient(to bottom, transparent, var(--accent-a));
-        margin-bottom: 10px;
-        position: relative;
-        overflow: hidden;
-      }
-      :scope .indicator-line::after {
-        content: "";
-        position: absolute;
-        top: -40px;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: white;
-        animation: variant-slide 2s infinite;
-      }
-      :scope i {
-        font-size: 24px;
-        animation: variant-bounce 2s infinite;
-      }
-    }
-  </style>
 
-  <div data-impeccable-variant="3" style="display: contents">
-    <a href="#who" class="learn-more-indicator" aria-label="Scroll to Who I Am section" onclick="event.preventDefault(); goToSection('#who')">
-      <div class="indicator-line"></div>
-      <i class="fa-solid fa-chevron-down"></i>
-    </a>
-  </div>
 
   <script>
     import { gsap } from "gsap";
@@ -137,7 +70,6 @@ import amrAvatar from '../../assets/Amr-Mousa.JPG';
       const skillsText = textContent.querySelector('.hero-skills-text');
       const introText = textContent.querySelector('.hero-intro-text');
       const ctaButtons = textContent.querySelectorAll('.cta > *');
-      const indicator = hero.querySelector('.learn-more-indicator');
 
       // Create a lightweight GSAP timeline for a soft, premium entrance
       const tl = gsap.timeline({
@@ -148,7 +80,7 @@ import amrAvatar from '../../assets/Amr-Mousa.JPG';
       });
 
       // 1. Set minimal offsets to keep the layout readable and avoid flashing
-      gsap.set([title, subHeading, skillsText, introText, ctaButtons, indicator], { opacity: 0, y: 10 });
+      gsap.set([title, subHeading, skillsText, introText, ctaButtons], { opacity: 0, y: 10 });
       gsap.set(imgContainer, { opacity: 0, y: 10 });
       if (bgPattern) gsap.set(bgPattern, { opacity: 0 });
       if (quoteLines.length > 0) gsap.set(quoteLines, { opacity: 0, y: 10 });
@@ -162,8 +94,7 @@ import amrAvatar from '../../assets/Amr-Mousa.JPG';
         .to(subHeading, { opacity: 0.7, y: 0, duration: 0.5 }, "-=0.4")
         .to(skillsText, { opacity: 1, y: 0, duration: 0.5 }, "-=0.4")
         .to(introText, { opacity: 1, y: 0, duration: 0.6 }, "-=0.4")
-        .to(ctaButtons, { opacity: 1, y: 0, stagger: 0.08, duration: 0.5 }, "-=0.4")
-        .to(indicator, { opacity: 1, y: 0, duration: 0.5 }, "-=0.3");
+        .to(ctaButtons, { opacity: 1, y: 0, stagger: 0.08, duration: 0.5 }, "-=0.4");
     }
 
     // Bootstrap hero animations

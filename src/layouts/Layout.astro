@@ -166,8 +166,8 @@ const currentPath = Astro.url.pathname;
               "@type": "Offer",
               "itemOffered": {
                 "@type": "Service",
-                "name": "Workflow & Business Automation",
-                "description": "Connecting CRM, spreadsheets, and apps via Zapier and Make.com to automate repetitive manual tasks."
+                "name": "Custom CRM & Systems Development",
+                "description": "Developing custom CRM web applications connecting orders, team roles, and analytics to eliminate manual errors and track every lead."
               }
             }
           ]
@@ -201,7 +201,7 @@ const currentPath = Astro.url.pathname;
 
     <nav class="header-nav" aria-label="Desktop Navigation">
       <button class={`nav-link ${(currentPath === import.meta.env.BASE_URL || currentPath === import.meta.env.BASE_URL.slice(0, -1) || currentPath === '/') ? 'active' : ''}`} data-section="#hero" data-i18n="nav_home" onclick="goToSection('#hero')">Home</button>
-      <a href={`${import.meta.env.BASE_URL}methodology`} class={`nav-link ${currentPath.includes('/methodology') ? 'active' : ''}`} data-i18n="nav_methodology">Methodology</a>
+      <a href={`${import.meta.env.BASE_URL}methodology`} class={`nav-link ${currentPath.includes('/methodology') ? 'active' : ''}`} data-i18n="nav_methodology">Who I Am</a>
       <button class="nav-link" data-section="#services" data-i18n="nav_services" onclick="goToSection('#services')">Services</button>
       <button class="nav-link" data-section="#projects" data-i18n="nav_projects" onclick="goToSection('#projects')">Projects</button>
       <button class="nav-link" data-section="#contact" data-i18n="nav_contact" onclick="goToSection('#contact')">Contact</button>
@@ -210,7 +210,6 @@ const currentPath = Astro.url.pathname;
     <div class="header-controls">
       <button id="langBtn" class="icon-btn lang-toggle-btn" aria-label="Toggle language">AR</button>
       <button id="themeBtn" class="icon-btn" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
-      <button id="muteBtn" class="icon-btn" aria-label="Mute sounds"><i class="fa-solid fa-volume-high"></i></button>
       <button id="menuBtn" class="icon-btn menu-toggle-btn" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
     </div>
   </header>
@@ -228,7 +227,7 @@ const currentPath = Astro.url.pathname;
       </div>
       <a href={`${import.meta.env.BASE_URL}methodology`} class={`menu-item ${currentPath.includes('/methodology') ? 'active' : ''}`} role="menuitem" tabindex="0" style="text-decoration: none; color: inherit;">
         <div class="icon-box"><i class="fa-solid fa-user-tie"></i></div>
-        <div class="label" data-i18n="nav_methodology">Methodology</div>
+        <div class="label" data-i18n="nav_methodology">Who I Am</div>
       </a>
       <div class="menu-item" data-target="#services" role="menuitem" tabindex="0">
         <div class="icon-box"><i class="fa-solid fa-gears"></i></div>

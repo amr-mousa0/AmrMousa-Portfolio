@@ -68,9 +68,6 @@ function resolveAsset(url: string) {
                 />
               )}
               <div class="img-gradient"></div>
-              <span class="card-icon">
-                <i class={project.icon}></i>
-              </span>
               {hasImages && project.images.length > 1 && (
                 <div class="slide-dots">
                   {project.images.map((_: string, idx: number) => (
@@ -80,18 +77,23 @@ function resolveAsset(url: string) {
               )}
             </div>
 
+            <span class="card-icon">
+              <i class={project.icon}></i>
+            </span>
+
             {/* ── Text content ── */}
             <div class="project-card-content">
               <span class="project-badge" data-i18n={`project_${cleanId}_category`}>{project.category}</span>
               <h3 class="project-title" data-i18n={`project_${cleanId}_title`}>{project.title}</h3>
               <p class="project-hook" data-i18n={`project_${cleanId}_desc`}>{project.description}</p>
 
+              <div class="project-tags">
+                {project.tech.slice(0, 3).map((t: string) => (
+                  <span class="tag">{t}</span>
+                ))}
+              </div>
+
               <div class="card-footer">
-                <div class="project-tags">
-                  {project.tech.slice(0, 3).map((t: string) => (
-                    <span class="tag">{t}</span>
-                  ))}
-                </div>
                 <span class="view-cta">
                   <span data-i18n="service_explore">View Case Study</span>
                   <i class="fa-solid fa-arrow-right"></i>
@@ -266,6 +268,8 @@ function resolveAsset(url: string) {
     margin-bottom: -36px;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-behavior: smooth;
   }
 
   .project-slider::-webkit-scrollbar { display: none; }
@@ -337,7 +341,9 @@ function resolveAsset(url: string) {
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: var(--surface);
+    background: rgba(var(--surface-rgb), 0.85); /* Subtle transparency */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--border-faint);
     border-radius: calc(var(--radius) * 1.2);
     overflow: hidden;
@@ -350,6 +356,7 @@ function resolveAsset(url: string) {
     transform: translateY(-8px);
     box-shadow: var(--shadow-card-hover);
     border-color: rgba(var(--accent-a-rgb), 0.4);
+    background: rgba(var(--surface-rgb), 0.92);
   }
 
   .project-card:focus-visible {
@@ -404,28 +411,32 @@ function resolveAsset(url: string) {
   /* Category icon badge */
   .card-icon {
     position: absolute;
-    bottom: 16px;
+    top: 240px;
+    transform: translateY(-50%);
     left: 20px;
     width: 42px;
     height: 42px;
     border-radius: 12px;
-    background: rgba(var(--accent-a-rgb), 0.18);
+    background: var(--surface);
     border: 1px solid rgba(var(--accent-a-rgb), 0.35);
     color: var(--accent-a);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 18px;
-    z-index: 3;
+    z-index: 10;
     transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
   }
 
   html[dir="rtl"] .card-icon { left: auto; right: 20px; }
 
   .project-card:hover .card-icon {
-    background: rgba(var(--accent-a-rgb), 0.35);
-    transform: scale(1.08);
+    background: var(--accent-a);
+    transform: translateY(-50%) scale(1.08);
     color: #fff;
+    border-color: var(--accent-a);
+    box-shadow: 0 6px 15px rgba(var(--accent-a-rgb), 0.4);
   }
 
   /* Dot indicators */
@@ -500,7 +511,7 @@ function resolveAsset(url: string) {
     line-height: 1.65;
     margin: 0;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -509,7 +520,7 @@ function resolveAsset(url: string) {
   .card-footer {
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-end;
     gap: 12px;
     margin-top: auto;
     padding-top: 16px;
@@ -518,10 +529,9 @@ function resolveAsset(url: string) {
 
   .project-tags {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 6px;
-    overflow: hidden;
-    flex-wrap: nowrap;
   }
 
   .tag {
@@ -589,12 +599,13 @@ function resolveAsset(url: string) {
     }
 
     .project-card-content {
-      padding: 18px 18px 16px;
-      gap: 8px;
+      padding: 22px 20px 18px;
+      gap: 12px;
     }
 
     .card-icon {
-      bottom: 12px;
+      top: 185px;
+      bottom: auto;
       left: 16px;
       width: 36px;
       height: 36px;
@@ -609,13 +620,15 @@ function resolveAsset(url: string) {
     html[dir="rtl"] .slide-dots { right: auto; left: 16px; }
 
     .project-title {
-      font-size: 16px;
+      font-size: 18px;
       font-weight: 700;
+      line-height: 1.45;
     }
 
     .project-hook {
-      font-size: 13px;
-      -webkit-line-clamp: 2;
+      font-size: 13.5px;
+      -webkit-line-clamp: 3;
+      line-height: 1.6;
     }
 
     /* Executive footer bar on mobile */

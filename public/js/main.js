@@ -1,6 +1,6 @@
 /**
  * Egyptian Arabic Localization & Global UI Interactivity Logic
- * Handles language switching, dictionary lookup, theme toggle, drawer, modals, audio, and scroll animations.
+ * Handles language switching, dictionary lookup, theme toggle, drawer, modals, and scroll animations.
  */
 
 window.trackClick = window.trackClick || function (eventName, eventData = {}) {
@@ -66,9 +66,6 @@ function toggleLanguage() {
         luxuryLoader.style.visibility = '';
     }
 
-    // 2. Play Click Sound
-    if (typeof playClick === 'function') playClick();
-
     // 3. Perform Switch after brief delay (Loader cinematic feel)
     setTimeout(() => {
         currentLang = currentLang === 'en' ? 'ar' : 'en';
@@ -94,9 +91,7 @@ function toggleLanguage() {
 }
 
 /* ===== Global UI Interactivity ===== */
-let isMuted = localStorage.getItem('amr_muted') === '1';
 let drawerOpen = false;
-let introPlayed = false;
 
 function applyTheme(name) {
     const themeBtn = document.getElementById('themeBtn');
@@ -109,36 +104,6 @@ function applyTheme(name) {
     }
     localStorage.setItem('amr_theme', name);
     document.querySelectorAll('.blob').forEach(b => b.style.opacity = document.body.classList.contains('light') ? 0.08 : 0.12);
-}
-
-function setMuted(v) {
-    isMuted = !!v;
-    localStorage.setItem('amr_muted', isMuted ? '1' : '0');
-    const muteBtn = document.getElementById('muteBtn');
-    if (muteBtn) muteBtn.innerHTML = isMuted ? '<i class="fa-solid fa-volume-xmark"></i>' : '<i class="fa-solid fa-volume-high"></i>';
-    const introAudio = document.getElementById('introAudio');
-    const clickAudio = document.getElementById('clickAudio');
-    if (introAudio) introAudio.muted = isMuted;
-    if (clickAudio) clickAudio.muted = isMuted;
-}
-
-function playClick() {
-    if (isMuted) return;
-    const clickAudio = document.getElementById('clickAudio');
-    if (!clickAudio) return;
-    try {
-        clickAudio.currentTime = 0;
-        clickAudio.play();
-    } catch (e) { }
-}
-
-function firstGesture() {
-    const introAudio = document.getElementById('introAudio');
-    if (!introPlayed && !isMuted && introAudio) {
-        introAudio.play().catch(() => { });
-        introPlayed = true;
-    }
-    window.removeEventListener('pointerdown', firstGesture);
 }
 
 function setDrawer(open) {
@@ -179,7 +144,6 @@ function goToSection(sel) {
             const homeUrl = (window.BASE_URL || '/');
             if (luxuryLoader) {
                 luxuryLoader.classList.remove('hidden');
-                playClick();
                 setTimeout(() => {
                     window.location.href = homeUrl + sel;
                 }, 400);
@@ -199,7 +163,6 @@ function goToSection(sel) {
 
     if (luxuryLoader) {
         luxuryLoader.classList.remove('hidden');
-        playClick();
         setTimeout(() => {
             target?.scrollIntoView({ behavior: 'auto', block: 'start' });
             updateFocus();
@@ -208,7 +171,6 @@ function goToSection(sel) {
     } else {
         target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
         updateFocus();
-        playClick();
     }
 }
 
@@ -249,23 +211,14 @@ function initApp() {
         themeBtn.onclick = () => {
             const now = document.body.classList.contains('light') ? 'dark' : 'light';
             applyTheme(now);
-            playClick();
         };
     }
 
-    const muteBtn = document.getElementById('muteBtn');
-    setMuted(isMuted);
-    if (muteBtn) {
-        muteBtn.onclick = () => { setMuted(!isMuted); };
-    }
-
-    window.addEventListener('pointerdown', firstGesture, { passive: true });
-
     const menuBtn = document.getElementById('menuBtn');
-    if (menuBtn) menuBtn.onclick = () => { setDrawer(!drawerOpen); playClick(); };
+    if (menuBtn) menuBtn.onclick = () => { setDrawer(!drawerOpen); };
 
     const closeBtn = document.getElementById('closeBtn');
-    if (closeBtn) closeBtn.onclick = () => { setDrawer(false); playClick(); };
+    if (closeBtn) closeBtn.onclick = () => { setDrawer(false); };
 
     const drawer = document.getElementById('drawer');
     if (drawer) {
@@ -286,15 +239,6 @@ function initApp() {
         const modal = document.getElementById('service-modal');
         if (e.key === 'Escape' && modal && modal.classList.contains('active')) closeModal();
     });
-
-    if (!window.audioClickDelegated) {
-        window.audioClickDelegated = true;
-        document.addEventListener('click', (e) => {
-            if (e.target.closest('button, a')) {
-                playClick();
-            }
-        }, { passive: true });
-    }
 
 
 
