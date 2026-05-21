@@ -19,12 +19,6 @@ export default defineConfig({
   integrations: [],
 
   vite: {
-    plugins: [tailwindcss()],
-    css: {
-      transformer: 'lightningcss'
-    },
-    build: {
-      cssMinify: 'lightningcss'
-    }
+    plugins: [tailwindcss()]
   }
 });
