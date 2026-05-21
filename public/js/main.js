@@ -372,9 +372,5 @@ function cacheOffsets() {
 }
 window.addEventListener('resize', cacheOffsets);
 
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initApp);
-} else {
-    initApp();
-}
+document.addEventListener('DOMContentLoaded', initApp);
 document.addEventListener('astro:page-load', initApp);
