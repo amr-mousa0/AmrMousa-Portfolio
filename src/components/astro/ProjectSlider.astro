@@ -51,7 +51,7 @@ function resolveAsset(url: string) {
                     src={resolveAsset(imgUrl)}
                     alt={`${project.title} — screenshot ${idx + 1}`}
                     class={`slide-img${idx === 0 ? ' active' : ''}`}
-                    loading={idx === 0 ? 'eager' : 'lazy'}
+                    loading="lazy"
                     width={600}
                     height={327}
                     aria-hidden={idx === 0 ? 'false' : 'true'}
