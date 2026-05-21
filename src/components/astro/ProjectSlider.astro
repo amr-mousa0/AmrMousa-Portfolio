@@ -341,7 +341,9 @@ function resolveAsset(url: string) {
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: var(--surface);
+    background: rgba(var(--surface-rgb), 0.85); /* Subtle transparency */
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
     border: 1px solid var(--border-faint);
     border-radius: calc(var(--radius) * 1.2);
     overflow: hidden;
@@ -354,6 +356,7 @@ function resolveAsset(url: string) {
     transform: translateY(-8px);
     box-shadow: var(--shadow-card-hover);
     border-color: rgba(var(--accent-a-rgb), 0.4);
+    background: rgba(var(--surface-rgb), 0.92);
   }
 
   .project-card:focus-visible {

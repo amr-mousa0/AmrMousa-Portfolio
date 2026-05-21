@@ -1,7 +1,7 @@
 ---
 ---
 
-<section id="who" aria-labelledby="who-title" class="who-section">
+<section id="who" aria-labelledby="who-title" class="who-section" style="background: transparent !important;">
   <div class="who-glow-bg" aria-hidden="true"></div>
   <div class="who-container">
     <div class="who-grid">
@@ -26,14 +26,8 @@
       <!-- Right Column: Interactive Cinematic Visual Canvas -->
       <div class="who-visual-column" aria-hidden="true">
         <div class="who-visual-canvas">
-          <!-- Glassmorphic Card 1: Data Analytics (Foreground) -->
-          <div class="visual-card data-card">
-            <div class="card-glass-glow"></div>
-            <div class="card-header-bar">
-              <span class="dot red"></span>
-              <span class="dot yellow"></span>
-              <span class="dot green"></span>
-            </div>
+          <!-- Card 1: Data Analytics (Foreground) -->
+          <div class="visual-card data-card" style="background: transparent !important; box-shadow: none !important; border: none !important;">
             <div class="card-chart-wrapper">
               <svg viewBox="0 0 100 40" class="mini-chart">
                 <defs>
@@ -56,9 +50,8 @@
             </div>
           </div>
 
-          <!-- Glassmorphic Card 2: Marketing Strategy (Background Depth) -->
-          <div class="visual-card strategy-card">
-            <div class="card-glass-glow"></div>
+          <!-- Card 2: Marketing Strategy (Background Depth) -->
+          <div class="visual-card strategy-card" style="background: transparent !important; box-shadow: none !important; border: none !important;">
             <div class="card-metrics">
               <div class="metric-row">
                 <span class="metric-title">Conversion Rate</span>
@@ -192,7 +185,6 @@
   .who-section {
     position: relative;
     padding: 100px 40px;
-    background: var(--bg);
     overflow: hidden;
     display: flex;
     justify-content: center;
@@ -286,62 +278,36 @@
     align-items: center;
     position: relative;
     width: 100%;
-    height: 400px;
+    min-height: 400px;
   }
 
   .who-visual-canvas {
     position: relative;
     width: 100%;
     max-width: 380px;
-    height: 100%;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+    gap: 40px;
   }
 
   .visual-card {
-    position: absolute;
-    background: var(--surface-card);
-    border: 1px solid var(--border-card);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border-radius: 16px;
-    padding: 20px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    position: relative;
     z-index: 5;
-    overflow: hidden;
-  }
-
-  .card-glass-glow {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%);
-    pointer-events: none;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   /* Foregound Data Card */
   .data-card {
-    width: 240px;
-    left: 20px;
-    top: 50px;
+    width: 280px;
     z-index: 10;
   }
 
-  .card-header-bar {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 16px;
-  }
 
-  .card-header-bar .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-  }
-
-  .card-header-bar .dot.red { background: #ff5f56; }
-  .card-header-bar .dot.yellow { background: #ffbd2e; }
-  .card-header-bar .dot.green { background: #27c93f; }
 
   .card-chart-wrapper {
     width: 100%;
@@ -366,9 +332,7 @@
 
   /* Background Strategy Card */
   .strategy-card {
-    width: 220px;
-    right: 20px;
-    bottom: 50px;
+    width: 280px;
     z-index: 6;
   }
 
@@ -387,6 +351,7 @@
     display: flex;
     flex-direction: column;
     gap: 8px;
+    width: 100%;
   }
 
   .metric-row {
@@ -516,18 +481,14 @@
       bottom: auto !important;
       width: 100% !important;
       max-width: 100%;
-      padding: 14px 16px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      border-radius: 12px;
+      padding: 14px 0;
     }
 
     .mini-chart {
       margin-bottom: 10px;
     }
 
-    .card-header-bar {
-      margin-bottom: 10px;
-    }
+
 
     .connections-net {
       margin-top: 8px;

@@ -201,7 +201,7 @@ const currentPath = Astro.url.pathname;
 
     <nav class="header-nav" aria-label="Desktop Navigation">
       <button class={`nav-link ${(currentPath === import.meta.env.BASE_URL || currentPath === import.meta.env.BASE_URL.slice(0, -1) || currentPath === '/') ? 'active' : ''}`} data-section="#hero" data-i18n="nav_home" onclick="goToSection('#hero')">Home</button>
-      <a href={`${import.meta.env.BASE_URL}methodology`} class={`nav-link ${currentPath.includes('/methodology') ? 'active' : ''}`} data-i18n="nav_methodology">Methodology</a>
+      <a href={`${import.meta.env.BASE_URL}methodology`} class={`nav-link ${currentPath.includes('/methodology') ? 'active' : ''}`} data-i18n="nav_methodology">Who I Am</a>
       <button class="nav-link" data-section="#services" data-i18n="nav_services" onclick="goToSection('#services')">Services</button>
       <button class="nav-link" data-section="#projects" data-i18n="nav_projects" onclick="goToSection('#projects')">Projects</button>
       <button class="nav-link" data-section="#contact" data-i18n="nav_contact" onclick="goToSection('#contact')">Contact</button>
@@ -227,7 +227,7 @@ const currentPath = Astro.url.pathname;
       </div>
       <a href={`${import.meta.env.BASE_URL}methodology`} class={`menu-item ${currentPath.includes('/methodology') ? 'active' : ''}`} role="menuitem" tabindex="0" style="text-decoration: none; color: inherit;">
         <div class="icon-box"><i class="fa-solid fa-user-tie"></i></div>
-        <div class="label" data-i18n="nav_methodology">Methodology</div>
+        <div class="label" data-i18n="nav_methodology">Who I Am</div>
       </a>
       <div class="menu-item" data-target="#services" role="menuitem" tabindex="0">
         <div class="icon-box"><i class="fa-solid fa-gears"></i></div>
