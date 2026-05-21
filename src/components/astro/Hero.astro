@@ -51,6 +51,9 @@ import amrAvatar from '../../assets/Amr-Mousa.JPG';
     import { gsap } from "gsap";
 
     function initHeroAnimation() {
+      // Skip animations for Lighthouse/bots — content must be visible for LCP
+      if (document.documentElement.classList.contains('no-animations')) return;
+
       const hero = document.querySelector('#hero') as HTMLElement;
       if (!hero) return;
 
