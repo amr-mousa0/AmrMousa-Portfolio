@@ -12,7 +12,6 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-
 # environment variables
 .env
 .env.production
@@ -32,3 +31,24 @@ test-results/
 /blob-report/
 /playwright/.cache/
 /playwright/.auth/
+
+# ── AI / Agent tooling — NOT for production ──────────────
+.agents/
+.agent/
+.agents/
+.impeccable/
+.lighthouseci/
+.specify/
+specs/
+AGENTS.md
+run-qa.bat
+css/
+
+# GitHub AI agents & prompts (internal tooling only)
+.github/agents/
+.github/prompts/
+.github/copilot-instructions.md
+
+# E2E / Playwright tests (dev tooling only)
+e2e/
+tests/
