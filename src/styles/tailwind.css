@@ -4862,4 +4862,20 @@
     opacity: 1 !important;
     transform: none !important;
   }
+
+  /* ── Mobile Performance Safeguard ──────────────────────────────── */
+  /* Disable heavy glassmorphism on mobile to prevent GPU crashing & lag */
+  @media (max-width: 768px) {
+    .service-card, .project-card, .contact-card-glass {
+      backdrop-filter: none !important;
+      -webkit-backdrop-filter: none !important;
+      /* Fallback to a solid/slightly transparent dark color */
+      background: rgba(25, 25, 25, 0.95) !important;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3) !important;
+      border: 1px solid rgba(255, 255, 255, 0.05) !important;
+    }
+    .wavy-mask, .blob, .wave-top {
+      animation: none !important;
+    }
+  }
 }
