@@ -226,12 +226,7 @@
 
   .chart-pulse-node {
     filter: drop-shadow(0 0 4px var(--accent-a));
-    animation: nodePulse 2s infinite ease-in-out;
-  }
-
-  @keyframes nodePulse {
-    0%, 100% { r: 3; opacity: 1; }
-    50% { r: 5; opacity: 0.6; }
+    /* Removed continuous animation for Lighthouse performance */
   }
 
   /* Background Strategy Card */

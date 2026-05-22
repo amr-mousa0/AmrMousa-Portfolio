@@ -46,44 +46,25 @@ const serviceImages = {
       <div class="services-slider scrolling-wrapper">
         {servicesData.map((service) => (
           <article class="service-card-wrapper">
-            <!-- Entire card is clickable/touchable taking user directly to proposal sheet -->
             <a href={`${import.meta.env.BASE_URL}services/${service.id}`} onclick={`trackClick('service_click', { service_id: '${service.id}' })`} class="service-card font-poppins" aria-label={`View ${service.title} details`}>
-              
-              <!-- ── Glassmorphic Art Box Banner ── -->
-              <div class="luxury-card-banner">
-                {serviceImages[service.id] && (
-                  <Image 
-                    src={serviceImages[service.id]} 
-                    alt={service.title} 
-                    width={320} 
-                    height={100}
-                    quality={50}
-                    format="webp"
-                    class="banner-image"
-                    loading="lazy"
-                  />
-                )}
-                
-                <div class="banner-top-row font-poppins">
-                  <span class="service-clean-badge font-poppins" data-i18n="service_badge">SERVICE</span>
-                  <span class="status-pulse-dot"></span>
-                </div>
 
-                <!-- Main Glowing Center Icon -->
-                <div class="banner-center-icon font-poppins font-normal">
+              <!-- ── Clean Icon Banner ── -->
+              <div class="luxury-card-banner">
+                <div class="banner-icon-wrap">
                   <i class={service.icon}></i>
                 </div>
+                <span class="service-clean-badge" data-i18n="service_badge">SERVICE</span>
+                <span class="status-dot"></span>
               </div>
 
-              <!-- ── Expanded Text Content & Problem-Solving Sales Hook (No bottom button) ── -->
+              <!-- ── Text Content ── -->
               <div class="service-card-content font-poppins">
                 <h3 class="service-title font-poppins" data-i18n={`service_${service.id}_title`}>{service.title}</h3>
                 <p class="service-hook font-poppins" data-i18n={`service_${service.id}_copy`}>{service.copy}</p>
-
                 <div class="card-footer font-poppins">
-                  <span class="explore-hint font-poppins font-normal">
+                  <span class="explore-hint font-poppins">
                     <span data-i18n="service_explore">Explore Details</span>
-                    <i class="fa-solid fa-arrow-right font-normal"></i>
+                    <i class="fa-solid fa-arrow-right"></i>
                   </span>
                 </div>
               </div>
@@ -362,16 +343,61 @@ const serviceImages = {
 
   html[dir="rtl"] .service-clean-badge { left: auto; right: 14px; }
 
-  /* Pulse dot — top-right */
-  .status-pulse-dot {
+  /* Static dot — no continuous animation (Lighthouse: avoid non-composited anims) */
+  .status-dot {
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    z-index: 3;
+    width: 7px;
+    height: 7px;
+    background: var(--accent-a);
     border-radius: 50%;
-    box-shadow: 0 0 10px var(--accent-a);
-    animation: pulseDot 2s infinite ease-in-out;
+    box-shadow: 0 0 6px var(--accent-a);
   }
 
-  @keyframes pulseDot {
-    0%, 100% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(1.3); opacity: 0.6; box-shadow: 0 0 15px var(--accent-a); }
+  html[dir="rtl"] .status-dot { right: auto; left: 14px; }
+
+  /* ── Light mode: explicit white card ──────────────────── */
+  :global(body.light) .service-card {
+    background: #ffffff;
+    border-color: rgba(7, 16, 38, 0.1);
+    box-shadow: 0 4px 20px rgba(7, 16, 38, 0.06);
+  }
+
+  :global(body.light) .service-card:hover {
+    background: #ffffff;
+    border-color: rgba(7, 16, 38, 0.18);
+    box-shadow: 0 12px 36px rgba(7, 16, 38, 0.1);
+  }
+
+  :global(body.light) .luxury-card-banner {
+    background: #f5f7fa;
+    border-bottom-color: rgba(7, 16, 38, 0.08);
+  }
+
+  :global(body.light) .service-clean-badge {
+    background: rgba(7, 16, 38, 0.05);
+    border-color: rgba(7, 16, 38, 0.12);
+    color: rgba(7, 16, 38, 0.5);
+  }
+
+  :global(body.light) .service-hook {
+    color: #475569;
+  }
+
+  :global(body.light) .service-title {
+    color: #071026;
+  }
+
+  :global(body.light) .explore-hint {
+    color: var(--light-accent-a);
+    border-color: rgba(11, 132, 255, 0.3);
+    background: rgba(11, 132, 255, 0.06);
+  }
+
+  :global(body.light) .card-footer {
+    border-top-color: rgba(7, 16, 38, 0.08);
   }
 
   .banner-center-icon {

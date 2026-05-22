@@ -618,12 +618,8 @@
     inset: 0;
     background: inherit;
     border-radius: inherit;
-    animation: dotPulse 2s infinite ease-in-out;
-  }
-
-  @keyframes dotPulse {
-    0% { transform: scale(1); opacity: 1; }
-    100% { transform: scale(2.5); opacity: 0; }
+    /* Removed continuous animation for Lighthouse performance */
+    opacity: 0;
   }
 
   .company-badge {
