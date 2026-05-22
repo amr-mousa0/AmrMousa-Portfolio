@@ -4899,4 +4899,28 @@ html.is-bot .anim-child {
   .wave-top {
     animation: none !important;
   }
-}
+}
+
+/* USER OVERRIDE: Global Animation Killer */
+* {
+  animation: none !important;
+}
+
+/* USER OVERRIDE: Explicit White Cards in Light Theme */
+body.light .service-card, body.light .project-card, body.light .visual-card {
+  background: #ffffff !important;
+  border-color: rgba(7, 16, 38, 0.12) !important;
+  box-shadow: 0 4px 24px rgba(7, 16, 38, 0.06) !important;
+}
+body.light .luxury-card-banner, body.light .project-card-image {
+  background: #f8fafc !important;
+}
+body.light .service-card-content, body.light .project-card-content {
+  background: #ffffff !important;
+}
+body.light .service-title, body.light .project-title {
+  color: #071026 !important;
+}
+body.light .service-hook, body.light .project-hook {
+  color: #475569 !important;
+}
