@@ -197,10 +197,10 @@
     background-color: #0e0e10;
     background-image:
       radial-gradient(ellipse 80% 70% at 50% 40%, transparent 25%, rgba(6, 6, 8, 0.8) 100%),
-      radial-gradient(ellipse 65% 55% at 5% 0%, rgba(0, 102, 121, 0.13) 0%, transparent 65%),
-      radial-gradient(ellipse 55% 45% at 95% 100%, rgba(140, 40, 95, 0.10) 0%, transparent 60%),
-      linear-gradient(to right, rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      radial-gradient(ellipse 50% 40% at 5% 0%, rgba(0, 102, 121, 0.04) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 35% at 95% 100%, rgba(140, 40, 95, 0.03) 0%, transparent 55%),
+      linear-gradient(to right, rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
     background-size:
       100% 100%,
       100% 100%,
@@ -221,16 +221,12 @@
   body.light main {
     background-color: #f2f3f7;
     background-image:
-      radial-gradient(ellipse 75% 65% at 50% 30%, rgba(255, 253, 248, 0.75) 0%, transparent 70%),
-      radial-gradient(ellipse 55% 45% at 5% 0%, rgba(200, 220, 255, 0.22) 0%, transparent 60%),
-      linear-gradient(to right, rgba(80, 90, 120, 0.09) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(80, 90, 120, 0.09) 1px, transparent 1px);
+      linear-gradient(to right, rgba(80, 90, 120, 0.07) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(80, 90, 120, 0.07) 1px, transparent 1px);
     background-size:
-      100% 100%,
-      100% 100%,
       40px 40px,
       40px 40px;
-    background-attachment: local, local, local, local;
+    background-attachment: local, local;
   }
 
   /* METHODOLOGY PAGE OVERRIDES (No scroll snap) */
@@ -4903,5 +4899,4 @@ html.is-bot .anim-child {
   .wave-top {
     animation: none !important;
   }
-}
-}
+}
