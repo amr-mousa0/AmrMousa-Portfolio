@@ -253,27 +253,25 @@ const serviceImages = {
     }
   }
 
-  /* ── Card Shell (Entirely Clickable) ───────────────────────── */
+  /* ── Card Shell (Entirely Clickable) ─────────────────── */
   .service-card {
     display: flex;
     flex-direction: column;
     height: 100%;
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.01) 100%);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    background: var(--surface-card);
+    border: 1px solid var(--border-card);
     border-radius: calc(var(--radius) * 1.2);
     overflow: hidden;
     text-decoration: none !important;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
   }
 
   .service-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-    border-color: rgba(var(--accent-a-rgb), 0.3);
-    background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.02) 100%);
+    transform: translateY(-6px);
+    background: var(--surface-card-hover);
+    border-color: var(--border-card-hover);
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.2);
   }
 
   .service-card:focus-visible {
@@ -282,62 +280,90 @@ const serviceImages = {
     border-color: var(--accent-a);
   }
 
-  /* ── Clean Card Banner ────────────────────────────── */
+  /* ── Clean Card Banner — matches site design system ─────── */
   .luxury-card-banner {
     position: relative;
-    height: 110px;
-    background: rgba(0, 0, 0, 0.15); /* Transparent dark overlay instead of solid color */
+    height: 140px;
+    background: var(--surface-card);
+    border-bottom: 1px solid var(--border-card);
     overflow: hidden;
     flex-shrink: 0;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 14px 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    align-items: center;
+    justify-content: center;
   }
 
-  .banner-image {
+  /* Very subtle warm accent wash — not blue, just a glow */
+  .luxury-card-banner::before {
+    content: '';
     position: absolute;
     inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    opacity: 0.35;
-    transition: opacity 0.5s ease, transform 0.5s ease;
-    will-change: opacity, transform;
-    z-index: 0;
+    background: radial-gradient(
+      ellipse 70% 60% at 50% 60%,
+      rgba(var(--accent-a-rgb), 0.07) 0%,
+      transparent 80%
+    );
+    pointer-events: none;
   }
 
-  .service-card:hover .banner-image {
-    opacity: 0.55;
-    transform: scale(1.08);
+  /* Subtle grid texture */
+  .luxury-card-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(var(--accent-a-rgb), 0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(var(--accent-a-rgb), 0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
   }
 
-  .banner-top-row {
+  /* Large centered icon — clean, no aggressive blue square */
+  .banner-icon-wrap {
     position: relative;
-    z-index: 3;
+    z-index: 2;
+    width: 68px;
+    height: 68px;
+    border-radius: 18px;
+    background: rgba(var(--accent-a-rgb), 0.1);
+    border: 1px solid rgba(var(--accent-a-rgb), 0.2);
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
+    font-size: 28px;
+    color: var(--accent-a);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
+  .service-card:hover .banner-icon-wrap {
+    background: rgba(var(--accent-a-rgb), 0.18);
+    border-color: rgba(var(--accent-a-rgb), 0.4);
+    transform: scale(1.06);
+    box-shadow: 0 8px 28px rgba(var(--accent-a-rgb), 0.22);
+  }
+
+  /* SERVICE badge — top-left, very subtle */
   .service-clean-badge {
-    font-size: 10px;
-    font-weight: 800;
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    z-index: 3;
+    font-size: 9px;
+    font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: var(--text);
+    color: var(--muted);
+    background: var(--badge-bg);
+    border: 1px solid var(--badge-border);
+    padding: 3px 8px;
+    border-radius: 5px;
     line-height: 1;
-    background: rgba(var(--accent-a-rgb), 0.2);
-    padding: 5px 12px;
-    border-radius: 6px;
-    border: 1px solid var(--accent-a);
   }
 
+  html[dir="rtl"] .service-clean-badge { left: auto; right: 14px; }
+
+  /* Pulse dot — top-right */
   .status-pulse-dot {
-    width: 8px;
-    height: 8px;
-    background: var(--accent-a);
     border-radius: 50%;
     box-shadow: 0 0 10px var(--accent-a);
     animation: pulseDot 2s infinite ease-in-out;
