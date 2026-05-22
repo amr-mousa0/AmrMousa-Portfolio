@@ -4936,3 +4936,14 @@ body.light .exp-role-title, body.light .testimonial-name {
 body.light .exp-bullet-list li, body.light .testimonial-text {
   color: #475569 !important;
 }
+
+/* USER OVERRIDE: Kill ALL fade-up / scroll animations across the site */
+* {
+  transition-delay: 0s !important;
+}
+.anim-child {
+  opacity: 1 !important;
+  transform: none !important;
+  transition: none !important;
+}
+
