@@ -12,7 +12,24 @@ window.trackClick = window.trackClick || function (eventName, eventData = {}) {
 };
 
 
-let currentLang = localStorage.getItem('amr_lang') || 'en';
+const safeStorage = window.safeStorage || {
+    getItem: function (key) {
+        try {
+            return localStorage.getItem(key);
+        } catch (e) {
+            return null;
+        }
+    },
+    setItem: function (key, value) {
+        try {
+            localStorage.setItem(key, value);
+        } catch (e) {
+            // Ignore
+        }
+    }
+};
+
+let currentLang = safeStorage.getItem('amr_lang') || 'en';
 
 function updateContent() {
     const elements = document.querySelectorAll('[data-i18n]');
@@ -52,7 +69,7 @@ function toggleLanguage() {
     requestAnimationFrame(() => {
         setTimeout(() => {
             currentLang = currentLang === 'en' ? 'ar' : 'en';
-            localStorage.setItem('amr_lang', currentLang);
+            safeStorage.setItem('amr_lang', currentLang);
             html.setAttribute('lang', currentLang);
             html.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
             updateContent();
@@ -78,7 +95,7 @@ function applyTheme(name) {
         document.body.classList.remove('light');
         if (themeBtn) themeBtn.innerHTML = '<i class="fa-solid fa-moon"></i>';
     }
-    localStorage.setItem('amr_theme', name);
+    safeStorage.setItem('amr_theme', name);
     document.querySelectorAll('.blob').forEach(b => b.style.opacity = document.body.classList.contains('light') ? 0.08 : 0.12);
 }
 
@@ -91,7 +108,8 @@ function setDrawer(open) {
         document.body.classList.add('drawer-open');
         drawer.setAttribute('aria-hidden', 'false');
         setTimeout(() => {
-            drawer.querySelector('.menu-item')?.focus();
+            const menuItem = drawer.querySelector('.menu-item');
+            if (menuItem) menuItem.focus();
         }, 220);
     } else {
         drawer.classList.remove('expanded');
@@ -120,7 +138,7 @@ function goToSection(sel) {
         }
     }
 
-    target?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     if (target) {
         target.setAttribute('tabindex', '-1');
         target.focus({ preventScroll: true });
@@ -157,7 +175,7 @@ function initApp() {
     }
 
     const themeBtn = document.getElementById('themeBtn');
-    const savedTheme = localStorage.getItem('amr_theme') || 'dark';
+    const savedTheme = safeStorage.getItem('amr_theme') || 'dark';
     applyTheme(savedTheme);
     if (themeBtn) {
         // remove old listeners by cloning or just assume it's safe to add
@@ -199,10 +217,12 @@ function initApp() {
         window._zeroHashDelegated = true;
         document.addEventListener('click', (e) => {
             const anchor = e.target.closest('a');
-            if (anchor && anchor.getAttribute('href')?.startsWith('#')) {
-                e.preventDefault();
-                const targetId = anchor.getAttribute('href');
-                goToSection(targetId);
+            if (anchor) {
+                const href = anchor.getAttribute('href');
+                if (href && href.indexOf('#') === 0) {
+                    e.preventDefault();
+                    goToSection(href);
+                }
             }
         }, { passive: false });
     }
@@ -282,7 +302,7 @@ function initApp() {
             if (btn) {
                 e.preventDefault();
                 const mainEl = document.querySelector('main');
-                mainEl?.scrollTo({ top: 0, behavior: 'smooth' });
+                if (mainEl) mainEl.scrollTo({ top: 0, behavior: 'smooth' });
             }
         });
     }

@@ -178,7 +178,16 @@ const { service } = Astro.props;
 <script is:inline>
   // Dynamically update the WhatsApp link pre-filled text based on the active language setting
   function updateWhatsAppLink() {
-    const currentLang = localStorage.getItem('amr_lang') || 'en';
+    const safeStorage = window.safeStorage || {
+      getItem: function(key) {
+        try {
+          return localStorage.getItem(key);
+        } catch (e) {
+          return null;
+        }
+      }
+    };
+    const currentLang = safeStorage.getItem('amr_lang') || 'en';
     const whatsappBtn = document.getElementById('whatsapp-proposal-btn');
     if (!whatsappBtn) return;
     

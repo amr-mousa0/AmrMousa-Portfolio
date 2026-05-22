@@ -89,9 +89,27 @@ const currentPath = Astro.url.pathname;
 
   <!-- Theme FOUC prevention (runs synchronously before paint) -->
   <script is:inline>
+    // Safe storage helper to prevent SecurityError under blocked/sandboxed cookies/localStorage
+    window.safeStorage = {
+      getItem: function(key) {
+        try {
+          return localStorage.getItem(key);
+        } catch (e) {
+          return null;
+        }
+      },
+      setItem: function(key, value) {
+        try {
+          localStorage.setItem(key, value);
+        } catch (e) {
+          // Ignore
+        }
+      }
+    };
+
     // Instant theme application to prevent FOUC
     window.applySavedTheme = function() {
-      var t = localStorage.getItem('amr_theme');
+      var t = window.safeStorage.getItem('amr_theme');
       if (t === 'light') document.body.classList.add('light');
       else document.body.classList.remove('light');
     };
@@ -191,14 +209,18 @@ const currentPath = Astro.url.pathname;
 </head>
 <body class={currentPath.includes('methodology') ? 'methodology-page' : ''}>
   <script is:inline>
-    if (window.applySavedTheme) window.applySavedTheme();
+    try {
+      if (window.applySavedTheme) window.applySavedTheme();
+    } catch (e) {}
     
-    // Disable heavy GPU tasks (glassmorphism/animations) for Lighthouse to prevent crashing the emulated Moto G4
-    var ua = navigator.userAgent || '';
-    var isBot = /Lighthouse|Chrome-Lighthouse|Googlebot|PageSpeed|HeadlessChrome|Pingdom|GTmetrix|moto g|Nexus 5X/i.test(ua) || navigator.webdriver;
-    if (isBot) {
-      document.documentElement.classList.add('is-bot');
-    }
+    try {
+      // Disable heavy GPU tasks (glassmorphism/animations) for Lighthouse to prevent crashing the emulated Moto G4
+      var ua = (window.navigator && window.navigator.userAgent) || '';
+      var isBot = /Lighthouse|Chrome-Lighthouse|Googlebot|PageSpeed|HeadlessChrome|Pingdom|GTmetrix|moto g|Nexus 5X/i.test(ua) || (window.navigator && window.navigator.webdriver);
+      if (isBot) {
+        document.documentElement.classList.add('is-bot');
+      }
+    } catch (e) {}
   </script>
 
   <header class="luxury-header" aria-label="Site Header">
