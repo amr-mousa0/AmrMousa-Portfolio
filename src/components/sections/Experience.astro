@@ -355,7 +355,7 @@
 
         slider.scrollBy({
           left: (isRtl ? -dir : dir) * step,
-          behavior: 'smooth'
+          behavior: 'auto'
         });
       };
 
@@ -886,5 +886,27 @@
       line-height: 1.45;
       color: var(--muted);
     }
+  }
+
+  /* Light mode scoped overrides */
+  :global(body.light) .experience-card {
+    background: #ffffff !important;
+    border-color: rgba(7, 16, 38, 0.12) !important;
+  }
+  :global(body.light) .experience-card:hover,
+  :global(body.light) .experience-card:focus-visible {
+    background: #ffffff !important;
+    border-color: var(--accent-a) !important;
+  }
+  :global(body.light) .mobile-timeline-station {
+    background: #ffffff !important;
+    border-color: rgba(7, 16, 38, 0.12) !important;
+  }
+  :global(body.light) .mobile-timeline-station.active {
+    background: #ffffff !important;
+    border-color: rgba(var(--accent-a-rgb), 0.25) !important;
+  }
+  :global(body.light) .mobile-timeline-track {
+    background: linear-gradient(to bottom, var(--accent-a) 0%, rgba(7, 16, 38, 0.12) 100%) !important;
   }
 </style>

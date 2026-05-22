@@ -4926,7 +4926,7 @@ body.light .service-hook, body.light .project-hook {
 }
 
 /* USER OVERRIDE: Fix all remaining dark cards in light theme */
-body.light .experience-card, body.light .skill-card, body.light .testimonial-card, body.light .glass-card, body.light .card-meta {
+body.light .experience-card, body.light .skill-card, body.light .testimonial-card, body.light .glass-card, body.light .card-meta, body.light .mobile-timeline-station {
   background: #ffffff !important;
   border-color: rgba(7, 16, 38, 0.12) !important;
 }
@@ -4937,9 +4937,12 @@ body.light .exp-bullet-list li, body.light .testimonial-text {
   color: #475569 !important;
 }
 
-/* USER OVERRIDE: Kill ALL fade-up / scroll animations across the site */
-* {
+/* USER OVERRIDE: Kill ALL fade-up / scroll animations / transitions across the site */
+*, *::before, *::after {
+  animation: none !important;
+  transition: none !important;
   transition-delay: 0s !important;
+  transition-duration: 0s !important;
 }
 .anim-child {
   opacity: 1 !important;

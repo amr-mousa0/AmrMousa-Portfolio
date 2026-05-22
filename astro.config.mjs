@@ -19,6 +19,7 @@ export default defineConfig({
   integrations: [],
 
   vite: {
+    // @ts-expect-error - Vite plugin types may clash between Astro and Tailwind Vite plugin
     plugins: [tailwindcss()],
     css: {
       transformer: 'lightningcss'
@@ -26,11 +27,5 @@ export default defineConfig({
     build: {
       cssMinify: 'lightningcss'
     }
-  }
-});
-    },
-build: {
-  cssMinify: 'lightningcss'
-}
   }
 });

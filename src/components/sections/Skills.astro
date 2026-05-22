@@ -452,6 +452,25 @@
       font-size: 9.5px;
     }
   }
+
+  /* Light mode scoped overrides */
+  :global(body.light) .tool-card {
+    background: #ffffff !important;
+    border-color: rgba(7, 16, 38, 0.12) !important;
+    box-shadow: 0 4px 24px rgba(7, 16, 38, 0.06) !important;
+  }
+  :global(body.light) .tool-card:hover {
+    background: #ffffff !important;
+    border-color: var(--accent-b) !important;
+  }
+  :global(body.light) .tool-icon {
+    background: #f8fafc !important;
+    border-color: rgba(7, 16, 38, 0.12) !important;
+  }
+  :global(body.light) .tool-card:hover .tool-icon {
+    background: #f8fafc !important;
+    border-color: var(--accent-b) !important;
+  }
 </style>
 
 <script is:inline>

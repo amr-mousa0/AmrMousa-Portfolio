@@ -264,33 +264,8 @@ const currentPath = Astro.url.pathname;
   <StickyCTA />
   <script>
     function initGlobalAnimations() {
-      // If no-animations is active (bots/Lighthouse), skip observing and show everything immediately
-      if (document.documentElement.classList.contains('no-animations')) {
-        document.querySelectorAll('.anim-child').forEach((el) => {
-          el.classList.add('fade-up');
-        });
-        return;
-      }
-
-      const mainScroller = document.getElementById('main');
-      const elements = document.querySelectorAll('.anim-child');
-
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const el = entry.target as HTMLElement;
-            el.classList.add('fade-up');
-            observer.unobserve(el);
-          }
-        });
-      }, {
-        root: mainScroller,
-        rootMargin: '0px 0px -5% 0px',
-        threshold: 0.02
-      });
-
-      elements.forEach((el) => {
-        observer.observe(el);
+      document.querySelectorAll('.anim-child').forEach((el) => {
+        el.classList.add('fade-up');
       });
     }
 
