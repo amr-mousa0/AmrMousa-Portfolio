@@ -4924,3 +4924,15 @@ body.light .service-title, body.light .project-title {
 body.light .service-hook, body.light .project-hook {
   color: #475569 !important;
 }
+
+/* USER OVERRIDE: Fix all remaining dark cards in light theme */
+body.light .experience-card, body.light .skill-card, body.light .testimonial-card, body.light .glass-card, body.light .card-meta {
+  background: #ffffff !important;
+  border-color: rgba(7, 16, 38, 0.12) !important;
+}
+body.light .exp-role-title, body.light .testimonial-name {
+  color: #071026 !important;
+}
+body.light .exp-bullet-list li, body.light .testimonial-text {
+  color: #475569 !important;
+}
