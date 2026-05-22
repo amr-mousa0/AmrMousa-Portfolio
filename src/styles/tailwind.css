@@ -151,11 +151,24 @@
 
   html {
     background-color: #0e0e10;
+    scroll-behavior: smooth;
+    scroll-snap-type: y proximity;
+  }
+
+  html:has(body.methodology-page) {
+    scroll-snap-type: none !important;
+  }
+
+  @media (max-width: 768px) {
+    html {
+      scroll-snap-type: none !important;
+    }
   }
 
   html,
   body {
-    height: 100%;
+    min-height: 100%;
+    height: auto;
     margin: 0;
     font-family: 'Poppins', system-ui, -apple-system, Segoe UI, Roboto, Arial;
     color: var(--text);
@@ -186,12 +199,8 @@
 
   /* ---- Luxury Grid Background on main (the real scroll container) ---- */
   main {
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    scroll-behavior: smooth;
-    scroll-snap-type: y proximity;
-    -webkit-overflow-scrolling: touch;
+    width: 100%;
+    position: relative;
 
     /* DARK MODE grid (default) */
     background-color: #0e0e10;
@@ -207,14 +216,8 @@
       100% 100%,
       40px 40px,
       40px 40px;
-    background-attachment: local, local, local, local, local;
+    background-attachment: scroll, scroll, scroll, scroll, scroll;
     transition: background-color var(--trans);
-  }
-
-  @media (max-width: 768px) {
-    main {
-      scroll-snap-type: none;
-    }
   }
 
   /* LIGHT MODE grid */
@@ -226,16 +229,7 @@
     background-size:
       40px 40px,
       40px 40px;
-    background-attachment: local, local;
-  }
-
-  /* METHODOLOGY PAGE OVERRIDES (No scroll snap) */
-  body.methodology-page main {
-    scroll-snap-type: none !important;
-  }
-
-  body.light.methodology-page main {
-    scroll-snap-type: none !important;
+    background-attachment: scroll, scroll;
   }
 
   section {

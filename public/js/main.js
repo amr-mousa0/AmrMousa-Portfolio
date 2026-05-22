@@ -250,8 +250,9 @@ function initApp() {
 
         const updateScrollSpy = () => {
             const scrollTopBtn = document.getElementById('scroll-top-btn');
+            const currentScrollY = window.scrollY || document.documentElement.scrollTop;
             if (scrollTopBtn) {
-                if (mainEl.scrollTop > 300) {
+                if (currentScrollY > 300) {
                     scrollTopBtn.classList.add('visible');
                 } else {
                     scrollTopBtn.classList.remove('visible');
@@ -267,7 +268,7 @@ function initApp() {
             if (sectionOffsets.length === 0) cacheOffsets();
             let currentSection = '#hero';
             sectionOffsets.forEach(sec => {
-                if (mainEl.scrollTop >= sec.top - 200) {
+                if (currentScrollY >= sec.top - 200) {
                     currentSection = sec.id;
                 }
             });
@@ -284,7 +285,7 @@ function initApp() {
         // Run scroll spy update immediately to highlight "Home" or the current section on load
         updateScrollSpy();
 
-        mainEl.addEventListener('scroll', () => {
+        window.addEventListener('scroll', () => {
             if (!isScrolling) {
                 isScrolling = true;
                 requestAnimationFrame(() => {
@@ -301,8 +302,7 @@ function initApp() {
             const btn = e.target.closest('#scroll-top-btn');
             if (btn) {
                 e.preventDefault();
-                const mainEl = document.querySelector('main');
-                if (mainEl) mainEl.scrollTo({ top: 0, behavior: 'smooth' });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         });
     }
