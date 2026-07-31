@@ -9,7 +9,7 @@ import { GoogleTranslateProvider } from './providers/translation-provider';
 import type { AssetProcessor } from './providers/asset-processor';
 import { SharpProcessor } from './providers/asset-processor';
 import type { StorageProvider } from './providers/storage-provider';
-import { DiskStorageProvider } from './providers/storage-provider';
+import { createAutoStorageProvider } from './providers/storage-provider';
 import type { QueueProvider } from './providers/queue-provider';
 import { MemoryQueueProvider } from './providers/queue-provider';
 
@@ -26,7 +26,7 @@ export function createDefaultRegistry(): ContentHubRegistry {
     adapter: new GitHubAdapter(),
     translation: new GoogleTranslateProvider(),
     asset: new SharpProcessor(),
-    storage: new DiskStorageProvider(),
+    storage: createAutoStorageProvider(),
     queue: new MemoryQueueProvider()
   };
 }

@@ -2,30 +2,35 @@
  * SHA-256 Manifest Hash Deduplication Cache
  * ADR-023-007 Authoritative Protocol
  */
-import fs from 'fs';
-import path from 'path';
 import crypto from 'crypto';
+import { getRegistry } from '../content-hub/provider-registry';
 
-const HASH_CACHE_PATH = path.resolve('.cache/manifest-hashes.json');
+const STORAGE_KEY = 'manifest-hashes.json';
 
 interface HashCache {
   [repoId: string]: string;
 }
 
-function loadHashCache(): HashCache {
+let inMemoryCache: HashCache | null = null;
+
+async function loadHashCache(): Promise<HashCache> {
+  if (inMemoryCache) return inMemoryCache;
   try {
-    if (fs.existsSync(HASH_CACHE_PATH)) {
-      return JSON.parse(fs.readFileSync(HASH_CACHE_PATH, 'utf-8'));
+    const raw = await getRegistry().storage.get(STORAGE_KEY);
+    if (raw) {
+      const content = typeof raw === 'string' ? raw : raw.toString('utf-8');
+      inMemoryCache = JSON.parse(content);
+      return inMemoryCache!;
     }
   } catch (e) {}
-  return {};
+  inMemoryCache = {};
+  return inMemoryCache;
 }
 
-function saveHashCache(cache: HashCache) {
+async function saveHashCache(cache: HashCache): Promise<void> {
+  inMemoryCache = cache;
   try {
-    const dir = path.dirname(HASH_CACHE_PATH);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(HASH_CACHE_PATH, JSON.stringify(cache, null, 2));
+    await getRegistry().storage.put(STORAGE_KEY, JSON.stringify(cache, null, 2));
   } catch (e) {}
 }
 
@@ -33,20 +38,20 @@ export function computeHash(content: string): string {
   return crypto.createHash('sha256').update(content || '').digest('hex');
 }
 
-export function hasManifestChanged(repoId: string, rawContent: string): boolean {
-  const cache = loadHashCache();
+export async function hasManifestChanged(repoId: string, rawContent: string): Promise<boolean> {
+  const cache = await loadHashCache();
   const newHash = computeHash(rawContent);
   return cache[repoId] !== newHash;
 }
 
-export function recordManifestHash(repoId: string, rawContent: string): void {
-  const cache = loadHashCache();
+export async function recordManifestHash(repoId: string, rawContent: string): Promise<void> {
+  const cache = await loadHashCache();
   cache[repoId] = computeHash(rawContent);
-  saveHashCache(cache);
+  await saveHashCache(cache);
 }
 
-export function removeManifestHash(repoId: string): void {
-  const cache = loadHashCache();
+export async function removeManifestHash(repoId: string): Promise<void> {
+  const cache = await loadHashCache();
   delete cache[repoId];
-  saveHashCache(cache);
+  await saveHashCache(cache);
 }

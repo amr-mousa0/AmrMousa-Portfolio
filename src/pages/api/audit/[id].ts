@@ -14,9 +14,9 @@ export const GET: APIRoute = async ({ params }) => {
   }
 
   // Check if ID is a traceId or repoId
-  let logs = AuditLogger.getLogsByTraceId(id);
+  let logs = await AuditLogger.getLogsByTraceId(id);
   if (logs.length === 0) {
-    logs = AuditLogger.getLogsByRepoId(id);
+    logs = await AuditLogger.getLogsByRepoId(id);
   }
 
   return new Response(JSON.stringify(logs), {

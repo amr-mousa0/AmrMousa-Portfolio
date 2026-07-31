@@ -4,12 +4,11 @@
  * 
  * Keying invariant: SHA256(sourceText) + provider + sourceLang + targetLang
  */
-import fs from 'fs';
-import path from 'path';
 import crypto from 'crypto';
 import type { TranslationProvider } from '../providers/translation-provider';
+import { getRegistry } from '../provider-registry';
 
-const TRANSLATION_MEMORY_PATH = path.resolve('.cache/translation-memory.json');
+const STORAGE_KEY = 'translation-memory.json';
 
 interface MemoryRecord {
   sourceHash: string;
@@ -25,20 +24,26 @@ interface MemoryStore {
   [key: string]: MemoryRecord;
 }
 
-function loadTranslationMemory(): MemoryStore {
+let inMemoryCache: MemoryStore | null = null;
+
+async function loadTranslationMemory(): Promise<MemoryStore> {
+  if (inMemoryCache) return inMemoryCache;
   try {
-    if (fs.existsSync(TRANSLATION_MEMORY_PATH)) {
-      return JSON.parse(fs.readFileSync(TRANSLATION_MEMORY_PATH, 'utf-8'));
+    const raw = await getRegistry().storage.get(STORAGE_KEY);
+    if (raw) {
+      const content = typeof raw === 'string' ? raw : raw.toString('utf-8');
+      inMemoryCache = JSON.parse(content);
+      return inMemoryCache!;
     }
   } catch (e) {}
-  return {};
+  inMemoryCache = {};
+  return inMemoryCache;
 }
 
-function saveTranslationMemory(memory: MemoryStore): void {
+async function saveTranslationMemory(memory: MemoryStore): Promise<void> {
+  inMemoryCache = memory;
   try {
-    const dir = path.dirname(TRANSLATION_MEMORY_PATH);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(TRANSLATION_MEMORY_PATH, JSON.stringify(memory, null, 2));
+    await getRegistry().storage.put(STORAGE_KEY, JSON.stringify(memory, null, 2));
   } catch (e) {}
 }
 
@@ -63,7 +68,7 @@ export class TranslationMemoryEngine {
     if (targetLang === 'en') return sourceText;
 
     const memoryKey = computeTranslationKey(sourceText, provider.name, sourceLang, targetLang);
-    const memory = loadTranslationMemory();
+    const memory = await loadTranslationMemory();
 
     // 1. Permanent Memory Hit Check
     if (memory[memoryKey] && memory[memoryKey].translatedText) {
@@ -83,7 +88,7 @@ export class TranslationMemoryEngine {
       targetLang,
       createdAt: new Date().toISOString()
     };
-    saveTranslationMemory(memory);
+    await saveTranslationMemory(memory);
 
     return translated;
   }

@@ -32,7 +32,7 @@ export class GitHubWorker {
     const branch = repo.default_branch || 'main';
 
     // 1. Record/Update Repository domain entry
-    RepositoriesStore.upsert({
+    await RepositoriesStore.upsert({
       repoId: repo.name,
       fullName: repo.full_name,
       owner: repo.owner?.login,

@@ -3,8 +3,7 @@
  * ADR-023-007 Authoritative Protocol
  */
 import sharp from 'sharp';
-import fs from 'fs';
-import path from 'path';
+import { getRegistry } from '../content-hub/provider-registry';
 
 export async function optimizeImageBuffer(
   inputBuffer: Buffer,
@@ -67,13 +66,16 @@ export async function generateTechCoverPlaceholder(title: string, tags: string[]
       .toBuffer();
 
     const fileName = `placeholder-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.webp`;
-    const outDir = path.resolve('public/images/placeholders');
-    if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+    const storageKey = `placeholders/${fileName}`;
 
-    const filePath = path.join(outDir, fileName);
-    fs.writeFileSync(filePath, webpBuffer);
+    let storedUrl = `/images/placeholders/${fileName}`;
+    try {
+      storedUrl = await getRegistry().storage.put(storageKey, webpBuffer);
+    } catch (e) {
+      console.warn('[ImageProcessor] Storage put failed for placeholder:', e);
+    }
 
-    return `/images/placeholders/${fileName}`;
+    return storedUrl || `/images/placeholders/${fileName}`;
   } catch (e) {
     return '/images/default-project.webp';
   }

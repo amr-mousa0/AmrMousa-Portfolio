@@ -2,10 +2,9 @@
  * Dynamic Intelligent Translation Engine with Permanent Caching
  * ADR-023-007 Authoritative Protocol
  */
-import fs from 'fs';
-import path from 'path';
+import { getRegistry } from '../content-hub/provider-registry';
 
-const TRANSLATION_CACHE_PATH = path.resolve('.cache/translation-cache.json');
+const STORAGE_KEY = 'translation-cache.json';
 
 interface TranslationCache {
   [key: string]: {
@@ -13,20 +12,26 @@ interface TranslationCache {
   };
 }
 
-function loadTranslationCache(): TranslationCache {
+let inMemoryCache: TranslationCache | null = null;
+
+async function loadTranslationCache(): Promise<TranslationCache> {
+  if (inMemoryCache) return inMemoryCache;
   try {
-    if (fs.existsSync(TRANSLATION_CACHE_PATH)) {
-      return JSON.parse(fs.readFileSync(TRANSLATION_CACHE_PATH, 'utf-8'));
+    const raw = await getRegistry().storage.get(STORAGE_KEY);
+    if (raw) {
+      const content = typeof raw === 'string' ? raw : raw.toString('utf-8');
+      inMemoryCache = JSON.parse(content);
+      return inMemoryCache!;
     }
   } catch (e) {}
-  return {};
+  inMemoryCache = {};
+  return inMemoryCache;
 }
 
-function saveTranslationCache(cache: TranslationCache) {
+async function saveTranslationCache(cache: TranslationCache): Promise<void> {
+  inMemoryCache = cache;
   try {
-    const dir = path.dirname(TRANSLATION_CACHE_PATH);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(TRANSLATION_CACHE_PATH, JSON.stringify(cache, null, 2));
+    await getRegistry().storage.put(STORAGE_KEY, JSON.stringify(cache, null, 2));
   } catch (e) {}
 }
 
@@ -74,7 +79,7 @@ export async function translateWithCache(
   if (!text || text.trim() === '') return '';
   if (targetLang === 'en') return text;
 
-  const cache = loadTranslationCache();
+  const cache = await loadTranslationCache();
   const cacheKey = text.trim();
 
   if (cache[cacheKey] && cache[cacheKey][targetLang] && cache[cacheKey][targetLang] !== text) {
@@ -85,7 +90,7 @@ export async function translateWithCache(
 
   if (!cache[cacheKey]) cache[cacheKey] = {};
   cache[cacheKey][targetLang] = translatedText;
-  saveTranslationCache(cache);
+  await saveTranslationCache(cache);
 
   return translatedText;
 }

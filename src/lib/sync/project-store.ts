@@ -4,36 +4,34 @@
  * 
  * Supports Vercel KV / Redis with automatic local file-system fallback.
  */
-import fs from 'fs';
-import path from 'path';
 import type { PortfolioProject } from './types';
+import { getRegistry } from '../content-hub/provider-registry';
+import initialProjects from '../../data/projects.json';
 
-const LOCAL_STORE_PATH = path.resolve('src/data/projects.json');
+const STORAGE_KEY = 'projects.json';
 
 export async function getProjectsFromStore(destination: string = 'portfolio'): Promise<PortfolioProject[]> {
-  // Read local file store fallback
   try {
-    if (fs.existsSync(LOCAL_STORE_PATH)) {
-      const data = fs.readFileSync(LOCAL_STORE_PATH, 'utf-8');
-      const projects: PortfolioProject[] = JSON.parse(data);
+    const raw = await getRegistry().storage.get(STORAGE_KEY);
+    if (raw) {
+      const content = typeof raw === 'string' ? raw : raw.toString('utf-8');
+      const projects: PortfolioProject[] = JSON.parse(content);
       return projects.filter(p => !p.archived);
     }
   } catch (e) {
-    console.warn('[ProjectStore] Error reading local store:', e);
+    console.warn('[ProjectStore] Error reading projects from storage:', e);
   }
 
-  return [];
+  // Fallback to static bundled projects list
+  return (initialProjects as PortfolioProject[]).filter(p => !p.archived);
 }
 
 export async function saveProjectsToStore(projects: PortfolioProject[], destination: string = 'portfolio'): Promise<void> {
   try {
-    const dir = path.dirname(LOCAL_STORE_PATH);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    
     // Sort projects by priority
     projects.sort((a, b) => a.priority - b.priority);
 
-    fs.writeFileSync(LOCAL_STORE_PATH, JSON.stringify(projects, null, 2));
+    await getRegistry().storage.put(STORAGE_KEY, JSON.stringify(projects, null, 2));
     console.log(`[ProjectStore] Updated store for '${destination}' with ${projects.length} projects.`);
   } catch (e) {
     console.warn('[ProjectStore] Error writing to store:', e);

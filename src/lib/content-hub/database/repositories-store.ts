@@ -2,41 +2,46 @@
  * Repositories Domain Store & Legacy Migration Manager
  * ADR-023-008 Authoritative Protocol
  */
-import fs from 'fs';
-import path from 'path';
 import type { RepositoryModel } from '../types';
+import { getRegistry } from '../provider-registry';
 
-const REPOS_STORE_PATH = path.resolve('.cache/repositories.json');
+const STORAGE_KEY = 'repositories.json';
 
 interface ReposStore {
   [repoId: string]: RepositoryModel;
 }
 
-function loadReposStore(): ReposStore {
+let inMemoryCache: ReposStore | null = null;
+
+async function loadReposStore(): Promise<ReposStore> {
+  if (inMemoryCache) return inMemoryCache;
   try {
-    if (fs.existsSync(REPOS_STORE_PATH)) {
-      return JSON.parse(fs.readFileSync(REPOS_STORE_PATH, 'utf-8'));
+    const raw = await getRegistry().storage.get(STORAGE_KEY);
+    if (raw) {
+      const content = typeof raw === 'string' ? raw : raw.toString('utf-8');
+      inMemoryCache = JSON.parse(content);
+      return inMemoryCache!;
     }
   } catch (e) {}
-  return {};
+  inMemoryCache = {};
+  return inMemoryCache;
 }
 
-function saveReposStore(store: ReposStore): void {
+async function saveReposStore(store: ReposStore): Promise<void> {
+  inMemoryCache = store;
   try {
-    const dir = path.dirname(REPOS_STORE_PATH);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(REPOS_STORE_PATH, JSON.stringify(store, null, 2));
+    await getRegistry().storage.put(STORAGE_KEY, JSON.stringify(store, null, 2));
   } catch (e) {}
 }
 
 export class RepositoriesStore {
-  static get(repoId: string): RepositoryModel | null {
-    const store = loadReposStore();
+  static async get(repoId: string): Promise<RepositoryModel | null> {
+    const store = await loadReposStore();
     return store[repoId] || null;
   }
 
-  static upsert(repoData: Partial<RepositoryModel> & { repoId: string; fullName: string }): RepositoryModel {
-    const store = loadReposStore();
+  static async upsert(repoData: Partial<RepositoryModel> & { repoId: string; fullName: string }): Promise<RepositoryModel> {
+    const store = await loadReposStore();
     const existing = store[repoData.repoId];
 
     const model: RepositoryModel = {
@@ -56,34 +61,29 @@ export class RepositoriesStore {
     };
 
     store[repoData.repoId] = model;
-    saveReposStore(store);
+    await saveReposStore(store);
     return model;
   }
 
-  static listAll(): RepositoryModel[] {
-    const store = loadReposStore();
+  static async listAll(): Promise<RepositoryModel[]> {
+    const store = await loadReposStore();
     return Object.values(store);
   }
 
   /**
-   * Migrate legacy .cache files to .archive/{timestamp}/
+   * Migrate legacy .cache files to storage archive
    */
-  static migrateLegacyCacheToArchive(): void {
-    const cacheDir = path.resolve('.cache');
-    const legacyTranslationPath = path.join(cacheDir, 'translation-cache.json');
-
-    if (fs.existsSync(legacyTranslationPath)) {
-      try {
+  static async migrateLegacyCacheToArchive(): Promise<void> {
+    try {
+      const raw = await getRegistry().storage.get('translation-cache.json');
+      if (raw) {
         const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-        const archiveDir = path.resolve(`.archive/${timestamp}`);
-        if (!fs.existsSync(archiveDir)) fs.mkdirSync(archiveDir, { recursive: true });
-
-        const destPath = path.join(archiveDir, 'translation-cache-backup.json');
-        fs.copyFileSync(legacyTranslationPath, destPath);
-        console.log(`[MigrationManager] Backup of legacy cache created at '${destPath}'.`);
-      } catch (e) {
-        console.warn('[MigrationManager] Migration backup error:', e);
+        const archiveKey = `archive/${timestamp}/translation-cache-backup.json`;
+        await getRegistry().storage.put(archiveKey, raw);
+        console.log(`[MigrationManager] Backup of legacy cache stored at '${archiveKey}'.`);
       }
+    } catch (e) {
+      console.warn('[MigrationManager] Migration backup error:', e);
     }
   }
 }

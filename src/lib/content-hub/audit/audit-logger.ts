@@ -2,28 +2,32 @@
  * Content Hub Structured Audit Logger with Correlation Traceability (traceId)
  * ADR-023-008 Authoritative Protocol
  */
-import fs from 'fs';
-import path from 'path';
 import type { AuditLogEntry } from '../types';
+import { getRegistry } from '../provider-registry';
 
-const AUDIT_LOG_PATH = path.resolve('.cache/audit-log.json');
+const STORAGE_KEY = 'audit-log.json';
+let inMemoryLogs: AuditLogEntry[] = [];
+let isLoaded = false;
 
-function loadAuditLogs(): AuditLogEntry[] {
+async function loadAuditLogs(): Promise<AuditLogEntry[]> {
+  if (isLoaded) return inMemoryLogs;
   try {
-    if (fs.existsSync(AUDIT_LOG_PATH)) {
-      return JSON.parse(fs.readFileSync(AUDIT_LOG_PATH, 'utf-8'));
+    const raw = await getRegistry().storage.get(STORAGE_KEY);
+    if (raw) {
+      const content = typeof raw === 'string' ? raw : raw.toString('utf-8');
+      inMemoryLogs = JSON.parse(content);
+      isLoaded = true;
+      return inMemoryLogs;
     }
   } catch (e) {}
-  return [];
+  isLoaded = true;
+  return inMemoryLogs;
 }
 
-function saveAuditLogs(logs: AuditLogEntry[]): void {
+async function saveAuditLogs(logs: AuditLogEntry[]): Promise<void> {
+  inMemoryLogs = logs.slice(-500);
   try {
-    const dir = path.dirname(AUDIT_LOG_PATH);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    // Keep last 500 audit entries
-    const trimmed = logs.slice(-500);
-    fs.writeFileSync(AUDIT_LOG_PATH, JSON.stringify(trimmed, null, 2));
+    await getRegistry().storage.put(STORAGE_KEY, JSON.stringify(inMemoryLogs, null, 2));
   } catch (e) {}
 }
 
@@ -51,20 +55,19 @@ export class AuditLogger {
 
     console.log(`[AuditLog] [${traceId.substring(0, 8)}] [${stage}] [${status}] ${repoId}${message ? `: ${message}` : ''}`);
 
-    const logs = loadAuditLogs();
-    logs.push(entry);
-    saveAuditLogs(logs);
+    inMemoryLogs.push(entry);
+    saveAuditLogs(inMemoryLogs).catch(() => {});
 
     return entry;
   }
 
-  static getLogsByTraceId(traceId: string): AuditLogEntry[] {
-    const logs = loadAuditLogs();
+  static async getLogsByTraceId(traceId: string): Promise<AuditLogEntry[]> {
+    const logs = await loadAuditLogs();
     return logs.filter(l => l.traceId === traceId);
   }
 
-  static getLogsByRepoId(repoId: string): AuditLogEntry[] {
-    const logs = loadAuditLogs();
+  static async getLogsByRepoId(repoId: string): Promise<AuditLogEntry[]> {
+    const logs = await loadAuditLogs();
     return logs.filter(l => l.repoId === repoId);
   }
 }

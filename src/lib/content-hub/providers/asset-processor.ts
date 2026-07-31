@@ -4,8 +4,7 @@
  */
 import sharp from 'sharp';
 import crypto from 'crypto';
-import fs from 'fs';
-import path from 'path';
+import { getRegistry } from '../provider-registry';
 
 export interface ProcessedAssetMetadata {
   width?: number;
@@ -113,15 +112,18 @@ export class SharpProcessor implements AssetProcessor {
 
     const webpBuffer = await sharp(Buffer.from(svg)).webp({ quality: 90 }).toBuffer();
     const fileName = `placeholder-${title.toLowerCase().replace(/[^a-z0-9]/g, '-')}.webp`;
-    const outDir = path.resolve('public/images/placeholders');
-    if (!fs.existsSync(outDir)) fs.mkdirSync(outDir, { recursive: true });
+    const storageKey = `placeholders/${fileName}`;
 
-    const filePath = path.join(outDir, fileName);
-    fs.writeFileSync(filePath, webpBuffer);
+    let storedUrl = `/images/placeholders/${fileName}`;
+    try {
+      storedUrl = await getRegistry().storage.put(storageKey, webpBuffer);
+    } catch (e) {
+      console.warn('[SharpProcessor] Storage put failed for placeholder:', e);
+    }
 
     return {
       buffer: webpBuffer,
-      url: `/images/placeholders/${fileName}`
+      url: storedUrl || `/images/placeholders/${fileName}`
     };
   }
 }
