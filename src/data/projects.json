@@ -13,7 +13,11 @@
       "/images/Cafe%20&%20Bar%20project%20file/before.JPG",
       "/images/Cafe%20&%20Bar%20project%20file/after.JPG"
     ],
-    "tech": ["Power BI", "SQL", "Data Cleaning"],
+    "tech": [
+      "Power BI",
+      "SQL",
+      "Data Cleaning"
+    ],
     "githubUrl": "https://github.com/amr-mousa0/Coffee-Shop-Sales-Dashboard-Power-BI-",
     "powerBiUrl": "https://app.powerbi.com/view?r=eyJrIjoiMzYwMWU2ZGYtOTFmNy00NTEwLTk0MWEtYzY0OGM2NWM1OTU0IiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
     "description": "Cleaned 10,000 POS records to build a Star Schema BI model, identifying peak sales windows and optimizing combo bundles to capture 80% Pareto revenue.",
@@ -45,7 +49,11 @@
       "/images/Marketing%20Analysis%20Pics/1756149438820.jpg",
       "/images/Marketing%20Analysis%20Pics/1756149438875.jpg"
     ],
-    "tech": ["Meta Ads", "Excel", "Power BI"],
+    "tech": [
+      "Meta Ads",
+      "Excel",
+      "Power BI"
+    ],
     "githubUrl": "https://github.com/amr-mousa0/Marketing-Campaigns-Analysis",
     "powerBiUrl": "https://app.powerbi.com/view?r=eyJrIjoiZmQ1NmJmMWEtMmJhMy00YTg2LTg2NGItYTEzYWFhMjhiOWVmIiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
     "description": "Engineered a multi-channel Star Schema analytics platform, reallocating ad budgets to Pinterest and Facebook to maximize ROAS and eliminate winter campaign waste.",
@@ -78,7 +86,11 @@
       "/images/Oxgin%20Gym%20Analysis%20Pics/1759149287810.jpg",
       "/images/Oxgin%20Gym%20Analysis%20Pics/1759149287882.jpg"
     ],
-    "tech": ["SQL", "Excel", "Power BI"],
+    "tech": [
+      "SQL",
+      "Excel",
+      "Power BI"
+    ],
     "githubUrl": "https://github.com/amr-mousa0/Data-Analyst-Financial-Administrative-Data-",
     "powerBiUrl": "https://app.powerbi.com/view?r=eyJrIjoiYzY5ZmVjZWUtYjg2NC00YWQ4LTllZGEtNDM4YjkzMjY2YTI1IiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
     "description": "Digitized 5 years of paper records into a comprehensive financial dashboard, exposing 93K EGP in billing leakages and mitigating an 80% monthly churn rate.",
@@ -94,5 +106,249 @@
     "salesFunnelMetricsEn": "Revealed a -28% CAGR decline despite cost-cutting, identified 93,000 EGP in billing leakages, a 43% loss in supplement pricing, and 80% monthly membership churn. Offered key billing controls and retention strategies.",
     "salesFunnelMetricsAr": "كشف تسرب مالي بقيمة 93,000 جنيه، وتوفير آليات ضبط للفواتير واستراتيجيات استبقاء المشتركين لزيادة الإيرادات.",
     "ctaLink": "#contact"
+  },
+  {
+    "id": "SQL-Practice---level-2",
+    "title": "SQL Practice Journey _ Level 2",
+    "titleEn": "SQL Practice Journey _ Level 2",
+    "titleAr": "رحلة تدريب SQL _ المستوى 2",
+    "subtitle": "SQL",
+    "category": "Showcase",
+    "description": "A structured SQL practice repository documenting progressive learning through real-world exercises, analytical SQL problems, and complete solutions from beginner to intermediate level.",
+    "descriptionEn": "A structured SQL practice repository documenting progressive learning through real-world exercises, analytical SQL problems, and complete solutions from beginner to intermediate level.",
+    "descriptionAr": "مستودع ممارسات SQL منظم يوثق التعلم التقدمي من خلال تمارين العالم الحقيقي، ومشكلات SQL التحليلية، والحلول الكاملة من المستوى المبتدئ إلى المستوى المتوسط.",
+    "problem": "Learning SQL often relies heavily on passive tutorials, making it difficult to develop real problem-solving skills and maintain consistent practice.",
+    "problemEn": "Learning SQL often relies heavily on passive tutorials, making it difficult to develop real problem-solving skills and maintain consistent practice.",
+    "problemAr": "غالبًا ما يعتمد تعلم SQL بشكل كبير على البرامج التعليمية السلبية، مما يجعل من الصعب تطوير مهارات حقيقية في حل المشكلات والحفاظ على ممارسة متسقة.",
+    "salesDescription": "This repository provides a structured collection of SQL practice exercises and complete solutions, helping learners strengthen analytical thinking and improve SQL proficiency through hands-on practice.",
+    "salesDescriptionEn": "This repository provides a structured collection of SQL practice exercises and complete solutions, helping learners strengthen analytical thinking and improve SQL proficiency through hands-on practice.",
+    "salesDescriptionAr": "يوفر هذا المستودع مجموعة منظمة من تمارين SQL والحلول الكاملة، مما يساعد المتعلمين على تعزيز التفكير التحليلي وتحسين كفاءة SQL من خلال التدريب العملي.",
+    "salesFunnelMetrics": "Creates a reusable SQL learning resource that demonstrates practical database skills, tracks learning progress, and supports interview preparation through real-world query practice.",
+    "salesFunnelMetricsEn": "Creates a reusable SQL learning resource that demonstrates practical database skills, tracks learning progress, and supports interview preparation through real-world query practice.",
+    "salesFunnelMetricsAr": "ينشئ مصدرًا تعليميًا لـ SQL قابلاً لإعادة الاستخدام يوضح مهارات قاعدة البيانات العملية، ويتتبع تقدم التعلم، ويدعم الإعداد للمقابلة من خلال ممارسة الاستعلام في العالم الحقيقي.",
+    "image": "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-2/main/assets/cover.webp",
+    "imagePath": "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-2/main/assets/cover.webp",
+    "images": [
+      "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-2/main/assets/cover.webp"
+    ],
+    "galleryItems": [
+      {
+        "type": "image",
+        "title": "SQL Practice Cover",
+        "titleEn": "SQL Practice Cover",
+        "titleAr": "غطاء تدريبات SQL",
+        "url": "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-2/main/assets/cover.webp"
+      },
+      {
+        "type": "pdf",
+        "title": "SQL Practice Questions & Solutions",
+        "titleEn": "SQL Practice Questions & Solutions",
+        "titleAr": "أسئلة وحلول ممارسة SQL",
+        "url": "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-2/main/SQL-Practice-Level-2.pdf"
+      },
+      {
+        "type": "sql",
+        "title": "SQL Practice Script",
+        "titleEn": "SQL Practice Script",
+        "titleAr": "البرنامج النصي لممارسة SQL",
+        "url": "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-2/main/SQL-Practice-Level-2.sql"
+      }
+    ],
+    "demoUrl": "https://github.com/amr-mousa0/SQL-Practice---level-2",
+    "caseStudyUrl": "/projects/SQL-Practice---level-2",
+    "githubUrl": "https://github.com/amr-mousa0/SQL-Practice---level-2",
+    "documentationUrl": "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-2/main/SQL-Practice-Level-2.pdf",
+    "featured": true,
+    "priority": 20,
+    "tags": [
+      "SQL",
+      "PostgreSQL",
+      "Database",
+      "Data Analysis",
+      "Practice",
+      "Learning"
+    ],
+    "tech": [
+      "SQL",
+      "PostgreSQL",
+      "Database",
+      "Data Analysis",
+      "Practice",
+      "Learning"
+    ],
+    "capabilities": {
+      "demo": true,
+      "caseStudy": true,
+      "cover": true
+    }
+  },
+  {
+    "id": "Walmart-Sales-Analysis",
+    "title": "Walmart Sales Analysis",
+    "titleEn": "Walmart Sales Analysis",
+    "titleAr": "تحليل مبيعات وول مارت",
+    "subtitle": "Business Intelligence",
+    "category": "Showcase",
+    "description": "A Power BI business intelligence project analyzing Walmart weekly sales, holiday performance, seasonality, and external economic indicators to generate actionable business insights.",
+    "descriptionEn": "A Power BI business intelligence project analyzing Walmart weekly sales, holiday performance, seasonality, and external economic indicators to generate actionable business insights.",
+    "descriptionAr": "يقوم مشروع Power BI لذكاء الأعمال بتحليل مبيعات Walmart الأسبوعية وأداء العطلات والموسمية والمؤشرات الاقتصادية الخارجية لتوليد رؤى أعمال قابلة للتنفيذ.",
+    "problem": "The business lacked visibility into weekly sales performance, seasonal demand, and the impact of holidays and economic indicators, making it difficult to optimize planning, inventory, and marketing decisions.",
+    "problemEn": "The business lacked visibility into weekly sales performance, seasonal demand, and the impact of holidays and economic indicators, making it difficult to optimize planning, inventory, and marketing decisions.",
+    "problemAr": "افتقرت الشركة إلى الرؤية الواضحة لأداء المبيعات الأسبوعية، والطلب الموسمي، وتأثير العطلات والمؤشرات الاقتصادية، مما يجعل من الصعب تحسين قرارات التخطيط والمخزون والتسويق.",
+    "salesDescription": "Built an interactive Power BI dashboard using a Star Schema data model, DAX measures, and time intelligence to analyze sales trends, holiday performance, store comparisons, and external economic factors.",
+    "salesDescriptionEn": "Built an interactive Power BI dashboard using a Star Schema data model, DAX measures, and time intelligence to analyze sales trends, holiday performance, store comparisons, and external economic factors.",
+    "salesDescriptionAr": "تم إنشاء لوحة معلومات Power BI تفاعلية باستخدام نموذج بيانات Star Schema ومقاييس DAX وذكاء الوقت لتحليل اتجاهات المبيعات وأداء العطلات ومقارنات المتاجر والعوامل الاقتصادية الخارجية.",
+    "salesFunnelMetrics": "Enabled data-driven decision making by identifying seasonal sales patterns, measuring holiday impact, comparing store performance, and demonstrating that holidays had a significantly greater influence on revenue than short-term economic indicators.",
+    "salesFunnelMetricsEn": "Enabled data-driven decision making by identifying seasonal sales patterns, measuring holiday impact, comparing store performance, and demonstrating that holidays had a significantly greater influence on revenue than short-term economic indicators.",
+    "salesFunnelMetricsAr": "تمكين اتخاذ القرارات المستندة إلى البيانات من خلال تحديد أنماط المبيعات الموسمية، وقياس تأثير العطلات، ومقارنة أداء المتجر، وإظهار أن العطلات كان لها تأثير أكبر بكثير على الإيرادات من المؤشرات الاقتصادية قصيرة المدى.",
+    "image": "https://raw.githubusercontent.com/amr-mousa0/Walmart-Sales-Analysis/main/assets/cover.webp",
+    "imagePath": "https://raw.githubusercontent.com/amr-mousa0/Walmart-Sales-Analysis/main/assets/cover.webp",
+    "images": [
+      "https://raw.githubusercontent.com/amr-mousa0/Walmart-Sales-Analysis/main/assets/cover.webp",
+      "https://raw.githubusercontent.com/amr-mousa0/Walmart-Sales-Analysis/main/images/image2.png"
+    ],
+    "galleryItems": [
+      {
+        "type": "image",
+        "title": "Executive Dashboard",
+        "titleEn": "Executive Dashboard",
+        "titleAr": "لوحة القيادة التنفيذية",
+        "url": "https://raw.githubusercontent.com/amr-mousa0/Walmart-Sales-Analysis/main/assets/cover.webp"
+      },
+      {
+        "type": "image",
+        "title": "Dashboard Filters",
+        "titleEn": "Dashboard Filters",
+        "titleAr": "مرشحات لوحة القيادة",
+        "url": "https://raw.githubusercontent.com/amr-mousa0/Walmart-Sales-Analysis/main/images/image2.png"
+      },
+      {
+        "type": "powerbi",
+        "title": "Interactive Power BI Dashboard",
+        "titleEn": "Interactive Power BI Dashboard",
+        "titleAr": "لوحة تحكم Power BI التفاعلية",
+        "url": "https://app.powerbi.com/view?r=eyJrIjoiOTk0YWU0ODYtMGZjMC00OWRhLWI3NGUtNjMxMzIzNDNjMGM4IiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9"
+      }
+    ],
+    "demoUrl": "https://app.powerbi.com/view?r=eyJrIjoiOTk0YWU0ODYtMGZjMC00OWRhLWI3NGUtNjMxMzIzNDNjMGM4IiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
+    "powerBiUrl": "https://app.powerbi.com/view?r=eyJrIjoiOTk0YWU0ODYtMGZjMC00OWRhLWI3NGUtNjMxMzIzNDNjMGM4IiwidCI6IjJiYjZlNWJjLWMxMDktNDdmYi05NDMzLWMxYzZmNGZhMzNmZiIsImMiOjl9",
+    "caseStudyUrl": "/projects/Walmart-Sales-Analysis",
+    "githubUrl": "https://github.com/amr-mousa0/Walmart-Sales-Analysis",
+    "featured": true,
+    "priority": 30,
+    "tags": [
+      "Business Intelligence",
+      "Power BI",
+      "Data Analysis",
+      "Dashboard",
+      "Data Visualization",
+      "Retail Analytics",
+      "Sales Analysis",
+      "DAX"
+    ],
+    "tech": [
+      "Business Intelligence",
+      "Power BI",
+      "Data Analysis",
+      "Dashboard",
+      "Data Visualization",
+      "Retail Analytics",
+      "Sales Analysis",
+      "DAX"
+    ],
+    "capabilities": {
+      "demo": true,
+      "caseStudy": true,
+      "cover": true
+    }
+  },
+  {
+    "id": "SQL-Practice---level-1",
+    "repoId": "SQL-Practice---level-1",
+    "title": "SQL Practice Journey - Level 1",
+    "titleEn": "SQL Practice Journey - Level 1",
+    "titleAr": "رحلة تدريب SQL - المستوى 1",
+    "subtitle": "SQL",
+    "category": "SQL",
+    "description": "A structured SQL practice repository documenting the first stage of learning SQL through practical exercises and complete solutions focused on core SQL fundamentals.",
+    "descriptionEn": "A structured SQL practice repository documenting the first stage of learning SQL through practical exercises and complete solutions focused on core SQL fundamentals.",
+    "descriptionAr": "مستودع تدريبي منظم لـ SQL يوثق المرحلة الأولى من تعلم SQL من خلال تمارين عملية وحلول كاملة تركز على أساسيات SQL الأساسية.",
+    "problem": "Many beginners struggle to build strong SQL fundamentals because they rely on passive learning instead of consistent hands-on practice with real SQL queries.",
+    "problemEn": "Many beginners struggle to build strong SQL fundamentals because they rely on passive learning instead of consistent hands-on practice with real SQL queries.",
+    "problemAr": "يكافح العديد من المبتدئين لبناء أساسيات SQL قوية لأنهم يعتمدون على التعلم السلبي بدلاً من التدريب العملي المتسق مع استعلامات SQL الحقيقية.",
+    "salesDescription": "This repository provides a structured collection of beginner-level SQL exercises and complete solutions, allowing learners to strengthen their understanding of core SQL concepts through practical problem solving.",
+    "salesDescriptionEn": "This repository provides a structured collection of beginner-level SQL exercises and complete solutions, allowing learners to strengthen their understanding of core SQL concepts through practical problem solving.",
+    "salesDescriptionAr": "يوفر هذا المستودع مجموعة منظمة من تمارين SQL للمبتدئين والحلول الكاملة، مما يسمح للمتعلمين بتعزيز فهمهم لمفاهيم SQL الأساسية من خلال حل المشكلات العملية.",
+    "salesFunnelMetrics": "Establishes a solid SQL foundation, promotes consistent learning habits, and demonstrates practical database skills through a well-documented collection of real SQL exercises and solutions.",
+    "salesFunnelMetricsEn": "Establishes a solid SQL foundation, promotes consistent learning habits, and demonstrates practical database skills through a well-documented collection of real SQL exercises and solutions.",
+    "salesFunnelMetricsAr": "ينشئ أساسًا متينًا لـ SQL، ويعزز عادات التعلم المتسقة، ويوضح مهارات قاعدة البيانات العملية من خلال مجموعة موثقة جيدًا من تمارين وحلول SQL الحقيقية.",
+    "image": "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-1/main/assets/cover.webp",
+    "imagePath": "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-1/main/assets/cover.webp",
+    "images": [
+      "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-1/main/assets/cover.webp"
+    ],
+    "galleryItems": [
+      {
+        "type": "image",
+        "title": "Repository Cover",
+        "titleEn": "Repository Cover",
+        "titleAr": "غلاف المستودع",
+        "url": "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-1/main/assets/cover.webp",
+        "metadata": {
+          "mimeType": "image/webp",
+          "optimized": true
+        }
+      },
+      {
+        "type": "pdf",
+        "title": "SQL Practice Level 1 Questions & Solutions",
+        "titleEn": "SQL Practice Level 1 Questions & Solutions",
+        "titleAr": "أسئلة وحلول ممارسة SQL المستوى 1",
+        "url": "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-1/main/SQL PRACTICE - LEVEL 1.pdf",
+        "metadata": {
+          "mimeType": "application/pdf",
+          "optimized": true
+        }
+      },
+      {
+        "type": "sql",
+        "title": "SQL Practice Level 1 Script",
+        "titleEn": "SQL Practice Level 1 Script",
+        "titleAr": "SQL ممارسة المستوى 1 النصي",
+        "url": "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-1/main/SQL PRACTICE - LEVEL 1.sql",
+        "metadata": {
+          "mimeType": "image/webp",
+          "optimized": true
+        }
+      }
+    ],
+    "demoUrl": "https://amr-mousa0.github.io/SQL-Practice---level-1",
+    "caseStudyUrl": "/projects/SQL-Practice---level-1",
+    "githubUrl": "https://github.com/amr-mousa0/SQL-Practice---level-1",
+    "documentationUrl": "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-1/main/SQL PRACTICE - LEVEL 1.pdf",
+    "featured": false,
+    "priority": 60,
+    "tags": [
+      "SQL",
+      "PostgreSQL",
+      "Database",
+      "Practice",
+      "Learning",
+      "Data Analysis"
+    ],
+    "tech": [
+      "SQL",
+      "PostgreSQL",
+      "Database",
+      "Practice",
+      "Learning",
+      "Data Analysis"
+    ],
+    "capabilities": {
+      "demo": false,
+      "caseStudy": true,
+      "cover": true
+    },
+    "updatedAt": "2026-07-31T20:34:12.098Z"
   }
 ]

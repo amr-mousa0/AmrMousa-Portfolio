@@ -8,7 +8,7 @@ import fs from 'fs';
 import path from 'path';
 import type { PortfolioProject } from './types';
 
-const LOCAL_STORE_PATH = path.resolve('.cache/github-projects.json');
+const LOCAL_STORE_PATH = path.resolve('src/data/projects.json');
 
 export async function getProjectsFromStore(destination: string = 'portfolio'): Promise<PortfolioProject[]> {
   // Read local file store fallback

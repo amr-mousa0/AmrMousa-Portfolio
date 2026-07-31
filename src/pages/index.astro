@@ -11,11 +11,11 @@ import { fetchGitHubProjects } from '../utils/github';
 // Build-time GitHub Sync (3s Timeout -> manifest.json Inspection -> Normalization -> Stale Cache)
 const gitHubProjects = await fetchGitHubProjects();
 
-// Merge fetched GitHub projects with local project data
-const mergedProjects = [
-  ...gitHubProjects,
-  ...projectsData
-];
+// Merge fetched GitHub projects with local project data without duplicates
+const projectMap = new Map();
+for (const p of gitHubProjects) projectMap.set(p.id, p);
+for (const p of projectsData) projectMap.set(p.id, p);
+const mergedProjects = Array.from(projectMap.values());
 ---
 
 <Layout title="Amr Mousa — Portfolio">
