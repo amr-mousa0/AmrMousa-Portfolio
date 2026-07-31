@@ -31,12 +31,25 @@ export function createDefaultRegistry(): ContentHubRegistry {
   };
 }
 
-let activeRegistry: ContentHubRegistry = createDefaultRegistry();
+// Lazy initialization: registry is NOT created at module load time.
+// This prevents DiskStorageProvider from running mkdirSync on Vercel's read-only /var/task.
+// The registry is created on first getRegistry() call, when env vars (VERCEL, NODE_ENV) are set.
+let activeRegistry: ContentHubRegistry | null = null;
 
 export function getRegistry(): ContentHubRegistry {
+  if (!activeRegistry) {
+    activeRegistry = createDefaultRegistry();
+  }
   return activeRegistry;
 }
 
 export function setRegistry(customRegistry: Partial<ContentHubRegistry>): void {
+  if (!activeRegistry) {
+    activeRegistry = createDefaultRegistry();
+  }
   activeRegistry = { ...activeRegistry, ...customRegistry };
+}
+
+export function resetRegistry(): void {
+  activeRegistry = null;
 }
