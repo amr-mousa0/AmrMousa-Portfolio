@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import ImageOptimized from '../ui/ImageOptimized.astro';
 import amrAvatar from '../../assets/Amr-Mousa.JPG';
 ---
 <section id="hero" aria-labelledby="hero-title" class="split-hero">
@@ -15,13 +15,13 @@ import amrAvatar from '../../assets/Amr-Mousa.JPG';
     </div>
 
     <div class="hero-image-container">
-      <Image 
+      <ImageOptimized 
         src={amrAvatar} 
         alt="Amr Mousa — Expert Data Analyst & Marketing Strategist" 
-        width={380} 
-        height={380} 
-        format="webp"
-        quality={60}
+        category="hero"
+        width={760} 
+        height={760}
+        quality={92}
         loading="eager"
         fetchpriority="high" 
         class="hero-photo" 
@@ -45,8 +45,4 @@ import amrAvatar from '../../assets/Amr-Mousa.JPG';
       </div>
     </div>
   </div>
-
-
-
-
 </section>

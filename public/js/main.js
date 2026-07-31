@@ -45,6 +45,33 @@ function updateContent() {
         }
     });
 
+    const titleElements = document.querySelectorAll('[data-title-ar]');
+    titleElements.forEach(el => {
+        const titleText = currentLang === 'ar' ? el.getAttribute('data-title-ar') : el.getAttribute('data-title-en');
+        if (titleText) el.textContent = titleText;
+    });
+
+    const descElements = document.querySelectorAll('[data-desc-ar]');
+    descElements.forEach(el => {
+        const descText = currentLang === 'ar' ? el.getAttribute('data-desc-ar') : el.getAttribute('data-desc-en');
+        if (descText) el.textContent = descText;
+    });
+
+    document.querySelectorAll('[data-problem-ar]').forEach(el => {
+        const problemText = currentLang === 'ar' ? el.getAttribute('data-problem-ar') : el.getAttribute('data-problem-en');
+        if (problemText) el.textContent = problemText;
+    });
+
+    document.querySelectorAll('[data-solution-ar]').forEach(el => {
+        const solutionText = currentLang === 'ar' ? el.getAttribute('data-solution-ar') : el.getAttribute('data-solution-en');
+        if (solutionText) el.textContent = solutionText;
+    });
+
+    document.querySelectorAll('[data-metrics-ar]').forEach(el => {
+        const metricsText = currentLang === 'ar' ? el.getAttribute('data-metrics-ar') : el.getAttribute('data-metrics-en');
+        if (metricsText) el.textContent = metricsText;
+    });
+
     const phElements = document.querySelectorAll('[data-i18n-ph]');
     phElements.forEach(el => {
         const key = el.getAttribute('data-i18n-ph');

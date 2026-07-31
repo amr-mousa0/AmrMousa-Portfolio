@@ -1,0 +1,50 @@
+---
+---
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+
+<!-- Resource Preloads & Connections -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="dns-prefetch" href="https://cdnjs.cloudflare.com" />
+
+<!-- Google Fonts: Unified Typography System (Cairo & Readex Pro) -->
+<link rel="preload" as="style"
+  href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Readex+Pro:wght@300;400;500;600;700;800&family=Dancing+Script:wght@700&display=swap" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Readex+Pro:wght@300;400;500;600;700;800&family=Dancing+Script:wght@700&display=swap"
+  rel="stylesheet" media="print" onload="this.media='all'" />
+<noscript>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Readex+Pro:wght@300;400;500;600;700;800&family=Dancing+Script:wght@700&display=swap" />
+</noscript>
+
+<!-- FontAwesome Icons -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+  integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
+  crossorigin="anonymous"
+  referrerpolicy="no-referrer"
+  media="print"
+  onload="this.media='all'" />
+
+<!-- Synchronous Theme Anti-FOUC Script -->
+<script is:inline>
+  window.safeStorage = {
+    getItem: function(key) {
+      try { return localStorage.getItem(key); } catch (e) { return null; }
+    },
+    setItem: function(key, value) {
+      try { localStorage.setItem(key, value); } catch (e) {}
+    }
+  };
+
+  window.applySavedTheme = function() {
+    var t = window.safeStorage.getItem('amr_theme');
+    if (t === 'light') document.body.classList.add('light');
+    else document.body.classList.remove('light');
+  };
+  document.addEventListener('astro:after-swap', function() {
+    if (window.applySavedTheme) window.applySavedTheme();
+  });
+</script>

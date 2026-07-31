@@ -1,0 +1,79 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  src: ImageMetadata | string;
+  alt: string;
+  category?: 'hero' | 'service' | 'portfolio' | 'blog';
+  width?: number;
+  height?: number;
+  quality?: number;
+  loading?: 'eager' | 'lazy';
+  fetchpriority?: 'high' | 'low' | 'auto';
+  class?: string;
+}
+
+const {
+  src,
+  alt,
+  category = 'portfolio',
+  width,
+  height,
+  quality,
+  loading,
+  fetchpriority,
+  class: className = ''
+} = Astro.props;
+
+// Apply Image Policy Matrix defaults
+let targetWidth = width;
+let targetHeight = height;
+let targetQuality = quality;
+let targetLoading = loading;
+let targetFetchPriority = fetchpriority;
+
+if (category === 'hero') {
+  targetWidth = width || 760; // 2x Retina resolution for 380px display
+  targetHeight = height || 760;
+  targetQuality = quality || 92;
+  targetLoading = loading || 'eager';
+  targetFetchPriority = fetchpriority || 'high';
+} else if (category === 'service') {
+  targetWidth = width || 800; // 2x Retina resolution for 400px display
+  targetHeight = height || 534;
+  targetQuality = quality || 88;
+  targetLoading = loading || 'lazy';
+  targetFetchPriority = fetchpriority || 'auto';
+} else if (category === 'portfolio') {
+  targetWidth = width || 1200;
+  targetHeight = height || 800;
+  targetQuality = quality || 88;
+  targetLoading = loading || 'lazy';
+  targetFetchPriority = fetchpriority || 'auto';
+}
+---
+
+{typeof src === 'string' ? (
+  <img 
+    src={src} 
+    alt={alt} 
+    width={targetWidth} 
+    height={targetHeight} 
+    loading={targetLoading} 
+    fetchpriority={targetFetchPriority} 
+    class={className} 
+  />
+) : (
+  <Image
+    src={src}
+    alt={alt}
+    width={targetWidth}
+    height={targetHeight}
+    format="webp"
+    quality={targetQuality}
+    loading={targetLoading}
+    fetchpriority={targetFetchPriority}
+    class={className}
+  />
+)}

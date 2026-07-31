@@ -2,19 +2,20 @@
 import { Image } from 'astro:assets';
 import servicesData from '../../data/services.json';
 
-import dataAnalyticsImg from '../../assets/images/services/data-analytics.png';
-import mediaBuyingImg from '../../assets/images/services/media-buying.png';
-import webPortfoliosImg from '../../assets/images/services/web-portfolios.png';
-import excelExpertImg from '../../assets/images/services/excel-expert.png';
-import crmManagementImg from '../../assets/images/services/crm-management.png';
+import dataAnalyticsImg from '../../assets/services/data-analytics.jpg';
+import mediaBuyingImg from '../../assets/services/media-buying.jpg';
+import customCrmImg from '../../assets/services/custom-crm.jpg';
+import excelExpertImg from '../../assets/services/Excel-Analysis.png';
 
 const serviceImages = {
   'data-analytics': dataAnalyticsImg,
   'media-buying': mediaBuyingImg,
-  'web-portfolios': webPortfoliosImg,
+  'web-portfolios': null,
   'excel-expert': excelExpertImg,
-  'crm-management': crmManagementImg
+  'crm-management': customCrmImg
 };
+
+const getServiceImg = (id: string) => (serviceImages as Record<string, any>)[id];
 ---
 
 <section id="services" aria-labelledby="services-title" class="py-16 px-4 my-12 overflow-hidden relative">
@@ -44,34 +45,49 @@ const serviceImages = {
       </div>
 
       <div class="services-slider scrolling-wrapper">
-        {servicesData.map((service) => (
-          <article class="service-card-wrapper">
-            <a href={`${import.meta.env.BASE_URL}services/${service.id}`} onclick={`trackClick('service_click', { service_id: '${service.id}' })`} class="service-card font-poppins" aria-label={`View ${service.title} details`}>
+        {servicesData.map((service) => {
+          const serviceImg = getServiceImg(service.id);
+          return (
+            <article class="service-card-wrapper">
+              <a href={`${import.meta.env.BASE_URL}services/${service.id}`} onclick={`trackClick('service_click', { service_id: '${service.id}' })`} class="service-card font-poppins" aria-label={`View ${service.title} details`}>
 
-              <!-- ── Clean Icon Banner ── -->
-              <div class="luxury-card-banner">
-                <div class="banner-icon-wrap">
-                  <i class={service.icon}></i>
+                <!-- ── Clean Illustration & Icon Banner ── -->
+                <div class="luxury-card-banner">
+                  {serviceImg ? (
+                    <Image 
+                      src={serviceImg} 
+                      alt={service.title} 
+                      width={320} 
+                      height={140} 
+                      quality={88} 
+                      format="webp" 
+                      class="service-banner-img" 
+                    />
+                  ) : (
+                    <div class="banner-icon-wrap">
+                      <i class={service.icon}></i>
+                    </div>
+                  )}
+                  <span class="service-clean-badge" data-i18n="service_badge">SERVICE</span>
+                  <span class="status-dot"></span>
                 </div>
-                <span class="service-clean-badge" data-i18n="service_badge">SERVICE</span>
-                <span class="status-dot"></span>
-              </div>
 
-              <!-- ── Text Content ── -->
-              <div class="service-card-content font-poppins">
-                <h3 class="service-title font-poppins" data-i18n={`service_${service.id}_title`}>{service.title}</h3>
-                <p class="service-hook font-poppins" data-i18n={`service_${service.id}_copy`}>{service.copy}</p>
-                <div class="card-footer font-poppins">
-                  <span class="explore-hint font-poppins">
-                    <span data-i18n="service_explore">Explore Details</span>
-                    <i class="fa-solid fa-arrow-right"></i>
-                  </span>
+                <!-- ── Text Content ── -->
+                <div class="service-card-content font-poppins">
+                  <h3 class="service-title font-poppins" data-i18n={`service_${service.id}_title`}>{service.title}</h3>
+                  <p class="service-hook font-poppins" data-i18n={`service_${service.id}_copy`}>{service.copy}</p>
+                  <div class="card-footer font-poppins">
+                    <span class="explore-hint font-poppins">
+                      <span data-i18n="service_explore">Explore Details</span>
+                      <i class="fa-solid fa-arrow-right"></i>
+                    </span>
+                  </div>
                 </div>
-              </div>
 
-            </a>
-          </article>
-        ))}
+              </a>
+            </article>
+          );
+        })}
       </div>
     </div>
 
@@ -261,10 +277,22 @@ const serviceImages = {
     border-color: var(--accent-a);
   }
 
+  .service-banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .service-card:hover .service-banner-img {
+    transform: scale(1.05);
+  }
+
   /* ── Clean Card Banner — matches site design system ─────── */
   .luxury-card-banner {
     position: relative;
-    height: 140px;
+    height: 200px;
     background: var(--surface-card);
     border-bottom: 1px solid var(--border-card);
     overflow: hidden;

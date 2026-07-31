@@ -1,0 +1,64 @@
+---
+import { buildGraphSchema, type PersonSchemaProps, type ProjectSchemaProps, type BreadcrumbItem } from '../../utils/schemaFactory';
+
+interface Props {
+  title: string;
+  description?: string;
+  keywords?: string;
+  image?: string;
+  lang?: string;
+  dir?: string;
+  projectProps?: ProjectSchemaProps;
+  breadcrumbs?: BreadcrumbItem[];
+}
+
+const {
+  title,
+  description = "Amr Mousa — Expert Data Analyst, BI Specialist & Marketing Strategist. Transforming complex data into high-ROI business decisions in Egypt & Worldwide. عمرو موسى — خبير تحليل البيانات وتطوير الأعمال.",
+  keywords = "Amr Mousa, Data Analyst Amr Mousa, Marketing Strategist Egypt, Power BI Expert Cairo, SQL Analyst, Business Intelligence Egypt, عمرو موسى, محلل بيانات عمرو موسى, خبير Power BI مصر, Data Visualization",
+  image = `${import.meta.env.BASE_URL}images/Amr-Mousa.JPG`,
+  lang = Astro.currentLocale || 'en',
+  projectProps,
+  breadcrumbs
+} = Astro.props;
+
+const canonicalUrl = Astro.url ? Astro.url.href : "https://amrmousa.com";
+const schemaJson = JSON.stringify(buildGraphSchema({ projectProps, breadcrumbs }));
+---
+
+<!-- Core Head Meta Tags -->
+<title>{title}</title>
+<meta name="description" content={description} />
+<meta name="keywords" content={keywords} />
+<meta name="author" content="Amr Mousa" />
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+<link rel="canonical" href={canonicalUrl} />
+
+<!-- GEO Targeting Tags -->
+<meta name="geo.region" content="EG-C" />
+<meta name="geo.placename" content="Cairo" />
+<meta name="geo.position" content="30.0444;31.2357" />
+<meta name="ICBM" content="30.0444, 31.2357" />
+
+<!-- Universal Multi-Format Favicons -->
+<link rel="icon" type="image/x-icon" href={`${import.meta.env.BASE_URL}favicon.ico`} />
+<link rel="icon" type="image/svg+xml" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+<link rel="apple-touch-icon" sizes="180x180" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`} />
+
+<!-- OpenGraph / Facebook Tags -->
+<meta property="og:type" content="website" />
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={image} />
+<meta property="og:url" content={canonicalUrl} />
+<meta property="og:site_name" content="Amr Mousa — Portfolio" />
+<meta property="og:locale" content={lang === 'ar' ? 'ar_EG' : 'en_US'} />
+
+<!-- Twitter Card Tags -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+
+<!-- Schema.org JSON-LD Output -->
+<script type="application/ld+json" is:inline set:html={schemaJson}></script>

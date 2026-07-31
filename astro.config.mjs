@@ -16,6 +16,10 @@ export default defineConfig({
     }
   },
 
+  image: {
+    domains: ['raw.githubusercontent.com', 'avatars.githubusercontent.com', 'github.com']
+  },
+
   integrations: [],
 
   vite: {

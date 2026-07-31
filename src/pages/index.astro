@@ -6,6 +6,16 @@ import ServicesCarousel from '../components/sections/ServicesCarousel.astro';
 import ProjectSlider from '../components/astro/ProjectSlider.astro';
 import Contact from '../components/sections/Contact.astro';
 import projectsData from '../data/projects.json';
+import { fetchGitHubProjects } from '../utils/github';
+
+// Build-time GitHub Sync (3s Timeout -> manifest.json Inspection -> Normalization -> Stale Cache)
+const gitHubProjects = await fetchGitHubProjects();
+
+// Merge fetched GitHub projects with local project data
+const mergedProjects = [
+  ...gitHubProjects,
+  ...projectsData
+];
 ---
 
 <Layout title="Amr Mousa — Portfolio">
@@ -21,7 +31,7 @@ import projectsData from '../data/projects.json';
           <p class="section-subtitle" data-i18n="projects_subtitle">Real results from real projects. See how we drive growth.</p>
         </div>
         
-        <ProjectSlider projects={projectsData} />
+        <ProjectSlider projects={mergedProjects} />
       </div>
     </div>
   </section>

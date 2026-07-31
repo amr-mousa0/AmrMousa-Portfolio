@@ -1,71 +1,66 @@
-# build output
+# Build output & caches
 dist/
-# generated types
 .astro/
+.cache/
 
-# dependencies
+# Dependencies
 node_modules/
 
-# logs
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# environment variables
+# Environment variables & secrets
 .env
-.env.production
+.env.*
 
-# macOS-specific files
+# OS & IDE metadata
 .DS_Store
-
-# jetbrains setting folder
 .idea/
+.vscode/
+*.swp
+*.tmp
 
-# playwright test artifacts
+# Playwright & Lighthouse test artifacts
 playwright-report/
 test-results/
+blob-report/
+.lighthouseci/
+playwright.config.ts
+lighthouserc.json
+run-qa.bat
+e2e/
+tests/
+test-output.txt
+read_lh_report.js
 
-# Playwright
-/playwright-report/
-/blob-report/
-/playwright/.cache/
-/playwright/.auth/
-
-# ── AI / Agent tooling — NOT for production ──────────────
-.agents/
+# Internal AI Tooling, Agents & Specs (STRICTLY PRIVATE)
 .agent/
 .agents/
 .impeccable/
-.lighthouseci/
 .specify/
-specs/
-AGENTS.md
-run-qa.bat
-css/
-
-# GitHub AI agents & prompts (internal tooling only)
 .github/agents/
 .github/prompts/
 .github/copilot-instructions.md
-
-# E2E / Playwright tests (dev tooling only)
-e2e/
-tests/
-playwright.config.ts
-lighthouserc.json
-
-# Internal docs & unused legacy files
+specs/
+scratch/
+AGENTS.md
 CONSTITUTION.md
 DESIGN.md
 PRODUCT.md
 QA_INSTRUCTIONS.md
 session_checkpoint.md
-add_gigs_trans.cjs
-code.html
-index.legacy.html
-.env.example
 skills-lock.json
 task.md
-test-output.txt
+
+# Internal scripts & legacy scratch files
+add_gigs_trans.cjs
 update_*.cjs
+code.html
+index.legacy.html
+demo-scroll-driven-720-comp.mp4
+landing-page-project/
+my-project/
+agy/

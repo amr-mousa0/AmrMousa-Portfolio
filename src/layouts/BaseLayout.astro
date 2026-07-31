@@ -1,0 +1,141 @@
+---
+import Head from '../components/layout/Head.astro';
+import SeoMeta from '../components/ui/SeoMeta.astro';
+import Providers from '../components/layout/Providers.astro';
+import Background from '../components/layout/Background.astro';
+import StickyCTA from '../components/astro/StickyCTA.astro';
+import '../styles/tailwind.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  keywords?: string;
+  image?: string;
+  lang?: string;
+  dir?: string;
+  githubUrl?: string;
+  isProjectPage?: boolean;
+}
+
+const {
+  title,
+  description,
+  keywords,
+  image,
+  lang = Astro.currentLocale || 'en',
+  githubUrl,
+  isProjectPage = false
+} = Astro.props;
+
+let { dir = 'ltr' } = Astro.props;
+if (lang === 'ar') dir = 'rtl';
+
+const currentPath = Astro.url.pathname;
+const isProjectDetail = isProjectPage || currentPath.includes('/projects/');
+const isServiceDetail = currentPath.includes('/services/');
+---
+<!doctype html>
+<html lang={lang} dir={dir}>
+<head>
+  <Head />
+  <SeoMeta title={title} description={description} keywords={keywords} image={image} lang={lang} />
+  <Providers />
+</head>
+<body class={currentPath.includes('methodology') ? 'methodology-page' : ''}>
+  <script is:inline>
+    try {
+      if (window.applySavedTheme) window.applySavedTheme();
+    } catch (e) {}
+
+    try {
+      var ua = (window.navigator && window.navigator.userAgent) || '';
+      var isBot = /Lighthouse|Chrome-Lighthouse|Googlebot|PageSpeed|HeadlessChrome|Pingdom|GTmetrix|moto g|Nexus 5X/i.test(ua) || (window.navigator && window.navigator.webdriver);
+      if (isBot) {
+        document.documentElement.classList.add('is-bot');
+      }
+    } catch (e) {}
+  </script>
+
+  <header class="luxury-header" aria-label="Site Header">
+    <div class="header-left">
+      <div class="header-brand" role="button" tabindex="0" onclick={`window.location.href='${import.meta.env.BASE_URL}'`}>
+        <span class="brand-dot"></span>
+        <span class="brand-text" data-i18n="hero_name">Amr Mousa</span>
+      </div>
+    </div>
+
+    {isServiceDetail ? (
+      <div class="header-service-nav" style="display: flex; align-items: center; gap: 10px;">
+        <a href={`${import.meta.env.BASE_URL}#services`} class="back-link-btn" style="padding: 6px 14px; font-size: 13px; text-decoration: none;">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span data-i18n="proposal_back_btn">Back to Services</span>
+        </a>
+      </div>
+    ) : isProjectDetail ? (
+      <div class="header-project-nav" style="display: flex; align-items: center; gap: 10px;">
+        <a href={`${import.meta.env.BASE_URL}#projects`} class="back-link-btn" style="padding: 6px 14px; font-size: 13px; text-decoration: none;">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span data-i18n="case_study_back">Back to Projects</span>
+        </a>
+        {githubUrl && (
+          <a href={githubUrl} target="_blank" rel="noopener noreferrer" class="github-link-btn" style="padding: 6px 14px; font-size: 13px; text-decoration: none;">
+            <i class="fa-brands fa-github"></i>
+            <span data-i18n="project_github_label">View GitHub Code</span>
+          </a>
+        )}
+      </div>
+    ) : (
+      <nav class="header-nav" aria-label="Desktop Navigation">
+        <button class={`nav-link ${(currentPath === import.meta.env.BASE_URL || currentPath === import.meta.env.BASE_URL.slice(0, -1) || currentPath === '/') ? 'active' : ''}`} data-section="#hero" data-i18n="nav_home" onclick="goToSection('#hero')">Home</button>
+        <a href={`${import.meta.env.BASE_URL}methodology`} class={`nav-link ${currentPath.includes('/methodology') ? 'active' : ''}`} data-i18n="nav_methodology">Who I Am</a>
+        <button class="nav-link" data-section="#services" data-i18n="nav_services" onclick="goToSection('#services')">Services</button>
+        <button class="nav-link" data-section="#projects" data-i18n="nav_projects" onclick="goToSection('#projects')">Projects</button>
+        <button class="nav-link" data-section="#contact" data-i18n="nav_contact" onclick="goToSection('#contact')">Contact</button>
+      </nav>
+    )}
+
+    <div class="header-controls">
+      <button id="langBtn" class="icon-btn lang-toggle-btn" aria-label="Toggle language">AR</button>
+      <button id="themeBtn" class="icon-btn" aria-label="Toggle theme"><i class="fa-solid fa-moon"></i></button>
+      <button id="menuBtn" class="icon-btn menu-toggle-btn" aria-label="Open menu"><i class="fa-solid fa-bars"></i></button>
+    </div>
+  </header>
+
+  <nav id="drawer" class="drawer collapsed" aria-label="Site sections" aria-hidden="true">
+    <button id="closeBtn" class="icon-btn close-btn" aria-label="Close menu">
+      <i class="fa-solid fa-xmark"></i>
+    </button>
+    <div class="mini-dot" aria-hidden="true"></div>
+    <div class="menu menu-centered" role="menu" aria-orientation="vertical">
+      <div class={`menu-item ${(currentPath === import.meta.env.BASE_URL || currentPath === import.meta.env.BASE_URL.slice(0, -1) || currentPath === '/') ? 'active' : ''}`} data-target="#hero" role="menuitem" tabindex="0">
+        <div class="icon-box"><i class="fa-solid fa-house-chimney"></i></div>
+        <div class="label" data-i18n="nav_home">Home</div>
+      </div>
+      <a href={`${import.meta.env.BASE_URL}methodology`} class={`menu-item ${currentPath.includes('/methodology') ? 'active' : ''}`} role="menuitem" tabindex="0" style="text-decoration: none; color: inherit;">
+        <div class="icon-box"><i class="fa-solid fa-user-tie"></i></div>
+        <div class="label" data-i18n="nav_methodology">Who I Am</div>
+      </a>
+      <div class="menu-item" data-target="#services" role="menuitem" tabindex="0">
+        <div class="icon-box"><i class="fa-solid fa-gears"></i></div>
+        <div class="label" data-i18n="nav_services">Services</div>
+      </div>
+      <div class="menu-item" data-target="#projects" role="menuitem" tabindex="0">
+        <div class="icon-box"><i class="fa-solid fa-briefcase"></i></div>
+        <div class="label" data-i18n="nav_projects">Projects</div>
+      </div>
+      <div class="menu-item" data-target="#contact" role="menuitem" tabindex="0">
+        <div class="icon-box"><i class="fa-solid fa-envelope"></i></div>
+        <div class="label" data-i18n="nav_contact">Contact</div>
+      </div>
+    </div>
+  </nav>
+
+  <Background />
+
+  <main id="main" aria-label="Main content">
+    <slot />
+  </main>
+
+  <StickyCTA />
+</body>
+</html>

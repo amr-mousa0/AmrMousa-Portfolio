@@ -14,10 +14,41 @@ const allProjectImages = import.meta.glob('../../assets/images/**/*.{png,jpg,jpe
 
 function resolveAsset(url: string) {
   if (!url) return fallbackImg;
+  if (typeof url === 'string' && (url.startsWith('http://') || url.startsWith('https://'))) {
+    return url;
+  }
   const decoded = decodeURIComponent(url);
   const relativePath = decoded.replace('/images/', '../../assets/images/');
   const matched = allProjectImages[relativePath] as any;
   return matched ? matched.default : fallbackImg;
+}
+function resolveProjectIcon(project: any): string {
+  if (project.icon && project.icon.trim() !== '') return project.icon;
+
+  const tagsStr = (project.tags || project.tech || []).join(' ').toLowerCase();
+  const titleStr = (project.titleEn || project.title || '').toLowerCase();
+  const allStr = `${tagsStr} ${titleStr}`;
+
+  if (allStr.includes('walmart') || allStr.includes('sales') || allStr.includes('retail')) {
+    return 'fa-solid fa-chart-column';
+  }
+  if (allStr.includes('sql') || allStr.includes('database') || allStr.includes('postgres') || allStr.includes('query')) {
+    return 'fa-solid fa-database';
+  }
+  if (allStr.includes('power bi') || allStr.includes('powerbi') || allStr.includes('dashboard') || allStr.includes('bi')) {
+    return 'fa-solid fa-chart-pie';
+  }
+  if (allStr.includes('python') || allStr.includes('pandas') || allStr.includes('data analysis')) {
+    return 'fa-brands fa-python';
+  }
+  if (allStr.includes('excel') || allStr.includes('sheet')) {
+    return 'fa-solid fa-file-excel';
+  }
+  if (allStr.includes('crm') || allStr.includes('erp') || allStr.includes('management')) {
+    return 'fa-solid fa-users-gear';
+  }
+
+  return 'fa-solid fa-layer-group';
 }
 ---
 
@@ -35,18 +66,23 @@ function resolveAsset(url: string) {
     {projects.map((project) => {
       const imgKey = project.imagePath || '';
       const matchedAsset = allImages[imgKey] as any;
-      const imgAsset = matchedAsset ? matchedAsset.default : fallbackImg;
+      const localAsset = matchedAsset ? matchedAsset.default : fallbackImg;
       const cleanId = project.id.split('-')[0];
-      const firstImage = project.images && project.images.length > 0 ? project.images[0] : '';
+      const rawCover = project.image || project.cover || (project.images && project.images.length > 0 ? project.images[0] : project.imagePath);
+      const displayImg = rawCover ? resolveAsset(rawCover) : localAsset;
+
+      const currentLocale = Astro.currentLocale || 'en';
+      const displayTitle = currentLocale === 'ar' ? (project.titleAr || project.title) : (project.titleEn || project.title);
+      const displayDesc = currentLocale === 'ar' ? (project.descriptionAr || project.description) : (project.descriptionEn || project.description);
 
       return (
         <article class="project-card-wrapper">
           <a href={`${import.meta.env.BASE_URL}projects/${project.id}`} onclick={`trackClick('project_click', { project_id: '${project.id}' })`} class="project-card" aria-label={`View ${project.title} case study`}>
             
-            {/* ── Image area: multi-image slideshow ── */}
+            {/* ── Image area ── */}
             <div class="project-card-image">
               <Image
-                src={firstImage ? resolveAsset(firstImage) : imgAsset}
+                src={displayImg}
                 alt={project.title}
                 width={440}
                 height={240}
@@ -59,17 +95,31 @@ function resolveAsset(url: string) {
             </div>
 
             <span class="card-icon">
-              <i class={project.icon}></i>
+              <i class={resolveProjectIcon(project)}></i>
             </span>
 
             {/* ── Text content ── */}
             <div class="project-card-content">
               <span class="project-badge" data-i18n={`project_${cleanId}_category`}>{project.category}</span>
-              <h3 class="project-title" data-i18n={`project_${cleanId}_title`}>{project.title}</h3>
-              <p class="project-hook" data-i18n={`project_${cleanId}_desc`}>{project.description}</p>
+              <h3 
+                class="project-title" 
+                data-title-en={project.titleEn || project.title} 
+                data-title-ar={project.titleAr || project.title} 
+                data-i18n={`project_${cleanId}_title`}
+              >
+                {displayTitle}
+              </h3>
+              <p 
+                class="project-hook" 
+                data-desc-en={project.descriptionEn || project.description} 
+                data-desc-ar={project.descriptionAr || project.description} 
+                data-i18n={`project_${cleanId}_desc`}
+              >
+                {displayDesc}
+              </p>
 
               <div class="project-tags">
-                {project.tech.slice(0, 3).map((t: string) => (
+                {(project.tech || project.tags || []).slice(0, 3).map((t: string) => (
                   <span class="tag">{t}</span>
                 ))}
               </div>
