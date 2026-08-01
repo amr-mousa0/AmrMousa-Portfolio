@@ -1,6 +1,19 @@
 ---
 import { Image } from 'astro:assets';
-import fallbackImg from '../../assets/projects/coffee.jpg';
+import coffeeImg from '../../assets/projects/coffee.jpg';
+import marketingImg from '../../assets/projects/marketing.jpg';
+import gymImg from '../../assets/projects/gym.jpg';
+
+const staticProjectImages: Record<string, any> = {
+  'coffee-dashboard': coffeeImg,
+  'marketing-analysis': marketingImg,
+  'gym-analysis': gymImg,
+  '../../assets/projects/coffee.jpg': coffeeImg,
+  '../../assets/projects/marketing.jpg': marketingImg,
+  '../../assets/projects/gym.jpg': gymImg,
+};
+
+const fallbackImg = coffeeImg;
 
 interface Props {
   projects: any[];
@@ -13,12 +26,20 @@ const allImages = import.meta.glob('../../assets/projects/*.{png,jpg,jpeg,svg,we
 const allProjectImages = import.meta.glob('../../assets/images/**/*.{png,jpg,jpeg,svg,webp,PNG,JPG,JPEG,SVG,WEBP}', { eager: true });
 
 function resolveAsset(url: string) {
-  if (!url) return fallbackImg;
+  if (!url) return coffeeImg;
   if (typeof url === 'string' && (url.startsWith('http://') || url.startsWith('https://'))) {
     return url;
   }
+
+  if (staticProjectImages[url]) {
+    return staticProjectImages[url];
+  }
+
   const decoded = decodeURIComponent(url);
-  
+  if (staticProjectImages[decoded]) {
+    return staticProjectImages[decoded];
+  }
+
   if (allImages[decoded]) {
     return (allImages[decoded] as any).default;
   }
@@ -34,7 +55,7 @@ function resolveAsset(url: string) {
     return (allProjectImages[decoded] as any).default;
   }
 
-  return fallbackImg;
+  return coffeeImg;
 }
 
 function resolveProjectIcon(project: any): string {
@@ -86,7 +107,7 @@ const cleanBase = import.meta.env.BASE_URL.replace(/\/+$/, '');
       const localAsset = matchedAsset ? matchedAsset.default : fallbackImg;
       const cleanId = project.id.split('-')[0];
       const rawCover = project.imagePath || project.image || project.cover || (project.images && project.images.length > 0 ? project.images[0] : null);
-      const displayImg = rawCover ? resolveAsset(rawCover) : localAsset;
+      const displayImg = resolveAsset(project.id) !== coffeeImg ? resolveAsset(project.id) : (rawCover ? resolveAsset(rawCover) : coffeeImg);
 
       const currentLocale = Astro.currentLocale || 'en';
       const displayTitle = currentLocale === 'ar' ? (project.titleAr || project.title) : (project.titleEn || project.title);

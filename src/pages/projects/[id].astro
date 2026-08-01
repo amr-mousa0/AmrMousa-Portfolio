@@ -1,14 +1,25 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import { ContentHubClient } from '../../lib/content-hub/contentHubClient';
+import projectsData from '../../data/projects.json';
 import { Image } from 'astro:assets';
-import fallbackImg from '../../assets/projects/coffee.jpg';
+import coffeeImg from '../../assets/projects/coffee.jpg';
+import marketingImg from '../../assets/projects/marketing.jpg';
+import gymImg from '../../assets/projects/gym.jpg';
 
-// Generate static paths for SSG using Content Hub Gateway Client
+const staticProjectImages: Record<string, any> = {
+  'coffee-dashboard': coffeeImg,
+  'marketing-analysis': marketingImg,
+  'gym-analysis': gymImg,
+  '../../assets/projects/coffee.jpg': coffeeImg,
+  '../../assets/projects/marketing.jpg': marketingImg,
+  '../../assets/projects/gym.jpg': gymImg,
+};
+
+const fallbackImg = coffeeImg;
+
+// Generate static paths for SSG using authoritative projects data
 export async function getStaticPaths() {
-  const { projects } = await ContentHubClient.getProjects('portfolio', 'en');
-
-  return projects.map((project) => ({
+  return (projectsData as any[]).map((project) => ({
     params: { id: project.id },
     props: { project },
   }));
@@ -30,7 +41,15 @@ function resolveAsset(url: string) {
   if (typeof url === 'string' && (url.startsWith('http://') || url.startsWith('https://'))) {
     return url;
   }
+
+  if (staticProjectImages[url]) {
+    return staticProjectImages[url];
+  }
+
   const decoded = decodeURIComponent(url);
+  if (staticProjectImages[decoded]) {
+    return staticProjectImages[decoded];
+  }
 
   if (allImages[decoded]) {
     return (allImages[decoded] as any).default;
