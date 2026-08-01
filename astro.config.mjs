@@ -6,7 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://amr-mousa0.github.io',
-  base: process.env.VERCEL ? '/' : '/AmrMousa-Portofolio/',
+  base: (process.env.GITHUB_ACTIONS && !process.env.VERCEL) ? '/AmrMousa-Portofolio/' : '/',
   adapter: vercel(),
 
   i18n: {
