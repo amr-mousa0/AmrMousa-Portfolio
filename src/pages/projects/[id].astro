@@ -1,21 +1,14 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import projectsData from '../../data/projects.json';
-import { fetchGitHubProjects } from '../../utils/github';
+import { ContentHubClient } from '../../lib/content-hub/contentHubClient';
 import { Image } from 'astro:assets';
 import fallbackImg from '../../assets/projects/coffee.jpg';
 
-// Generate static paths for SSG combining local JSON and GitHub synchronized repos
+// Generate static paths for SSG using Content Hub Gateway Client
 export async function getStaticPaths() {
-  const githubProjects = await fetchGitHubProjects();
-  const allProjects = [...projectsData, ...githubProjects];
+  const { projects } = await ContentHubClient.getProjects('portfolio', 'en');
 
-  // Deduplicate by project ID
-  const uniqueMap = new Map();
-  allProjects.forEach(p => uniqueMap.set(p.id, p));
-  const combined = Array.from(uniqueMap.values());
-
-  return combined.map((project) => ({
+  return projects.map((project) => ({
     params: { id: project.id },
     props: { project },
   }));
