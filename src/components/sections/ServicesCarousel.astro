@@ -47,9 +47,11 @@ const getServiceImg = (id: string) => (serviceImages as Record<string, any>)[id]
       <div class="services-slider scrolling-wrapper">
         {servicesData.map((service) => {
           const serviceImg = getServiceImg(service.id);
+          const cleanBase = import.meta.env.BASE_URL.replace(/\/+$/, '');
+          const serviceHref = `${cleanBase}/services/${service.id}`;
           return (
             <article class="service-card-wrapper">
-              <a href={`${import.meta.env.BASE_URL}services/${service.id}`} onclick={`trackClick('service_click', { service_id: '${service.id}' })`} class="service-card font-poppins" aria-label={`View ${service.title} details`}>
+              <a href={serviceHref} onclick={`trackClick('service_click', { service_id: '${service.id}' })`} class="service-card font-poppins" aria-label={`View ${service.title} details`}>
 
                 <!-- ── Clean Illustration & Icon Banner ── -->
                 <div class="luxury-card-banner">

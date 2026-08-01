@@ -31,14 +31,28 @@ function resolveAsset(url: string) {
     return url;
   }
   const decoded = decodeURIComponent(url);
+
+  if (allImages[decoded]) {
+    return (allImages[decoded] as any).default;
+  }
+  if (allImages[url]) {
+    return (allImages[url] as any).default;
+  }
+
   const relativePath = decoded.replace('/images/', '../../assets/images/');
-  const matched = allProjectImages[relativePath] as any;
-  return matched ? matched.default : fallbackImg;
+  if (allProjectImages[relativePath]) {
+    return (allProjectImages[relativePath] as any).default;
+  }
+  if (allProjectImages[decoded]) {
+    return (allProjectImages[decoded] as any).default;
+  }
+
+  return fallbackImg;
 }
 
 const matchedAsset = project.imagePath ? allImages[project.imagePath] as any : null;
 const localImgAsset = matchedAsset ? matchedAsset.default : fallbackImg;
-const rawCover = project.image || (project as any).cover || (project.images && project.images.length > 0 ? project.images[0] : project.imagePath);
+const rawCover = project.imagePath || project.image || (project as any).cover || (project.images && project.images.length > 0 ? project.images[0] : null);
 const imgAsset = rawCover ? resolveAsset(rawCover) : localImgAsset;
 
 const currentLocale = Astro.currentLocale || 'en';

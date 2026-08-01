@@ -41,7 +41,7 @@ import amrAvatar from '../../assets/Amr-Mousa.JPG';
 
       <div class="cta mt-8 flex flex-col sm:flex-row gap-4">
         <button class="btn-primary min-w-[160px] h-12 flex items-center justify-center font-semibold transition-all" onclick="trackClick('cta_click', { cta_name: 'explore_services' }); goToSection('#services')" data-i18n="cta_primary">Explore Services</button>
-        <a href={`${import.meta.env.BASE_URL}methodology`} class="btn-ghost min-w-[160px] h-12 flex items-center justify-center font-semibold transition-all" onclick="trackClick('cta_click', { cta_name: 'read_methodology' })" data-i18n="cta_methodology">Get to Know Me</a>
+        <a href={`${import.meta.env.BASE_URL.replace(/\/+$/, '')}/methodology`} class="btn-ghost min-w-[160px] h-12 flex items-center justify-center font-semibold transition-all" onclick="trackClick('cta_click', { cta_name: 'read_methodology' })" data-i18n="cta_methodology">Get to Know Me</a>
       </div>
     </div>
   </div>

@@ -66,14 +66,14 @@ const isServiceDetail = currentPath.includes('/services/');
 
     {isServiceDetail ? (
       <div class="header-service-nav" style="display: flex; align-items: center; gap: 10px;">
-        <a href={`${import.meta.env.BASE_URL}#services`} class="back-link-btn" style="padding: 6px 14px; font-size: 13px; text-decoration: none;">
+        <a href={`${import.meta.env.BASE_URL.replace(/\/+$/, '')}/#services`} class="back-link-btn" style="padding: 6px 14px; font-size: 13px; text-decoration: none;">
           <i class="fa-solid fa-arrow-left"></i>
           <span data-i18n="proposal_back_btn">Back to Services</span>
         </a>
       </div>
     ) : isProjectDetail ? (
       <div class="header-project-nav" style="display: flex; align-items: center; gap: 10px;">
-        <a href={`${import.meta.env.BASE_URL}#projects`} class="back-link-btn" style="padding: 6px 14px; font-size: 13px; text-decoration: none;">
+        <a href={`${import.meta.env.BASE_URL.replace(/\/+$/, '')}/#projects`} class="back-link-btn" style="padding: 6px 14px; font-size: 13px; text-decoration: none;">
           <i class="fa-solid fa-arrow-left"></i>
           <span data-i18n="case_study_back">Back to Projects</span>
         </a>
@@ -87,7 +87,7 @@ const isServiceDetail = currentPath.includes('/services/');
     ) : (
       <nav class="header-nav" aria-label="Desktop Navigation">
         <button class={`nav-link ${(currentPath === import.meta.env.BASE_URL || currentPath === import.meta.env.BASE_URL.slice(0, -1) || currentPath === '/') ? 'active' : ''}`} data-section="#hero" data-i18n="nav_home" onclick="goToSection('#hero')">Home</button>
-        <a href={`${import.meta.env.BASE_URL}methodology`} class={`nav-link ${currentPath.includes('/methodology') ? 'active' : ''}`} data-i18n="nav_methodology">Who I Am</a>
+        <a href={`${import.meta.env.BASE_URL.replace(/\/+$/, '')}/methodology`} class={`nav-link ${currentPath.includes('/methodology') ? 'active' : ''}`} data-i18n="nav_methodology">Who I Am</a>
         <button class="nav-link" data-section="#services" data-i18n="nav_services" onclick="goToSection('#services')">Services</button>
         <button class="nav-link" data-section="#projects" data-i18n="nav_projects" onclick="goToSection('#projects')">Projects</button>
         <button class="nav-link" data-section="#contact" data-i18n="nav_contact" onclick="goToSection('#contact')">Contact</button>
@@ -111,7 +111,7 @@ const isServiceDetail = currentPath.includes('/services/');
         <div class="icon-box"><i class="fa-solid fa-house-chimney"></i></div>
         <div class="label" data-i18n="nav_home">Home</div>
       </div>
-      <a href={`${import.meta.env.BASE_URL}methodology`} class={`menu-item ${currentPath.includes('/methodology') ? 'active' : ''}`} role="menuitem" tabindex="0" style="text-decoration: none; color: inherit;">
+      <a href={`${import.meta.env.BASE_URL.replace(/\/+$/, '')}/methodology`} class={`menu-item ${currentPath.includes('/methodology') ? 'active' : ''}`} role="menuitem" tabindex="0" style="text-decoration: none; color: inherit;">
         <div class="icon-box"><i class="fa-solid fa-user-tie"></i></div>
         <div class="label" data-i18n="nav_methodology">Who I Am</div>
       </a>

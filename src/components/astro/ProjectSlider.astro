@@ -18,10 +18,25 @@ function resolveAsset(url: string) {
     return url;
   }
   const decoded = decodeURIComponent(url);
+  
+  if (allImages[decoded]) {
+    return (allImages[decoded] as any).default;
+  }
+  if (allImages[url]) {
+    return (allImages[url] as any).default;
+  }
+
   const relativePath = decoded.replace('/images/', '../../assets/images/');
-  const matched = allProjectImages[relativePath] as any;
-  return matched ? matched.default : fallbackImg;
+  if (allProjectImages[relativePath]) {
+    return (allProjectImages[relativePath] as any).default;
+  }
+  if (allProjectImages[decoded]) {
+    return (allProjectImages[decoded] as any).default;
+  }
+
+  return fallbackImg;
 }
+
 function resolveProjectIcon(project: any): string {
   if (project.icon && project.icon.trim() !== '') return project.icon;
 
@@ -50,6 +65,8 @@ function resolveProjectIcon(project: any): string {
 
   return 'fa-solid fa-layer-group';
 }
+
+const cleanBase = import.meta.env.BASE_URL.replace(/\/+$/, '');
 ---
 
 <div class="project-slider-wrapper">
@@ -68,16 +85,17 @@ function resolveProjectIcon(project: any): string {
       const matchedAsset = allImages[imgKey] as any;
       const localAsset = matchedAsset ? matchedAsset.default : fallbackImg;
       const cleanId = project.id.split('-')[0];
-      const rawCover = project.image || project.cover || (project.images && project.images.length > 0 ? project.images[0] : project.imagePath);
+      const rawCover = project.imagePath || project.image || project.cover || (project.images && project.images.length > 0 ? project.images[0] : null);
       const displayImg = rawCover ? resolveAsset(rawCover) : localAsset;
 
       const currentLocale = Astro.currentLocale || 'en';
       const displayTitle = currentLocale === 'ar' ? (project.titleAr || project.title) : (project.titleEn || project.title);
       const displayDesc = currentLocale === 'ar' ? (project.descriptionAr || project.description) : (project.descriptionEn || project.description);
+      const cardHref = `${cleanBase}/projects/${project.id}`;
 
       return (
         <article class="project-card-wrapper">
-          <a href={`${import.meta.env.BASE_URL}projects/${project.id}`} onclick={`trackClick('project_click', { project_id: '${project.id}' })`} class="project-card" aria-label={`View ${project.title} case study`}>
+          <a href={cardHref} onclick={`trackClick('project_click', { project_id: '${project.id}' })`} class="project-card" aria-label={`View ${project.title} case study`}>
             
             {/* ── Image area ── */}
             <div class="project-card-image">
