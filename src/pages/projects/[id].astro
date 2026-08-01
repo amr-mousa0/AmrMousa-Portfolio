@@ -38,7 +38,7 @@ function resolveAsset(url: string) {
 
 const matchedAsset = project.imagePath ? allImages[project.imagePath] as any : null;
 const localImgAsset = matchedAsset ? matchedAsset.default : fallbackImg;
-const rawCover = project.image || project.cover || (project.images && project.images.length > 0 ? project.images[0] : project.imagePath);
+const rawCover = project.image || (project as any).cover || (project.images && project.images.length > 0 ? project.images[0] : project.imagePath);
 const imgAsset = rawCover ? resolveAsset(rawCover) : localImgAsset;
 
 const currentLocale = Astro.currentLocale || 'en';
@@ -141,10 +141,12 @@ const displayMetrics = currentLocale === 'ar' ? (project.salesFunnelMetricsAr ||
           
           {/* Tab Header */}
           {(() => {
-            const hasImageGallery = project.images && project.images.length > 0;
+            const imagesList: string[] = project.images || [];
+            const hasImageGallery = imagesList.length > 0;
             const pdfAsset = (project.galleryItems && project.galleryItems.find((i: any) => i.type === 'pdf')) || (project.documentationUrl ? { type: 'pdf', title: 'PDF Documentation', url: project.documentationUrl } : null);
             const videoAsset = (project.galleryItems && project.galleryItems.find((i: any) => i.type === 'video')) || (project.videoUrl ? { type: 'video', title: 'Video Demo', url: project.videoUrl } : null);
-            const powerBiAsset = project.powerBiUrl || (project.galleryItems && project.galleryItems.find((i: any) => i.type === 'powerbi') ? project.galleryItems.find((i: any) => i.type === 'powerbi').url : null);
+            const foundPbiItem = project.galleryItems ? project.galleryItems.find((i: any) => i.type === 'powerbi') : null;
+            const powerBiAsset: string | { url: string } | null = project.powerBiUrl || (foundPbiItem ? foundPbiItem.url : null);
 
             return (
               <>
@@ -180,7 +182,7 @@ const displayMetrics = currentLocale === 'ar' ? (project.salesFunnelMetricsAr ||
                   <div class="tab-content active" id="content-gallery">
                     <div class="gallery-main-view">
                       <Image 
-                        src={resolveAsset(project.images[0])} 
+                        src={resolveAsset(imagesList[0])} 
                         alt={`${project.title} main preview`} 
                         id="gallery-main-img" 
                         class="gallery-preview-img"
@@ -191,9 +193,9 @@ const displayMetrics = currentLocale === 'ar' ? (project.salesFunnelMetricsAr ||
                       <div class="glass-reflection-overlay"></div>
                     </div>
 
-                    {project.images.length > 1 && (
+                    {imagesList.length > 1 && (
                       <div class="gallery-thumbnails">
-                        {project.images.map((imgUrl: string, idx: number) => (
+                        {imagesList.map((imgUrl: string, idx: number) => (
                           <button 
                             class={`thumbnail-btn ${idx === 0 ? 'active' : ''}`} 
                             data-img={resolveAsset(imgUrl).src}
@@ -240,7 +242,7 @@ const displayMetrics = currentLocale === 'ar' ? (project.salesFunnelMetricsAr ||
                     <div class="dashboard-iframe-wrapper">
                       <iframe 
                         title={project.title} 
-                        src={typeof powerBiAsset === 'string' ? powerBiAsset : powerBiAsset.url} 
+                        src={typeof powerBiAsset === 'string' ? powerBiAsset : (powerBiAsset as any).url} 
                         allowfullscreen
                         loading="lazy">
                       </iframe>

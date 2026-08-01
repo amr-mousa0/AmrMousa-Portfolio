@@ -1,9 +1,8 @@
 /**
- * Standalone Content Read API Endpoint — GET /api/projects/:id
- * ADR-023-007 Authoritative Protocol
+ * Content Hub Service API v1 — GET /api/v1/projects/:id?destination=portfolio&lang=en
  */
 import type { APIRoute } from 'astro';
-import { getProjectsFromStore } from '../../../lib/sync/project-store';
+import { getProjectsFromStore } from '../../../../../../src/lib/sync/project-store';
 
 export const prerender = false;
 

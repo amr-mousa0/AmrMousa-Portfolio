@@ -96,15 +96,21 @@ export class ContentHubClient {
   }
 
   /**
-   * GET /api/v1/health — Service availability check
+   * GET /api/health — Service availability check (with fallback to /api/v1/health)
    */
   static async healthCheck(): Promise<boolean> {
     try {
       const baseUrl = this.getApiBaseUrl();
-      const res = await fetch(`${baseUrl}/api/v1/health`, {
+      let res = await fetch(`${baseUrl}/api/health`, {
         headers: { 'Accept': 'application/json' },
         signal: AbortSignal.timeout(3000)
       });
+      if (!res.ok) {
+        res = await fetch(`${baseUrl}/api/v1/health`, {
+          headers: { 'Accept': 'application/json' },
+          signal: AbortSignal.timeout(3000)
+        });
+      }
       return res.ok;
     } catch {
       return false;
@@ -112,7 +118,7 @@ export class ContentHubClient {
   }
 
   /**
-   * GET /api/v1/projects?destination=portfolio&lang=en (with fallback to /api/projects)
+   * GET /api/projects?destination=portfolio&lang=en (with fallback to /api/v1/projects)
    */
   static async getProjects(
     destination: string = 'portfolio',
@@ -169,7 +175,7 @@ export class ContentHubClient {
   }
 
   /**
-   * GET /api/v1/projects/:id?destination=portfolio&lang=en (with fallback to /api/projects/:id)
+   * GET /api/projects/:id?destination=portfolio&lang=en (with fallback to /api/v1/projects/:id)
    */
   static async getProjectById(
     id: string,
@@ -177,8 +183,8 @@ export class ContentHubClient {
     lang: string = 'en'
   ): Promise<{ project: ProjectDTO | null; error?: string }> {
     const baseUrl = this.getApiBaseUrl();
-    const primaryEndpoint = `${baseUrl}/api/v1/projects/${encodeURIComponent(id)}?destination=${encodeURIComponent(destination)}&lang=${encodeURIComponent(lang)}`;
-    const fallbackEndpoint = `${baseUrl}/api/projects/${encodeURIComponent(id)}?destination=${encodeURIComponent(destination)}&lang=${encodeURIComponent(lang)}`;
+    const primaryEndpoint = `${baseUrl}/api/projects/${encodeURIComponent(id)}?destination=${encodeURIComponent(destination)}&lang=${encodeURIComponent(lang)}`;
+    const fallbackEndpoint = `${baseUrl}/api/v1/projects/${encodeURIComponent(id)}?destination=${encodeURIComponent(destination)}&lang=${encodeURIComponent(lang)}`;
 
     let endpoint = primaryEndpoint;
 

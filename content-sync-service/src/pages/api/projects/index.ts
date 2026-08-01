@@ -1,9 +1,9 @@
 /**
- * Standalone Content Read API Endpoint — GET /api/projects
- * ADR-023-007 Authoritative Protocol
+ * Content Hub Service API — GET /api/projects?destination=portfolio&lang=en
  */
 import type { APIRoute } from 'astro';
-import { getProjectsFromStore } from '../../../lib/sync/project-store';
+import { getProjectsFromStore } from '../../../../../src/lib/sync/project-store';
+import type { PortfolioProject } from '../../../../../src/lib/sync/types';
 
 export const prerender = false;
 
@@ -13,7 +13,7 @@ export const GET: APIRoute = async ({ url }) => {
 
   const projects = await getProjectsFromStore(destination);
 
-  const localized = projects.map(p => {
+  const localized = projects.map((p: PortfolioProject) => {
     if (lang === 'ar') {
       return {
         ...p,
