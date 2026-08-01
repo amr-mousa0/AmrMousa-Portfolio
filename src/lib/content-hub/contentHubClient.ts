@@ -1,7 +1,8 @@
 import localProjectsData from '../../data/projects.json';
 
 function getLocalProjectsFallback(lang: string = 'en'): ProjectDTO[] {
-  return (localProjectsData as any[]).map(p => {
+  const sorted = [...(localProjectsData as any[])].sort((a, b) => (a.priority || 999) - (b.priority || 999));
+  return sorted.map(p => {
     const isAr = lang === 'ar';
     return {
       id: p.id,

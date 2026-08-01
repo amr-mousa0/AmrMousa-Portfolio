@@ -12,6 +12,7 @@ export const GET: APIRoute = async ({ url }) => {
   const lang = url.searchParams.get('lang') || 'en';
 
   const projects = await getProjectsFromStore(destination);
+  projects.sort((a: any, b: any) => (a.priority || 999) - (b.priority || 999));
 
   const localized = projects.map(p => {
     if (lang === 'ar') {
