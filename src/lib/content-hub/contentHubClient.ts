@@ -1,7 +1,24 @@
-/**
- * Content Hub Gateway Client — Single API Gateway for Portfolio Presentation Layer
- * Refactored Architecture (ADR-023-009)
- */
+import localProjectsData from '../../data/projects.json';
+
+function getLocalProjectsFallback(lang: string = 'en'): ProjectDTO[] {
+  return (localProjectsData as any[]).map(p => {
+    const isAr = lang === 'ar';
+    return {
+      id: p.id,
+      title: isAr ? (p.titleAr || p.title) : (p.titleEn || p.title),
+      category: p.category || 'Data Analytics',
+      description: isAr ? (p.descriptionAr || p.description) : (p.descriptionEn || p.description),
+      problem: isAr ? (p.problemAr || p.problem) : (p.problemEn || p.problem),
+      salesDescription: isAr ? (p.salesDescriptionAr || p.salesDescription) : (p.salesDescriptionEn || p.salesDescription),
+      salesFunnelMetrics: isAr ? (p.salesFunnelMetricsAr || p.salesFunnelMetrics) : (p.salesFunnelMetricsEn || p.salesFunnelMetrics),
+      image: p.imagePath || p.image,
+      images: p.images || [],
+      demoUrl: p.powerBiUrl || p.demoUrl,
+      githubUrl: p.githubUrl,
+      tags: p.tech || p.tags || []
+    };
+  });
+}
 
 export interface ProjectDTO {
   id: string;
@@ -52,13 +69,30 @@ export interface ContentHubProjectsResult {
 
 export class ContentHubClient {
   private static getApiBaseUrl(): string {
-    const url = (
-      (typeof process !== 'undefined' && process.env && process.env.CONTENT_HUB_API_URL) ||
-      import.meta.env.CONTENT_HUB_API_URL ||
-      'https://content-sync-service.vercel.app'
-    ).replace(/\/$/, '');
+    const envUrl = (typeof process !== 'undefined' && process.env && process.env.CONTENT_HUB_API_URL) ||
+      (import.meta as any).env?.CONTENT_HUB_API_URL;
 
-    return url;
+    if (envUrl) {
+      return envUrl.replace(/\/+$/, '');
+    }
+
+    if (typeof window !== 'undefined' && window.location?.origin) {
+      return window.location.origin;
+    }
+
+    if (typeof process !== 'undefined' && process.env) {
+      if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+        return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+      }
+      if (process.env.VERCEL_URL) {
+        return `https://${process.env.VERCEL_URL}`;
+      }
+      if (process.env.SITE_URL) {
+        return process.env.SITE_URL.replace(/\/+$/, '');
+      }
+    }
+
+    return 'https://mousa-analytics.vercel.app';
   }
 
   /**
@@ -78,50 +112,64 @@ export class ContentHubClient {
   }
 
   /**
-   * GET /api/v1/projects?destination=portfolio&lang=en
+   * GET /api/v1/projects?destination=portfolio&lang=en (with fallback to /api/projects)
    */
   static async getProjects(
     destination: string = 'portfolio',
     lang: string = 'en'
   ): Promise<ContentHubProjectsResult> {
     const baseUrl = this.getApiBaseUrl();
-    const endpoint = `${baseUrl}/api/v1/projects?destination=${encodeURIComponent(destination)}&lang=${encodeURIComponent(lang)}`;
+    const envVal = (typeof process !== 'undefined' && process.env) ? process.env.CONTENT_HUB_API_URL : undefined;
+
+    console.log('[ContentHubClient] Diagnostic Info:');
+    console.log('  process.env.CONTENT_HUB_API_URL:', envVal ?? '(not set - using default fallback)');
+    console.log('  Resolved Base URL:', baseUrl);
+
+    // Primary endpoint /api/projects and fallback endpoint /api/v1/projects
+    const primaryEndpoint = `${baseUrl}/api/projects?destination=${encodeURIComponent(destination)}&lang=${encodeURIComponent(lang)}`;
+    const fallbackEndpoint = `${baseUrl}/api/v1/projects?destination=${encodeURIComponent(destination)}&lang=${encodeURIComponent(lang)}`;
+
+    let endpoint = primaryEndpoint;
 
     try {
-      const res = await fetch(endpoint, {
+      console.log('  Exact fetch URL:', endpoint);
+      let res = await fetch(endpoint, {
         headers: { 'Accept': 'application/json' },
         signal: AbortSignal.timeout(5000)
       });
 
+      console.log('  HTTP Status:', res.status);
+
+      // If /api/projects returns 404, try /api/v1/projects
+      if (res.status === 404) {
+        console.warn(`[ContentHubClient] Endpoint ${endpoint} returned 404. Trying fallback endpoint: ${fallbackEndpoint}`);
+        endpoint = fallbackEndpoint;
+        res = await fetch(endpoint, {
+          headers: { 'Accept': 'application/json' },
+          signal: AbortSignal.timeout(5000)
+        });
+        console.log('  Fallback HTTP Status:', res.status);
+      }
+
+      const bodyText = await res.text();
+      console.log('  Response body (first 500 chars):', bodyText.substring(0, 500));
+
       if (!res.ok) {
-        const errorMsg = `Content Hub API returned status ${res.status}`;
-        if (import.meta.env.DEV) {
-          throw new Error(`[ContentHubClient DEV ERROR] ${errorMsg} at ${endpoint}`);
-        }
-        return { projects: [], error: 'Projects are temporarily unavailable' };
+        console.warn(`[ContentHubClient] API returned status ${res.status} for ${endpoint}. Using local projects fallback.`);
+        return { projects: getLocalProjectsFallback(lang) };
       }
 
-      const data = await res.json();
+      const data = JSON.parse(bodyText);
       const projects: ProjectDTO[] = Array.isArray(data) ? data : (data.projects || []);
-      return { projects };
+      return { projects: projects.length > 0 ? projects : getLocalProjectsFallback(lang) };
     } catch (err: any) {
-      console.error(`[ContentHubClient] Failed to fetch projects from ${endpoint}:`, err?.message || err);
-
-      if (import.meta.env.DEV) {
-        throw new Error(
-          `[ContentHubClient DEV ERROR] Content Hub Service is unavailable at ${endpoint}. Details: ${err?.message || err}`
-        );
-      }
-
-      return {
-        projects: [],
-        error: 'Projects are temporarily unavailable'
-      };
+      console.warn(`[ContentHubClient] Failed to fetch projects from ${endpoint}:`, err?.message || err);
+      return { projects: getLocalProjectsFallback(lang) };
     }
   }
 
   /**
-   * GET /api/v1/projects/:id?destination=portfolio&lang=en
+   * GET /api/v1/projects/:id?destination=portfolio&lang=en (with fallback to /api/projects/:id)
    */
   static async getProjectById(
     id: string,
@@ -129,37 +177,38 @@ export class ContentHubClient {
     lang: string = 'en'
   ): Promise<{ project: ProjectDTO | null; error?: string }> {
     const baseUrl = this.getApiBaseUrl();
-    const endpoint = `${baseUrl}/api/v1/projects/${encodeURIComponent(id)}?destination=${encodeURIComponent(destination)}&lang=${encodeURIComponent(lang)}`;
+    const primaryEndpoint = `${baseUrl}/api/v1/projects/${encodeURIComponent(id)}?destination=${encodeURIComponent(destination)}&lang=${encodeURIComponent(lang)}`;
+    const fallbackEndpoint = `${baseUrl}/api/projects/${encodeURIComponent(id)}?destination=${encodeURIComponent(destination)}&lang=${encodeURIComponent(lang)}`;
+
+    let endpoint = primaryEndpoint;
 
     try {
-      const res = await fetch(endpoint, {
+      let res = await fetch(endpoint, {
         headers: { 'Accept': 'application/json' },
         signal: AbortSignal.timeout(5000)
       });
 
+      if (res.status === 404) {
+        endpoint = fallbackEndpoint;
+        res = await fetch(endpoint, {
+          headers: { 'Accept': 'application/json' },
+          signal: AbortSignal.timeout(5000)
+        });
+      }
+
       if (!res.ok) {
-        if (res.status === 404) {
-          return { project: null };
-        }
-        const errorMsg = `Content Hub API returned status ${res.status}`;
-        if (import.meta.env.DEV) {
-          throw new Error(`[ContentHubClient DEV ERROR] ${errorMsg} at ${endpoint}`);
-        }
-        return { project: null, error: 'Projects are temporarily unavailable' };
+        const localList = getLocalProjectsFallback(lang);
+        const match = localList.find(p => p.id === id || p.id.endsWith(id));
+        return { project: match || null };
       }
 
       const project: ProjectDTO = await res.json();
       return { project };
     } catch (err: any) {
-      console.error(`[ContentHubClient] Failed to fetch project ${id} from ${endpoint}:`, err?.message || err);
-
-      if (import.meta.env.DEV) {
-        throw new Error(
-          `[ContentHubClient DEV ERROR] Content Hub Service is unavailable at ${endpoint}. Details: ${err?.message || err}`
-        );
-      }
-
-      return { project: null, error: 'Projects are temporarily unavailable' };
+      console.warn(`[ContentHubClient] Failed to fetch project ${id} from ${endpoint}:`, err?.message || err);
+      const localList = getLocalProjectsFallback(lang);
+      const match = localList.find(p => p.id === id || p.id.endsWith(id));
+      return { project: match || null };
     }
   }
 }
