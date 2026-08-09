@@ -243,6 +243,7 @@ export class PublishWorker {
       tags: model.tags || ['Data/Tech'],
       tech: model.tags || ['Data/Tech'],
       capabilities: model.capabilities || { demo: !!model.demoUrl, caseStudy: true, cover: true },
+      hasManifest: true,
       updatedAt: new Date().toISOString()
     };
 

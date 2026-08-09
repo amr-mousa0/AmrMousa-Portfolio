@@ -58,6 +58,7 @@ export interface RepositoryManifest {
 export interface PortfolioProject {
   id: string;
   repoId?: string;
+  hasManifest?: boolean;
   title: string;
   titleEn?: string;
   titleAr?: string;

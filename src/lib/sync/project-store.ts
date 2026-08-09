@@ -6,7 +6,6 @@
  */
 import type { PortfolioProject } from './types';
 import { getRegistry } from '../content-hub/provider-registry';
-import initialProjects from '../../data/projects.json';
 
 const STORAGE_KEY = 'projects.json';
 
@@ -16,14 +15,19 @@ export async function getProjectsFromStore(destination: string = 'portfolio'): P
     if (raw) {
       const content = typeof raw === 'string' ? raw : raw.toString('utf-8');
       const projects: PortfolioProject[] = JSON.parse(content);
-      return projects.filter(p => !p.archived);
+      return projects.filter(p => {
+        if (p.archived) return false;
+        if (p.hasManifest === false) return false;
+        if (p.id === 'landing-page' || p.repoId === 'landing-page') return false;
+        if (p.problem?.includes('The organization required automated tracking and structured analytics visibility for')) return false;
+        return true;
+      });
     }
   } catch (e) {
     console.warn('[ProjectStore] Error reading projects from storage:', e);
   }
 
-  // Fallback to static bundled projects list
-  return (initialProjects as PortfolioProject[]).filter(p => !p.archived);
+  return [];
 }
 
 export async function saveProjectsToStore(projects: PortfolioProject[], destination: string = 'portfolio'): Promise<void> {
