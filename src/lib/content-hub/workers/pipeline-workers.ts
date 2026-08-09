@@ -42,7 +42,13 @@ export class GitHubWorker {
 
     // 2. Fetch Manifest via ContentSourceAdapter
     const { manifest, raw } = await registry.adapter.fetchManifest(repo.full_name, branch);
-    AuditLogger.log(repo.name, traceId, 'manifest_fetched', manifest ? 'completed' : 'skipped', manifest ? 'Manifest loaded via adapter' : 'No manifest found, fallback active');
+    
+    if (!manifest) {
+      AuditLogger.log(repo.name, traceId, 'github_worker', 'failed', 'Repository lacks manifest.json. Processing aborted.');
+      throw new Error(`Repository ${repo.name} skipped because it lacks a manifest.json file.`);
+    }
+
+    AuditLogger.log(repo.name, traceId, 'manifest_fetched', 'completed', 'Manifest loaded via adapter');
 
     // 3. Single O(1) Tree API Fetch
     let tree: any[] = [];
