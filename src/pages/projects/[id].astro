@@ -101,7 +101,6 @@ const displayMetrics = currentLocale === 'ar' ? (project.salesFunnelMetricsAr ||
         class="project-details-title" 
         data-title-en={project.titleEn || project.title} 
         data-title-ar={project.titleAr || project.title} 
-        data-i18n={`project_${cleanId}_title`}
       >
         {displayTitle}
       </h1>
@@ -129,7 +128,6 @@ const displayMetrics = currentLocale === 'ar' ? (project.salesFunnelMetricsAr ||
             class="details-card-text" 
             data-problem-en={project.problemEn || project.problem} 
             data-problem-ar={project.problemAr || project.problem} 
-            data-i18n={`project_${cleanId}_problem`}
           >
             {displayProblem}
           </p>
@@ -145,7 +143,6 @@ const displayMetrics = currentLocale === 'ar' ? (project.salesFunnelMetricsAr ||
             class="details-card-text" 
             data-solution-en={project.salesDescriptionEn || project.salesDescription} 
             data-solution-ar={project.salesDescriptionAr || project.salesDescription} 
-            data-i18n={`project_${cleanId}_solution`}
           >
             {displaySalesDesc}
           </p>
@@ -161,7 +158,6 @@ const displayMetrics = currentLocale === 'ar' ? (project.salesFunnelMetricsAr ||
             class="details-card-text premium-highlight" 
             data-metrics-en={project.salesFunnelMetricsEn || project.salesFunnelMetrics} 
             data-metrics-ar={project.salesFunnelMetricsAr || project.salesFunnelMetrics} 
-            data-i18n={`project_${cleanId}_metrics`}
           >
             {displayMetrics}
           </p>

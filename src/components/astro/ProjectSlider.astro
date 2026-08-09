@@ -139,12 +139,11 @@ const cleanBase = import.meta.env.BASE_URL.replace(/\/+$/, '');
 
             {/* ── Text content ── */}
             <div class="project-card-content">
-              <span class="project-badge" data-i18n={`project_${cleanId}_category`}>{project.category}</span>
+              <span class="project-badge">{project.category}</span>
               <h3 
                 class="project-title" 
                 data-title-en={project.titleEn || project.title} 
                 data-title-ar={project.titleAr || project.title} 
-                data-i18n={`project_${cleanId}_title`}
               >
                 {displayTitle}
               </h3>
@@ -152,7 +151,6 @@ const cleanBase = import.meta.env.BASE_URL.replace(/\/+$/, '');
                 class="project-hook" 
                 data-desc-en={project.descriptionEn || project.description} 
                 data-desc-ar={project.descriptionAr || project.description} 
-                data-i18n={`project_${cleanId}_desc`}
               >
                 {displayDesc}
               </p>
@@ -471,16 +469,19 @@ const cleanBase = import.meta.env.BASE_URL.replace(/\/+$/, '');
     overflow: hidden;
   }
 
-  /* The punchy hook line — short, results-focused */
+  /* The punchy hook line — short, results-focused (strictly 3 lines max) */
   .project-hook {
     font-size: 14px;
     color: var(--muted);
-    line-height: 1.65;
+    line-height: 1.6;
     margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    max-height: 67.2px; /* 14px * 1.6 * 3 lines */
+    text-overflow: ellipsis;
+    word-break: break-word;
   }
 
   /* ── Card footer: Executive bar (tags + CTA) ────────────────── */
