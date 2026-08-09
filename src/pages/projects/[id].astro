@@ -1,6 +1,6 @@
 ---
 import Layout from '../../layouts/Layout.astro';
-import projectsData from '../../data/projects.json';
+import { ContentHubClient } from '../../lib/content-hub/contentHubClient';
 import { Image } from 'astro:assets';
 import coffeeImg from '../../assets/projects/coffee.jpg';
 import marketingImg from '../../assets/projects/marketing.jpg';
@@ -19,7 +19,8 @@ const fallbackImg = coffeeImg;
 
 // Generate static paths for SSG using authoritative projects data
 export async function getStaticPaths() {
-  return (projectsData as any[]).map((project) => ({
+  const { projects } = await ContentHubClient.getProjects('portfolio', 'en');
+  return projects.map((project) => ({
     params: { id: project.id },
     props: { project },
   }));

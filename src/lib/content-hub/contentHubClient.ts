@@ -1,25 +1,7 @@
-import localProjectsData from '../../data/projects.json';
+﻿import localProjectsData from '../../data/projects.json';
 
-function getLocalProjectsFallback(lang: string = 'en'): ProjectDTO[] {
-  const sorted = [...(localProjectsData as any[])].sort((a, b) => (a.priority || 999) - (b.priority || 999));
-  return sorted.map(p => {
-    const isAr = lang === 'ar';
-    return {
-      id: p.id,
-      title: isAr ? (p.titleAr || p.title) : (p.titleEn || p.title),
-      category: p.category || 'Data Analytics',
-      description: isAr ? (p.descriptionAr || p.description) : (p.descriptionEn || p.description),
-      problem: isAr ? (p.problemAr || p.problem) : (p.problemEn || p.problem),
-      salesDescription: isAr ? (p.salesDescriptionAr || p.salesDescription) : (p.salesDescriptionEn || p.salesDescription),
-      salesFunnelMetrics: isAr ? (p.salesFunnelMetricsAr || p.salesFunnelMetrics) : (p.salesFunnelMetricsEn || p.salesFunnelMetrics),
-      image: p.imagePath || p.image,
-      images: p.images || [],
-      demoUrl: p.powerBiUrl || p.demoUrl,
-      githubUrl: p.githubUrl,
-      tags: p.tech || p.tags || []
-    };
-  });
-}
+// Get all markdown files natively at build time
+const mdFiles = import.meta.glob('../../content/projects/**/*.md', { eager: true });
 
 export interface ProjectDTO {
   id: string;
@@ -68,154 +50,88 @@ export interface ContentHubProjectsResult {
   error?: string;
 }
 
+function getLocalProjects(lang: string = 'en'): ProjectDTO[] {
+  // 1. Parse markdown files
+  const mdProjects = Object.entries(mdFiles).map(([path, module]: [string, any]) => {
+    const slugMatch = path.match(/projects\/(ar|en)\/([^/.]+)\.md$/);
+    if (!slugMatch) return null;
+    const fileLang = slugMatch[1];
+    const slug = slugMatch[2];
+    if (fileLang !== lang) return null;
+
+    const data = module.frontmatter || {};
+    return {
+      id: slug,
+      repoId: slug,
+      title: lang === 'ar' ? (data.titleAr || data.title) : (data.titleEn || data.title),
+      category: data.category || 'Data Analytics',
+      description: lang === 'ar' ? (data.descriptionAr || data.description) : (data.descriptionEn || data.description),
+      problem: lang === 'ar' ? (data.problemAr || data.problemText) : (data.problemEn || data.problemText),
+      salesDescription: lang === 'ar' ? (data.salesDescriptionAr || data.solutionText) : (data.salesDescriptionEn || data.solutionText),
+      salesFunnelMetrics: lang === 'ar' ? (data.salesFunnelMetricsAr || data.impactText) : (data.salesFunnelMetricsEn || data.impactText),
+      image: data.coverImage,
+      imagePath: data.coverImage,
+      images: data.galleryImages || [data.coverImage].filter(Boolean),
+      demoUrl: data.powerBiUrl || data.dashboardUrl,
+      githubUrl: data.githubUrl,
+      tags: data.tags || data.tech || [],
+      priority: data.priority || 50,
+      archived: data.draft || false
+    };
+  }).filter(Boolean) as ProjectDTO[];
+
+  // 2. Parse old projects.json
+  const sortedJson = [...(localProjectsData as any[])].sort((a, b) => (a.priority || 999) - (b.priority || 999));
+  const jsonProjects = sortedJson.map(p => {
+    const isAr = lang === 'ar';
+    return {
+      id: p.id,
+      title: isAr ? (p.titleAr || p.title) : (p.titleEn || p.title),
+      category: p.category || 'Data Analytics',
+      description: isAr ? (p.descriptionAr || p.description) : (p.descriptionEn || p.description),
+      problem: isAr ? (p.problemAr || p.problem) : (p.problemEn || p.problem),
+      salesDescription: isAr ? (p.salesDescriptionAr || p.salesDescription) : (p.salesDescriptionEn || p.salesDescription),
+      salesFunnelMetrics: isAr ? (p.salesFunnelMetricsAr || p.salesFunnelMetrics) : (p.salesFunnelMetricsEn || p.salesFunnelMetrics),
+      image: p.imagePath || p.image,
+      imagePath: p.imagePath || p.image,
+      images: p.images || [],
+      demoUrl: p.powerBiUrl || p.demoUrl,
+      githubUrl: p.githubUrl,
+      tags: p.tech || p.tags || [],
+      priority: p.priority || 50
+    };
+  });
+
+  // 3. Merge them, Markdown takes precedence
+  const allProjects = [...mdProjects.filter(p => !p.archived)];
+  jsonProjects.forEach(jp => {
+    if (!allProjects.find(mp => mp.id === jp.id || (mp.repoId && mp.repoId === jp.id))) {
+      allProjects.push(jp);
+    }
+  });
+
+  return allProjects.sort((a, b) => (a.priority || 999) - (b.priority || 999));
+}
+
 export class ContentHubClient {
-  private static getApiBaseUrl(): string {
-    const envUrl = (typeof process !== 'undefined' && process.env && process.env.CONTENT_HUB_API_URL) ||
-      (import.meta as any).env?.CONTENT_HUB_API_URL;
-
-    if (envUrl) {
-      return envUrl.replace(/\/+$/, '');
-    }
-
-    if (typeof window !== 'undefined' && window.location?.origin) {
-      return window.location.origin;
-    }
-
-    if (typeof process !== 'undefined' && process.env) {
-      if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-        return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-      }
-      if (process.env.VERCEL_URL) {
-        return `https://${process.env.VERCEL_URL}`;
-      }
-      if (process.env.SITE_URL) {
-        return process.env.SITE_URL.replace(/\/+$/, '');
-      }
-    }
-
-    return 'https://mousa-analytics.vercel.app';
-  }
-
-  /**
-   * GET /api/health — Service availability check (with fallback to /api/v1/health)
-   */
   static async healthCheck(): Promise<boolean> {
-    try {
-      const baseUrl = this.getApiBaseUrl();
-      let res = await fetch(`${baseUrl}/api/health`, {
-        headers: { 'Accept': 'application/json' },
-        signal: AbortSignal.timeout(3000)
-      });
-      if (!res.ok) {
-        res = await fetch(`${baseUrl}/api/v1/health`, {
-          headers: { 'Accept': 'application/json' },
-          signal: AbortSignal.timeout(3000)
-        });
-      }
-      return res.ok;
-    } catch {
-      return false;
-    }
+    return true;
   }
 
-  /**
-   * GET /api/projects?destination=portfolio&lang=en (with fallback to /api/v1/projects)
-   */
   static async getProjects(
     destination: string = 'portfolio',
     lang: string = 'en'
   ): Promise<ContentHubProjectsResult> {
-    const baseUrl = this.getApiBaseUrl();
-    const envVal = (typeof process !== 'undefined' && process.env) ? process.env.CONTENT_HUB_API_URL : undefined;
-
-    console.log('[ContentHubClient] Diagnostic Info:');
-    console.log('  process.env.CONTENT_HUB_API_URL:', envVal ?? '(not set - using default fallback)');
-    console.log('  Resolved Base URL:', baseUrl);
-
-    // Primary endpoint /api/projects and fallback endpoint /api/v1/projects
-    const primaryEndpoint = `${baseUrl}/api/projects?destination=${encodeURIComponent(destination)}&lang=${encodeURIComponent(lang)}`;
-    const fallbackEndpoint = `${baseUrl}/api/v1/projects?destination=${encodeURIComponent(destination)}&lang=${encodeURIComponent(lang)}`;
-
-    let endpoint = primaryEndpoint;
-
-    try {
-      console.log('  Exact fetch URL:', endpoint);
-      let res = await fetch(endpoint, {
-        headers: { 'Accept': 'application/json' },
-        signal: AbortSignal.timeout(5000)
-      });
-
-      console.log('  HTTP Status:', res.status);
-
-      // If /api/projects returns 404, try /api/v1/projects
-      if (res.status === 404) {
-        console.warn(`[ContentHubClient] Endpoint ${endpoint} returned 404. Trying fallback endpoint: ${fallbackEndpoint}`);
-        endpoint = fallbackEndpoint;
-        res = await fetch(endpoint, {
-          headers: { 'Accept': 'application/json' },
-          signal: AbortSignal.timeout(5000)
-        });
-        console.log('  Fallback HTTP Status:', res.status);
-      }
-
-      const bodyText = await res.text();
-      console.log('  Response body (first 500 chars):', bodyText.substring(0, 500));
-
-      if (!res.ok) {
-        console.warn(`[ContentHubClient] API returned status ${res.status} for ${endpoint}. Using local projects fallback.`);
-        return { projects: getLocalProjectsFallback(lang) };
-      }
-
-      const data = JSON.parse(bodyText);
-      const projects: ProjectDTO[] = Array.isArray(data) ? data : (data.projects || []);
-      return { projects: projects.length > 0 ? projects : getLocalProjectsFallback(lang) };
-    } catch (err: any) {
-      console.warn(`[ContentHubClient] Failed to fetch projects from ${endpoint}:`, err?.message || err);
-      return { projects: getLocalProjectsFallback(lang) };
-    }
+    return { projects: getLocalProjects(lang) };
   }
 
-  /**
-   * GET /api/projects/:id?destination=portfolio&lang=en (with fallback to /api/v1/projects/:id)
-   */
   static async getProjectById(
     id: string,
     destination: string = 'portfolio',
     lang: string = 'en'
   ): Promise<{ project: ProjectDTO | null; error?: string }> {
-    const baseUrl = this.getApiBaseUrl();
-    const primaryEndpoint = `${baseUrl}/api/projects/${encodeURIComponent(id)}?destination=${encodeURIComponent(destination)}&lang=${encodeURIComponent(lang)}`;
-    const fallbackEndpoint = `${baseUrl}/api/v1/projects/${encodeURIComponent(id)}?destination=${encodeURIComponent(destination)}&lang=${encodeURIComponent(lang)}`;
-
-    let endpoint = primaryEndpoint;
-
-    try {
-      let res = await fetch(endpoint, {
-        headers: { 'Accept': 'application/json' },
-        signal: AbortSignal.timeout(5000)
-      });
-
-      if (res.status === 404) {
-        endpoint = fallbackEndpoint;
-        res = await fetch(endpoint, {
-          headers: { 'Accept': 'application/json' },
-          signal: AbortSignal.timeout(5000)
-        });
-      }
-
-      if (!res.ok) {
-        const localList = getLocalProjectsFallback(lang);
-        const match = localList.find(p => p.id === id || p.id.endsWith(id));
-        return { project: match || null };
-      }
-
-      const project: ProjectDTO = await res.json();
-      return { project };
-    } catch (err: any) {
-      console.warn(`[ContentHubClient] Failed to fetch project ${id} from ${endpoint}:`, err?.message || err);
-      const localList = getLocalProjectsFallback(lang);
-      const match = localList.find(p => p.id === id || p.id.endsWith(id));
-      return { project: match || null };
-    }
+    const all = getLocalProjects(lang);
+    const match = all.find(p => p.id === id || (p.repoId && p.repoId === id));
+    return { project: match || null };
   }
 }
