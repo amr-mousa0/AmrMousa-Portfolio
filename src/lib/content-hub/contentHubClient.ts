@@ -11,57 +11,89 @@ export interface ContentHubProjectsResult {
 // Dynamically import all project markdown files at build time
 const mdFiles = import.meta.glob('../../content/projects/**/*.md', { eager: true });
 
-function getLocalMarkdownProjects(lang: string = 'en'): ProjectDTO[] {
-  const mdProjects = Object.entries(mdFiles).map(([path, module]: [string, any]) => {
-    const slugMatch = path.match(/projects\/(ar|en)\/([^/.]+)\.md$/);
-    if (!slugMatch) return null;
-    const fileLang = slugMatch[1];
-    const slug = slugMatch[2];
-    if (fileLang !== lang) return null;
+function getLocalMarkdownProjects(): ProjectDTO[] {
+  const enModules: Record<string, any> = {};
+  const arModules: Record<string, any> = {};
 
-    const data = module.frontmatter || {};
+  Object.entries(mdFiles).forEach(([path, module]: [string, any]) => {
+    const match = path.match(/projects\/(ar|en)\/([^/.]+)\.md$/);
+    if (!match) return;
+    const [, fileLang, slug] = match;
+    if (fileLang === 'en') enModules[slug] = module.frontmatter || {};
+    if (fileLang === 'ar') arModules[slug] = module.frontmatter || {};
+  });
+
+  const slugs = Array.from(new Set([...Object.keys(enModules), ...Object.keys(arModules)]));
+
+  return slugs.map(slug => {
+    const en = enModules[slug] || {};
+    const ar = arModules[slug] || {};
+
+    const titleEn = en.titleEn || en.title || ar.titleEn || slug;
+    const titleAr = ar.titleAr || ar.title || en.titleAr || titleEn;
+
+    const descEn = en.description || en.problemText || ar.description || '';
+    const descAr = ar.description || ar.problemText || en.description || descEn;
+
+    const problemEn = en.problemText || en.problem || '';
+    const problemAr = ar.problemText || ar.problem || problemEn;
+
+    const solutionEn = en.solutionText || en.salesDescription || '';
+    const solutionAr = ar.solutionText || ar.salesDescription || solutionEn;
+
+    const impactEn = en.impactText || en.salesFunnelMetrics || '';
+    const impactAr = ar.impactText || ar.salesFunnelMetrics || impactEn;
+
+    const categoryEn = en.category || ar.category || 'Data Analytics';
+    const categoryAr = ar.category || en.category || 'تحليلات البيانات';
+
+    const cover = en.coverImage || ar.coverImage || '/images/default-project.webp';
+    const gallery = en.galleryImages || ar.galleryImages || [cover];
+
+    const priority = en.priority || ar.priority || 50;
+    const draft = en.draft || ar.draft || false;
+
     return {
       id: slug,
       repoId: slug,
       hasManifest: true,
-      title: data.title || slug,
-      titleEn: data.titleEn || data.title || slug,
-      titleAr: data.titleAr || data.title || slug,
-      subtitle: data.category || 'Data Analytics',
-      category: data.category || 'Data Analytics',
-      description: data.description || data.problemText || '',
-      descriptionEn: data.descriptionEn || data.description || data.problemText || '',
-      descriptionAr: data.descriptionAr || data.description || data.problemText || '',
-      problem: data.problemText || '',
-      problemEn: data.problemText || '',
-      problemAr: data.problemText || '',
-      salesDescription: data.solutionText || '',
-      salesDescriptionEn: data.solutionText || '',
-      salesDescriptionAr: data.solutionText || '',
-      salesFunnelMetrics: data.impactText || '',
-      salesFunnelMetricsEn: data.impactText || '',
-      salesFunnelMetricsAr: data.impactText || '',
-      image: data.coverImage || '/images/default-project.webp',
-      imagePath: data.coverImage || '/images/default-project.webp',
-      images: data.galleryImages || [data.coverImage].filter(Boolean),
-      demoUrl: data.dashboardUrl || data.powerBiUrl,
-      powerBiUrl: data.dashboardUrl || data.powerBiUrl,
+      title: titleEn,
+      titleEn: titleEn,
+      titleAr: titleAr,
+      subtitle: categoryEn,
+      category: categoryEn,
+      categoryAr: categoryAr,
+      description: descEn,
+      descriptionEn: descEn,
+      descriptionAr: descAr,
+      problem: problemEn,
+      problemEn: problemEn,
+      problemAr: problemAr,
+      salesDescription: solutionEn,
+      salesDescriptionEn: solutionEn,
+      salesDescriptionAr: solutionAr,
+      salesFunnelMetrics: impactEn,
+      salesFunnelMetricsEn: impactEn,
+      salesFunnelMetricsAr: impactAr,
+      image: cover,
+      imagePath: cover,
+      images: gallery,
+      demoUrl: en.dashboardUrl || en.powerBiUrl || ar.dashboardUrl || ar.powerBiUrl,
+      powerBiUrl: en.dashboardUrl || en.powerBiUrl || ar.dashboardUrl || ar.powerBiUrl,
       caseStudyUrl: `/projects/${slug}`,
-      githubUrl: data.githubUrl || `https://github.com/amr-mousa0/${slug}`,
-      featured: data.featured || false,
-      priority: data.priority || 50,
-      tags: data.tags || ['Data Analytics'],
-      tech: data.tags || ['Data Analytics'],
+      githubUrl: en.githubUrl || ar.githubUrl || `https://github.com/amr-mousa0/${slug}`,
+      featured: en.featured || ar.featured || false,
+      priority: priority,
+      tags: en.tags || ar.tags || ['Data Analytics'],
+      tech: en.tags || ar.tags || ['Data Analytics'],
       capabilities: {
-        demo: !!(data.dashboardUrl || data.powerBiUrl),
+        demo: !!(en.dashboardUrl || en.powerBiUrl || ar.dashboardUrl || ar.powerBiUrl),
         caseStudy: true,
         cover: true
       },
-      archived: data.draft || false
+      archived: draft
     } as PortfolioProject;
-  }).filter(Boolean) as ProjectDTO[];
-
-  return mdProjects.filter(p => !p.archived);
+  }).filter(p => !p.archived);
 }
 
 export class ContentHubClient {
@@ -73,7 +105,7 @@ export class ContentHubClient {
     destination: string = 'portfolio',
     lang: string = 'en'
   ): Promise<ContentHubProjectsResult> {
-    const mdProjects = getLocalMarkdownProjects(lang);
+    const mdProjects = getLocalMarkdownProjects();
 
     try {
       const storeProjects = await getProjectsFromStore(destination);
