@@ -100,7 +100,12 @@ function getLocalMarkdownProjects(): ProjectDTO[] {
       },
       archived: draft
     } as PortfolioProject;
-  }).filter(p => !p.archived);
+  }).filter(p => {
+    if (p.archived) return false;
+    if (['amr-mousa0', 'landing-page', 'walmart-sales-analysis'].includes(p.id)) return false;
+    if (p.problem?.includes('The organization required automated tracking') || p.problemAr?.includes('تطلبت المنظمة')) return false;
+    return true;
+  });
 }
 
 export class ContentHubClient {

@@ -18,8 +18,8 @@ export async function getProjectsFromStore(destination: string = 'portfolio'): P
       return projects.filter(p => {
         if (p.archived) return false;
         if (p.hasManifest === false) return false;
-        if (p.id === 'landing-page' || p.repoId === 'landing-page') return false;
-        if (p.problem?.includes('The organization required automated tracking and structured analytics visibility for')) return false;
+        if (['landing-page', 'amr-mousa0', 'walmart-sales-analysis'].includes(p.id) || ['landing-page', 'amr-mousa0', 'walmart-sales-analysis'].includes(p.repoId || '')) return false;
+        if (p.problem?.includes('The organization required automated tracking') || p.problemAr?.includes('تطلبت المنظمة')) return false;
         return true;
       });
     }
