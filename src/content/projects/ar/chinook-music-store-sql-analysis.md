@@ -9,6 +9,14 @@ galleryImages:
   - "https://raw.githubusercontent.com/amr-mousa0/Chinook-Music-Store-SQL-Analysis/main/assets/cover.webp"
 githubUrl: "https://github.com/amr-mousa0/Chinook-Music-Store-SQL-Analysis"
 dashboardUrl: "https://amr-mousa0.github.io/Chinook-Music-Store-SQL-Analysis"
+documentationUrl: "https://raw.githubusercontent.com/amr-mousa0/Chinook-Music-Store-SQL-Analysis/main/Chinook%20Analysis.pdf"
+galleryItems:
+  - type: "image"
+    title: "غلاف تحليل متجر شينوك للموسيقى"
+    url: "https://raw.githubusercontent.com/amr-mousa0/Chinook-Music-Store-SQL-Analysis/main/assets/cover.webp"
+  - type: "pdf"
+    title: "تحليل شينوك SQL"
+    url: "https://raw.githubusercontent.com/amr-mousa0/Chinook-Music-Store-SQL-Analysis/main/Chinook%20Analysis.pdf"
 whatsappStartProjectMsg: "Hi Amr, I'd like to inquire about this project."
 whatsappOpenDashboardMsg: "Hi Amr, I'd like to request the interactive dashboard."
 priority: 50
