@@ -9,6 +9,14 @@ galleryImages:
   - "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-2/main/assets/cover.webp"
 githubUrl: "https://github.com/amr-mousa0/SQL-Practice---level-2"
 dashboardUrl: "https://amr-mousa0.github.io/SQL-Practice---level-2"
+documentationUrl: "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-2/main/SQL-Practice-Level-2.pdf"
+galleryItems:
+  - type: "image"
+    title: "Repository Cover"
+    url: "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-2/main/assets/cover.webp"
+  - type: "pdf"
+    title: "SQL Practice Level 2 Questions & Solutions"
+    url: "https://raw.githubusercontent.com/amr-mousa0/SQL-Practice---level-2/main/SQL-Practice-Level-2.pdf"
 whatsappStartProjectMsg: "Hi Amr, I'd like to inquire about this project."
 whatsappOpenDashboardMsg: "Hi Amr, I'd like to request the interactive dashboard."
 priority: 50

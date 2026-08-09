@@ -49,6 +49,11 @@ function getLocalMarkdownProjects(): ProjectDTO[] {
 
     const cover = en.coverImage || ar.coverImage || '/images/default-project.webp';
     const gallery = en.galleryImages || ar.galleryImages || [cover];
+    const docUrl = en.documentationUrl || en.pdfUrl || ar.documentationUrl || ar.pdfUrl || null;
+    const galleryItems = en.galleryItems || ar.galleryItems || (docUrl ? [
+      { type: 'image', title: 'Cover', url: cover },
+      { type: 'pdf', title: 'PDF Documentation', url: docUrl }
+    ] : []);
 
     const priority = en.priority || ar.priority || 50;
     const draft = en.draft || ar.draft || false;
@@ -78,6 +83,8 @@ function getLocalMarkdownProjects(): ProjectDTO[] {
       image: cover,
       imagePath: cover,
       images: gallery,
+      galleryItems: galleryItems,
+      documentationUrl: docUrl,
       demoUrl: en.dashboardUrl || en.powerBiUrl || ar.dashboardUrl || ar.powerBiUrl,
       powerBiUrl: en.dashboardUrl || en.powerBiUrl || ar.dashboardUrl || ar.powerBiUrl,
       caseStudyUrl: `/projects/${slug}`,
