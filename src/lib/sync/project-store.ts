@@ -40,13 +40,13 @@ export async function saveProjectsToStore(projects: PortfolioProject[], destinat
 
 export async function upsertProjectInStore(project: PortfolioProject, destination: string = 'portfolio'): Promise<void> {
   const current = await getProjectsFromStore(destination);
-  const idx = current.findIndex(p => p.id === project.id);
-  if (idx >= 0) {
-    current[idx] = project;
-  } else {
-    current.push(project);
-  }
-  await saveProjectsToStore(current, destination);
+  const filtered = current.filter(p => {
+    if (p.id === project.id) return false;
+    if (project.repoId && p.repoId === project.repoId) return false;
+    return true;
+  });
+  filtered.push(project);
+  await saveProjectsToStore(filtered, destination);
 }
 
 export async function removeProjectFromStore(repoId: string, destination: string = 'portfolio'): Promise<void> {
