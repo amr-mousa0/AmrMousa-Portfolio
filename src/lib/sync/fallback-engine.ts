@@ -15,7 +15,7 @@ function rawAssetUrl(fullName: string, branch: string, relativePath: string): st
   if (relativePath.startsWith('http://') || relativePath.startsWith('https://')) {
     return relativePath;
   }
-  const cleanPath = relativePath.replace(/^\.\//, '');
+  const cleanPath = relativePath.replace(/^\.\//, '').split('/').map(segment => encodeURIComponent(segment)).join('/');
   return `https://raw.githubusercontent.com/${fullName}/${branch}/${cleanPath}`;
 }
 
