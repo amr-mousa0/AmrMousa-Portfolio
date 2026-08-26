@@ -16,7 +16,7 @@ category: "Data Analytics"
 tags: ["Data/Tech"]
 draft: false
 featured: false
-publishedDate: "2026-08-26T22:42:25.700Z"
+publishedDate: "2026-08-26T22:42:54.919Z"
 translationKey: "maev-social-media-strategy-"
 ---
 Case Study: MAEV-Social-Media-Strategy-
