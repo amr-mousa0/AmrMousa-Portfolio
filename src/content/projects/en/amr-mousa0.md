@@ -12,6 +12,7 @@ galleryImages:
   - "https://raw.githubusercontent.com/amr-mousa0/amr-mousa0/main/images/impact.svg"
   - "https://raw.githubusercontent.com/amr-mousa0/amr-mousa0/main/images/process.svg"
   - "https://raw.githubusercontent.com/amr-mousa0/amr-mousa0/main/images/typing.svg"
+pdfUrl: "https://raw.githubusercontent.com/amr-mousa0/amr-mousa0/main/Amr_Mousa_Resume.pdf"
 githubUrl: "https://github.com/amr-mousa0/amr-mousa0"
 dashboardUrl: "https://amr-mousa-portfolio-one.vercel.app/"
 whatsappStartProjectMsg: "Hi Amr, I'd like to inquire about this project."
@@ -21,7 +22,7 @@ category: "Data Analytics"
 tags: ["Data/Tech"]
 draft: false
 featured: false
-publishedDate: "2026-08-27T08:26:53.906Z"
+publishedDate: "2026-08-28T10:41:24.288Z"
 translationKey: "amr-mousa0"
 ---
 Case Study: amr-mousa0
