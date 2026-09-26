@@ -18,7 +18,7 @@ category: "Data Analytics"
 tags: ["SQL","PostgreSQL","Power BI","Data Analysis","Marketing Analytics","Sales Analytics","Business Intelligence"]
 draft: false
 featured: false
-publishedDate: "2026-09-26T18:03:46.149Z"
+publishedDate: "2026-09-26T18:05:46.405Z"
 translationKey: "fuzzy-bear-analysis"
 ---
 دراسة حالة: تحليلات بيانات فازي فاكتوري
